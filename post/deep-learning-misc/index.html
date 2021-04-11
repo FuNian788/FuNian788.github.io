@@ -1,0 +1,368 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Deep Learning杂记 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Deep Learning杂记 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+
+
+数据归一化
+BN和非线性激活层的前后顺序
+precision &amp;amp; recall
+AR@AN &amp;amp; mAP
+如何拟合落地model时遇到的特殊案例
+
+
+
+
+
+
+数据归一化
+数据归一化的核心形式：减去均值，除以标准差，施..." />
+  <meta property="og:title" content="Deep Learning杂记 - Zexian Li">
+  <meta property="og:description" content="
+
+
+
+
+数据归一化
+BN和非线性激活层的前后顺序
+precision &amp;amp; recall
+AR@AN &amp;amp; mAP
+如何拟合落地model时遇到的特殊案例
+
+
+
+
+
+
+数据归一化
+数据归一化的核心形式：减去均值，除以标准差，施..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/deep-learning-misc/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Deep Learning杂记 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+
+
+数据归一化
+BN和非线性激活层的前后顺序
+precision &amp;amp; recall
+AR@AN &amp;amp; mAP
+如何拟合落地model时遇到的特殊案例
+
+
+
+
+
+
+数据归一化
+数据归一化的核心形式：减去均值，除以标准差，施...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/deep-learning-misc/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Deep Learning杂记
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 3 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BD%92%E4%B8%80%E5%8C%96">数据归一化</a></li>
+<li><a href="#bn%E5%92%8C%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%BF%80%E6%B4%BB%E5%B1%82%E7%9A%84%E5%89%8D%E5%90%8E%E9%A1%BA%E5%BA%8F">BN和非线性激活层的前后顺序</a></li>
+<li><a href="#precision-recall">precision &amp; recall</a></li>
+<li><a href="#aran-map">AR@AN &amp; mAP</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E6%8B%9F%E5%90%88%E8%90%BD%E5%9C%B0model%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E6%A1%88%E4%BE%8B">如何拟合落地model时遇到的特殊案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="数据归一化">数据归一化</h3>
+<p>数据归一化的核心形式：<strong>减去均值，除以标准差，施以线性映射</strong>。不同归一化方法的主要区别在于操作的feature map维度不同。归一化方法的示意图如下所示：BN是对每个通道内归一化；GN是对每个样本的几个通道进行归一化；LN和IN是GN的变种，LN是对每个样本内所有通道归一化，IN是对每个样本的每个通道内归一化。<br>
+<img src="https://FuNian788.github.io/post-images/1603075146545.jpg" alt="归一化示意图" loading="lazy"><br>
+单纯使数据具有0均值和单位方差是不够的，这种规范化甚至可能会降低层的表达能力，例如使用Sigmoid激活函数时，受限于数据的范围，激活函数只有近似线性的部分被使用；同时底层神经元的努力不应被简单粗暴地通过归一化方式调整，为此添加两个线性参数(平移、缩放)来维持表达能力(将原数据x增强为ax+b形式)。<br>
+更多有关归一化的知识可参照Juliuszh的博客<a href="https://zhuanlan.zhihu.com/p/33173246">详解深度学习中的Normalization，BN/LN/WN</a>，讲的非常之好！</p>
+<h3 id="bn和非线性激活层的前后顺序">BN和非线性激活层的前后顺序</h3>
+<p>先说结论，实测时将BN层放在ReLU层的后面的结果通常较好(尽管作者在论文中将ReLU放在BN层的后边)。<br>
+虽然没有明确的解释，但我们可以从玄学角度进行一定的思考：<br>
+(1)如tanh和sigmoid函数，相较于x的变化，y的变化比较小，容易出现梯度衰减的问题，此时在非线性激活前进行BN，可在一定程度上缓解梯度衰减；但ReLU的函数图像和前二者相去甚远，先ReLU后BN可能会有更好的平滑作用；<br>
+(2)对于后续的层，BN和ReLU的组合主要完成归一化操作。考虑到BN中两个可学习参数，先ReLU后BN的网络参数更满足0均值和单位方差，而先BN后ReLU可能会破坏这种数据归一格式。</p>
+<h3 id="precision-recall">precision &amp; recall</h3>
+<p>precision = TP / (TP+FP)<br>
+recall = TP / (TP+FN)<br>
+FP是错判成正样本的样本(实际为负样本)，precision准确率代表模型输出中实际正样本的比例；<br>
+FN是错判成负样本的样本(实际为正样本)，recall召回率代表正样本被模型检出的比例。</p>
+<h3 id="aran-map">AR@AN &amp; mAP</h3>
+<p>AR@AN即Average Recall vs. Average Number of Proposals per Video，由于TAP任务只需要提出候选框而不需要进一步分类，故可用此指标衡量找的框是否够全。详细信息及代码可参照：<a href="http://activity-net.org/challenges/2019/tasks/anet_proposals.html">activity-net页面</a>。<br>
+mAP即mean average precision，AP是在某一类别中PR曲线与坐标轴围成的面积，mAP是在所有种类中的均值。</p>
+<h3 id="如何拟合落地model时遇到的特殊案例">如何拟合落地model时遇到的特殊案例</h3>
+<ol>
+<li>trick/先验经验/人为设计特征</li>
+<li>使用大量同类数据来进一步训练（金钱开销大）</li>
+<li>虚拟引擎复现特定环境以产生数据（金钱时间开销大、实现困难）</li>
+</ol>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BD%92%E4%B8%80%E5%8C%96">数据归一化</a></li>
+<li><a href="#bn%E5%92%8C%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%BF%80%E6%B4%BB%E5%B1%82%E7%9A%84%E5%89%8D%E5%90%8E%E9%A1%BA%E5%BA%8F">BN和非线性激活层的前后顺序</a></li>
+<li><a href="#precision-recall">precision &amp; recall</a></li>
+<li><a href="#aran-map">AR@AN &amp; mAP</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E6%8B%9F%E5%90%88%E8%90%BD%E5%9C%B0model%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E6%A1%88%E4%BE%8B">如何拟合落地model时遇到的特殊案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

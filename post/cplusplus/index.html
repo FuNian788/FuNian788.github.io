@@ -1,0 +1,625 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>C++小记 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="C++小记 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="迫于刷题，简单刷了一遍C++入门教程，对一些基础知识作简单记录。
+
+
+
+
+
+1. 基本常识
+2. 定义数组
+3. 字符串
+4. 指针
+5.基本函数常识
+6.高级函数知识
+7.预处理指令
+8.自定义数据类型
+todo
+
+
+
+
+
+
+1. 基本常..." />
+  <meta property="og:title" content="C++小记 - Zexian Li">
+  <meta property="og:description" content="迫于刷题，简单刷了一遍C++入门教程，对一些基础知识作简单记录。
+
+
+
+
+
+1. 基本常识
+2. 定义数组
+3. 字符串
+4. 指针
+5.基本函数常识
+6.高级函数知识
+7.预处理指令
+8.自定义数据类型
+todo
+
+
+
+
+
+
+1. 基本常..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/cplusplus/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="C++小记 - Zexian Li">
+  <meta name="twitter:description" content="迫于刷题，简单刷了一遍C++入门教程，对一些基础知识作简单记录。
+
+
+
+
+
+1. 基本常识
+2. 定义数组
+3. 字符串
+4. 指针
+5.基本函数常识
+6.高级函数知识
+7.预处理指令
+8.自定义数据类型
+todo
+
+
+
+
+
+
+1. 基本常...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/cplusplus/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          C++小记
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-05-08 · 13 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/cAq-m0MeBd/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              C++
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>迫于刷题，简单刷了一遍C++入门教程，对一些基础知识作简单记录。<br>
+<ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">1. 基本常识</a></li>
+<li><a href="#2-%E5%AE%9A%E4%B9%89%E6%95%B0%E7%BB%84">2. 定义数组</a></li>
+<li><a href="#3-%E5%AD%97%E7%AC%A6%E4%B8%B2">3. 字符串</a></li>
+<li><a href="#4-%E6%8C%87%E9%92%88">4. 指针</a></li>
+<li><a href="#5%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0%E5%B8%B8%E8%AF%86">5.基本函数常识</a></li>
+<li><a href="#6%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E7%9F%A5%E8%AF%86">6.<s>高级</s>函数知识</a></li>
+<li><a href="#7%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4">7.预处理指令</a></li>
+<li><a href="#8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">8.自定义数据类型</a></li>
+<li><a href="#todo">todo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="1-基本常识">1. 基本常识</h3>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+int main(void)
+{
+    int a;
+    cin &gt;&gt; a;
+    if (a &gt; 0){
+        for(int i = a; i &gt; 0; i--)
+            cout &lt;&lt; &quot;hello&quot; &lt;&lt; endl;
+    }
+    else if (a &lt; 0)
+        cout &lt;&lt; a &lt;&lt; &quot; less than 0&quot; &lt;&lt; endl;
+    else{
+        cout &lt;&lt; a &lt;&lt; &quot; is 0&quot;;
+        cout &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
+<h3 id="2-定义数组">2. 定义数组</h3>
+<pre><code class="language-C++">int nums1[2][5] = {{1, 2, 3}, {4, 5, 6, 7}}; // Fill empty with 0.
+int nums2[][3] = {{1, 2, 3}, {4, 5, 6}}; 
+float nums3[] = {1.23, 2.34, 3.45};
+``
+在C++中，使用如下语句会报错：
+```C++
+int n1 = text1.size();
+int n2 = text2.size();
+int dp[n1][n2] = {{0}, {0}}; // all to zero
+</code></pre>
+<p>原因是C允许使用变量来定义数组长度，却不允许同时进行初始化赋值，需要在之后赋值。<br>
+C++利用指针进行动态数组的定义，需注意动态数组需及时释放以防止内存泄漏。下例是用指针和vector进行一维/二维数组创建的过程。</p>
+<pre><code class="language-C++">// dynamic 1-d array + initialization
+int *a = new int[10](); 
+cout &lt;&lt; a[2] &lt;&lt; endl;
+delete [] a;
+
+// create a dynamic 2-d array whose size is 3*2
+// (method 1) - preferred
+int (*value)[2] = new int[3][2]; 
+cout &lt;&lt; value[1][1] &lt;&lt; endl;
+delete [] value;
+
+// (method 2) - preferred
+vector&lt;vector&lt;int&gt;&gt; value1(3);
+for(int i = 0; i &lt; value1.size(); i++)
+    value1[i].resize(2);
+
+// (method 3) - not preferred
+int **value2 = new int*[3];
+for(int i = 0; i &lt; 3; i++)
+    value2[i] = new int[2];
+for(int i = 0; i &lt; 3; i++)
+    delete []value2[i];
+</code></pre>
+<h3 id="3-字符串">3. 字符串</h3>
+<p>在C语言中我们如下在非初始化时对字符串变量赋值，但不可以进行字符串变量的互相赋值：</p>
+<pre><code class="language-C">#include &lt;string.h&gt;
+
+char str1[3][15];
+//str1[0] = &quot;abcde&quot;; //False
+strcpy(str1[0], &quot;abcde&quot;);
+</code></pre>
+<p>在C++中，对字符串的处理变得更加自由：</p>
+<pre><code class="language-C">char str1[] = &quot;abc&quot;;
+char str2[20];
+cin.getline(str2, 10, '\n'); // string, max length, end char.
+// char str3 = str1; // False
+string str3 = str1;
+</code></pre>
+<pre><code class="language-C++">char ch[] = &quot;,&quot;;
+string str1;
+cin &gt;&gt; str1; //abc
+string str2(&quot;def&quot;);
+string str3 = &quot;ghi&quot;;
+string full_str = str1 + str2 + str3;
+cout &lt;&lt; full_str &lt;&lt; endl;//abcdefghi
+</code></pre>
+<p>对于C++字符串更多的声明方式和操作函数详见<a href="https://www.cnblogs.com/zxouxuewei/p/5728720.html">博客</a>。</p>
+<h3 id="4-指针">4. 指针</h3>
+<p>通过&amp;来得到变量的地址，例如<code>&amp;a</code>即为a的地址。通过*来读取声明过变量地址的变量的值，例如<code>*(&amp;a)</code>即为a的值。我们常常使用的指针变量，其变量值只是一个地址。<br>
+如下为指针使用简例：</p>
+<pre><code class="language-C++">int Value = 10;
+// First implementation 
+// pointer variable'piVal' contains the address of 'Value'.
+//      piVal = &amp;Value, *piVal = Value
+int *piVal = &amp;Value; 
+// pointer variable'piVal2' contains the address of 'piVal'.
+//      piVal2 = &amp;piVal, *piVal2 = piVal
+int **piVal2 = &amp;piVal; 
+*piVal = 20;
+// Second implementation
+double Value = 1.23;
+double* piVal = 0; // 0 means NULL but not zero, both 'int* a' and 'int *a' are legal. 
+piVal = &amp;Value;
+</code></pre>
+<p>如下显示两种<strong>错误</strong>的声明方式，会造成指针变量指向不合法地址：</p>
+<pre><code class="language-C++">// WRONG CASE ! Pointer should point to a variable, but not a value.
+int* piVal = 10;
+
+int* piVal;
+*piVal = 10;
+</code></pre>
+<ol>
+<li>指针与数组的关系<br>
+指针和数组也有联系，n维数组可以当成对n维指针的应用，数组名即为n重指针变量。如下为常见的指针赋值方式：</li>
+</ol>
+<pre><code class="language-C++">int a[3][4];
+int *p = a[0]; //method 1
+int *p = &amp;a[0][0]; // method 2
+</code></pre>
+<p>定义二维数组a[3][4]，a代表<code>&amp;a[0]</code>，<code>*(a+1)</code>即<code>a[1]=&amp;a[1][0]</code>，不难得到<code>&amp;a[i][j] = *(a+i)+j</code>，<code>a[i][j] = *(*(a+i)+j)</code>。<br>
+在实际应用中可以使用指针数组，指针数组中的每个元素都是一个指针变量，指针变量的值指向其他变量的地址。如下例：</p>
+<pre><code class="language-C++">char *name[3] = {&quot;dahan&quot;, &quot;minguo&quot;, &quot;wansui}; // name[1] = &amp;(&quot;minguo&quot;)
+</code></pre>
+<ol start="2">
+<li>指针与字符串的关系<br>
+既然数组可以，C++的字符串同样可以使用指针来进行声明和操作，如下例：</li>
+</ol>
+<pre><code class="language-C++">char *p = &quot;MinGuGu&quot;;// p = &amp;(char), *p = &quot;M&quot;, *(p+1) = &quot;i&quot;
+cout &lt;&lt; p &lt;&lt; endl; // MinGuGu
+cout &lt;&lt; (int*)p &lt;&lt; endl; // memory address
+</code></pre>
+<p>注意指针变量(如上例p)的值是可以改变的，eg将其地址加1从而指向&amp;a[1]等。但以<code>char a[10] = &quot;GuGu&quot;</code>方式定义时，a为指针常数，不可改变其值。<br>
+3. 指针与函数的关系<br>
+C++中可以将函数指针作为另一个函数的参数，以高效地改变调用的函数。与一般的函数指针常声明为全局/局部变量不同，参数型函数指针直接声明于函数的参数行中，如下例所示：</p>
+<pre><code class="language-C++">int add(int a, int b) {return a+b;}
+int sub(int a, int b) {return a-b;}
+int Math(int a, int b, int (*pfunc)(int, int)) {return pfunc(a, b);}
+
+result = Math(a, b, add)//pfunc = add = &amp;(fun(add))
+</code></pre>
+<p>将上例再演变一下，可以成为函数指针数组。如下例所示：</p>
+<pre><code class="language-C++">int (*pfunc[])(int, int) = {add, sub};
+int a =1, b = 2;
+cout &lt;&lt; pfunc[0](a, b) &lt;&lt;  endl; //pfunc[0] = add = &amp;(fun(add))
+</code></pre>
+<h3 id="5基本函数常识">5.基本函数常识</h3>
+<p>回顾C++的函数写法，可以参照这个例子：</p>
+<pre><code class="language-C++">void my_sum(int a, int b=20); // declaration 1
+//void my_sum(int*, int*); // declaration 2
+int main(){
+    int a, b;
+    cin &gt;&gt; a  &gt;&gt; b;
+    my_sum(a, b);
+    return 0;
+}
+void my_sum(int a, int b){
+    cout &lt;&lt; a+b &lt;&lt; endl;
+}
+</code></pre>
+<p>同样地，数组也可以作为函数的参数，例如下声明<code>void fun1(int a[][2], float b)</code>。<br>
+同样地，指针也可以作为函数的参数和返回值，例如一个实现将两个字符串相加的函数，其声明可以这样写<code>char* Stract(char*, char*)</code>，Stract函数的参数和返回值均为字符串。</p>
+<h3 id="6高级函数知识">6.<s>高级</s>函数知识</h3>
+<ol>
+<li>函数指针<br>
+指向函数起始地址的指针变量称为函数指针。此时，函数名称便是一个指针变量，变量存储的值就是函数内容所在内存的起始地址。基于此，可实现动态的函数调用。以下为函数指针的声明示例：</li>
+</ol>
+<pre><code class="language-C++">void (*ptr)(void); //ptr为函数指针，函数无返回值，函数无参数
+int (*ptr)(int); //ptr为函数指针，函数返回整数值，函数接受整数参数
+//int *ptr(int); //ptr为函数名，函数返回整数指针，函数接受整数参数
+char* (*ptr)(char); //ptr为函数指针，函数返回字符指针，函数接受字符串参数 
+</code></pre>
+<p>在此基础上的函数指针初始化及赋值方法如下所示：</p>
+<pre><code class="language-C++">int fun1();
+//declaration 1
+int (*pfun)() = fun1; 
+//declaration 2
+int (*pfun)();
+pfun = fun1;
+</code></pre>
+<ol start="2">
+<li>命令行参数<br>
+当程序需要传递信息时，可以在main()函数中使用argc和argv两个命令行参数。声明方式如下：<br>
+<code>int main(int argc, char *argv[])</code>。(argc和argv只是默认命名，实际可变但大可不必)<br>
+其中，argc数据类型为整数，表示命令行参数的个数，argc的值定大于0，因为至少包括程序本身的名称；argv为不定长度的字符串指针数组，传递的字符串个数视输入具体参数数量而定。<br>
+在命令提示符模式输入<code>helloworld &quot;look at GUGU&quot; look.lovely.GUGU this is a test.</code>，argc的实际值为7，argv的长度为7，同时argv[0] = &quot;helloworld&quot;，argv[6] = &quot;test.&quot;。</li>
+<li>局部变量<br>
+在特定程序区块内，当局部变量与全局变量名重复而冲突时，局部变量优先，但区块执行结束后，全局变量又恢复到原来的设定值。</li>
+<li>变量等级声明<br>
+C++提供了五种变量等级类型修饰词，包括auto，static，extern，static extern和register。<br>
+加上auto修饰词/无修饰词时默认为自动变量。自动变量必须声明在函数的区块内，程序进入区块才会建立对应的自动变量，离开此范围时变量内存(变量值+内存地址)被释放；<br>
+<strong>在函数或程序段中声明成static的变量为静态局部变量，也可以理解为函数内定义的不跨程序文件的全局变量</strong>。静态局部变量在对应区块执行完毕后不会清除内存，内存在程序全部结束时才释放。与一般变量不同的是，静态局部变量在未设置初值时初始化为0；<br>
+<strong>加上extern修饰词/在函数或程序区块外声明的变量为外部变量，也可以理解为函数外定义的跨程序文件的全局变量</strong>。在函数内使用extern修饰变量时不会实际分配内存，但在函数外部需要有一个同名变量存在时才会实际分配内存。外部变量在未设置初值时初始化为0；<br>
+<strong>使用static修饰词声明的外部变量称为静态外部变量，可以理解为函数外定义的不跨程序文件的全局变量</strong>。对应变量的内存在程序全部结束后才会释放；<br>
+使用register修饰词声明的变量称为寄存器变量，使用CPU的寄存器来存储变量。当变量所声明的程序区块与函数结束时才释放寄存器变量。<br>
+外部变量的具体使用方法可参照下例：在a.cpp中声明全局变量x，在b.cpp中要使用变量x，故需要用extern修饰词在b.cpp中声明该变量，表示将全局变量引用至另一个文件中：</li>
+</ol>
+<pre><code class="language-C++">// a.cpp
+#include&lt;iostream&gt;
+using namespace std;
+
+#include &quot;b.cpp&quot;
+
+int x;
+int main()
+{
+	fun1();
+	cout &lt;&lt; x &lt;&lt; endl; // 886
+	return 0;
+}
+</code></pre>
+<pre><code class="language-C++">//b.cpp
+#include &lt;iostream&gt;
+
+extern int x;
+
+void fun1(){
+	x = 886;
+}
+</code></pre>
+<ol start="5">
+<li>函数重载<br>
+函数重载是C++的新特性，即同一个函数名称可以用来定义多个函数主体，程序在调用该函数名时C++会根据传递的参数个数与数据类型来决定实际调用的函数。如下例函数声明所示：</li>
+</ol>
+<pre><code class="language-C++">char* get_data(char*);
+int get_data(int);
+float get_data(float);
+double get_data(double);
+</code></pre>
+<ol start="6">
+<li>内联函数<br>
+inline声明的函数为内联函数，为避免重复调用浪费时间，编译器在遇到对应函数时会直接将内部代码替换成内联函数的代码。可以类比函数层面的#define宏定义理解。</li>
+</ol>
+<h3 id="7预处理指令">7.预处理指令</h3>
+<ol>
+<li>define<br>
+常以类<code>#define PI 3.14</code>，<code>#define STR &quot;GUGU&quot;</code>，<code>#define HELLOWORLD cout&lt;&lt;&quot;helloworld&quot;&lt;&lt;endl;</code>和<code>#define FUN func1()</code>的形式进行常量、字符串、程序语句、函数名的宏定义(宏定义的本质是在编译时直接替换)，以<code>#undef PI</code>形式取消宏定义。<br>
+对于简单的函数，可以使用宏函数，类似以<code>#define CAL_S(l, h) ((l)*(h))/2.0</code>方式定义三角形面积计算函数。</li>
+<li>include<br>
+使用<code>#include &lt;filename&gt;</code>加载默认系统目录下的文件。<br>
+使用<code>#include &quot;filename&quot;</code>优先加载当前程序工作目录下文件(也可以使用此语句加载系统目录的文件)。</li>
+<li>C++标准预处理宏<br>
+C++内置了诸如<code>__LINE__</code>，<code>__FILE__</code>，<code>__DATE__</code>，<code>__TIME__</code>和<code>__STDC__</code>等宏辅助程序编写。</li>
+<li>条件编译指令<br>
+可以设置条件以使用条件编译方法辅助程序编写，例如<code>#if</code>，<code>#else</code>，<code>#elif</code>，<code>#endif</code>，<code>#ifdef</code>和<code>#ifndef</code>等。</li>
+</ol>
+<h3 id="8自定义数据类型">8.自定义数据类型</h3>
+<p>C++中包括结构(struct)、枚举(enum)、联合(union)与类型定义()typedef这四种自定义数据类型。</p>
+<ol>
+<li>结构<br>
+定义一个结构时并不是声明一个变量，而是定义一种数据类型。结构的使用简例如下所示：</li>
+</ol>
+<pre><code class="language-C++">struct Student
+{
+    char name[20];
+    int score;
+    int *p;
+};
+Student Barry = {&quot;Barry&quot;, 100};
+cout &lt;&lt; Barry.name &lt;&lt; endl; 
+</code></pre>
+<h3 id="todo">todo</h3>
+<p>🎅</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">1. 基本常识</a></li>
+<li><a href="#2-%E5%AE%9A%E4%B9%89%E6%95%B0%E7%BB%84">2. 定义数组</a></li>
+<li><a href="#3-%E5%AD%97%E7%AC%A6%E4%B8%B2">3. 字符串</a></li>
+<li><a href="#4-%E6%8C%87%E9%92%88">4. 指针</a></li>
+<li><a href="#5%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0%E5%B8%B8%E8%AF%86">5.基本函数常识</a></li>
+<li><a href="#6%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E7%9F%A5%E8%AF%86">6.<s>高级</s>函数知识</a></li>
+<li><a href="#7%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4">7.预处理指令</a></li>
+<li><a href="#8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">8.自定义数据类型</a></li>
+<li><a href="#todo">todo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

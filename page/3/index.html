@@ -1,0 +1,402 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="Colorful life." />
+</head>
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+
+    <div class="nav py-3 md:py-8 fixed w-full z-10 bg-gray-50 dark:bg-gray-700 transition-all duration-300" :class="{ 'scroll': scrolled }">
+  <div class="flex justify-end px-4">
+    <div class="w-8 h-8 flex justify-center items-center rounded-full md:hidden" @click="showMenu = !showMenu">
+      <i class="ri-close-line" v-show="showMenu"></i>
+      <i class="ri-menu-3-line" v-show="!showMenu"></i>
+    </div>
+  </div>
+  <nav class="max-w-4xl w-full mx-auto text-center flex flex-col md:flex-row justify-center md:block" :class="`${ showMenu ? 'block' : 'hidden' }`">
+    
+      <a href="/" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        首页
+      </a>
+    
+      <a href="/archives" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        归档
+      </a>
+    
+      <a href="/tags" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        标签
+      </a>
+    
+      <a href="/post/about" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        关于
+      </a>
+    
+    <a href="https://FuNian788.github.io/atom.xml" target="_blank" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+      RSS
+    </a>
+  </nav>
+</div>
+
+    <div class="max-w-4xl w-full mx-auto pt-32">
+      
+
+      <div class="shadow-box bg-white dark:bg-gray-600 border-gray-300 rounded-none md:rounded-lg -mx-1 md:mx-0 md:px-0">
+        
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/data-structure/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          数据结构小记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-05-25</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于找工作，自学数据结构，简要记录重要知识点。
+
+
+
+1. 树
+
+1. 树的遍历
+2. 二叉树
+3. B树
+
+
+2. 表、栈和队列
+
+1. 表
+2. 栈
+3. 队列
+
+
+3. 优先队列
+4. 散列
+
+
+
+
+1. 树
+1. 树的遍历
+前序遍历...
+      </div>
+      <a href="https://FuNian788.github.io/post/data-structure/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/intelligent-algorithm/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          智能算法浅析
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-05-22</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于期末考试，简要总结课程中介绍过的智能算法。
+
+
+
+
+
+1.遗传算法
+
+基本思想
+核心步骤
+算法特性
+实现考量
+
+
+2.粒子群算法
+
+基本思想
+核心步骤
+算法特性
+实现考量
+
+
+3.标准差分进化算法
+
+基本思想
+核心步骤
+算法特性
+实现考...
+      </div>
+      <a href="https://FuNian788.github.io/post/intelligent-algorithm/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/cplusplus/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          C++小记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-05-08</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于刷题，简单刷了一遍C++入门教程，对一些基础知识作简单记录。
+
+
+
+
+
+1. 基本常识
+2. 定义数组
+3. 字符串
+4. 指针
+5.基本函数常识
+6.高级函数知识
+7.预处理指令
+8.自定义数据类型
+todo
+
+
+
+
+
+
+1. 基本常...
+      </div>
+      <a href="https://FuNian788.github.io/post/cplusplus/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/linux-backstage/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Linux程序后台运行方法总结
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-04-15</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。
+
+
+
+
+
+后台运行
+查看进程
+杀死进程
+
+
+
+
+
+
+后台运行
+如果我们想将程序挂在后台运行，留下清爽的终端界面，只需要在指令后加上&amp;符号即可。
+例如我们想在后...
+      </div>
+      <a href="https://FuNian788.github.io/post/linux-backstage/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/algorithm/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          算法核心思想总结
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-04-15</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于打工，开刷算法！
+本博客旨在对算法的核心思想进行归纳和总结，从而指导具体的实际问题求解。本博客不进行具体算法题目的剖析，请注意，这不是演习🎺同时感谢labuladong的算法讲解，可以到作者的Gitbook访问相关文章。
+
+
+
+1.动...
+      </div>
+      <a href="https://FuNian788.github.io/post/algorithm/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/os/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          os常用函数整理
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2019-01-20</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        在整理文档时发现了之前对os库常用函数的整理和简例，在此归纳总结。
+os库常用函数
+os.listdir(absolute_PATH): 以列表形式返回文件名和目录名
+os.path.isdir(): 判断是否为目录
+os.path.isf...
+      </div>
+      <a href="https://FuNian788.github.io/post/os/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/python-decorators/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Python装饰器(Decorators)学习笔记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2018-09-12</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        在代码中接触了许多有关Python装饰器的内容，简单写一篇博客来记录一下，以作归纳总结。
+“装饰器的强大在于它能够在不修改原有业务逻辑的情况下对代码进行扩展，权限校验、用户认证、日志记录、性能测试、事务处理、缓存等都是装饰器的绝佳应用场景，...
+      </div>
+      <a href="https://FuNian788.github.io/post/python-decorators/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/common-Markdown/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          常用Markdown语法
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2018-07-04</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+1.文字排版
+2.区块
+3.强调显示
+4.代码显示
+5.分隔线
+6.列表
+7.链接
+8.添加图片
+9.编写注释
+10.编写目录
+11.删除线
+12.注脚
+13.页面内跳转
+14.表格
+15.公式编辑
+
+
+
+
+1.文字排版
+在文字之前加...
+      </div>
+      <a href="https://FuNian788.github.io/post/common-Markdown/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/common-Git-command-lines/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Git常用命令行概述
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2018-05-27</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        写在前边：所有的命令都可以通过在后边添加 --help查看官方文档.
+eg: git add --help 以查看git add的使用说明.
+git add
+将当前文件夹内文件添加到暂存区域.
+git branch
+查看本地分支 git b...
+      </div>
+      <a href="https://FuNian788.github.io/post/common-Git-command-lines/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/win-ubuntu-vscode-Git-usage/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Win/Ubuntu + VScode下Git的配置与使用
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2018-03-16</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        Window10环境下配置使用git
+1.Git初始化及本地仓库配置
+1.在官网上下载并安装Git. 本教程的安装路径为F:\Github
+2.在桌面或者任意目录下右键打开git bash (或者直接打开CMD命令行). 键入命令(以下所有...
+      </div>
+      <a href="https://FuNian788.github.io/post/win-ubuntu-vscode-Git-usage/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+  
+      </div>
+
+      
+  <div class="my-4 flex justify-between px-4 md:px-0">
+    
+      <a href="https://FuNian788.github.io/page/2/" class="btn btn-white">
+        <i class="ri-arrow-left-line mr-4"></i>
+        上一页
+      </a>
+    
+    
+  </div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1549 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>时序动作检测(Temporal Action Detection)论文总结 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="时序动作检测(Temporal Action Detection)论文总结 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="迫于毕业，我会在本学期从事有关时序动作检测(以下简称TAD)的相关研究并争取发表高水平论文🤤。本博文旨在记载学习过程中遇到的高质量论文，同时进行总结和思路归纳。本博文将长期更新。
+↓这是一个超有爱的超链接目录↓
+
+
+
+时序动作检测综述
+
+..." />
+  <meta property="og:title" content="时序动作检测(Temporal Action Detection)论文总结 - Zexian Li">
+  <meta property="og:description" content="迫于毕业，我会在本学期从事有关时序动作检测(以下简称TAD)的相关研究并争取发表高水平论文🤤。本博文旨在记载学习过程中遇到的高质量论文，同时进行总结和思路归纳。本博文将长期更新。
+↓这是一个超有爱的超链接目录↓
+
+
+
+时序动作检测综述
+
+..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/temporal-action-detection-papers/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="时序动作检测(Temporal Action Detection)论文总结 - Zexian Li">
+  <meta name="twitter:description" content="迫于毕业，我会在本学期从事有关时序动作检测(以下简称TAD)的相关研究并争取发表高水平论文🤤。本博文旨在记载学习过程中遇到的高质量论文，同时进行总结和思路归纳。本博文将长期更新。
+↓这是一个超有爱的超链接目录↓
+
+
+
+时序动作检测综述
+
+...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/temporal-action-detection-papers/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          时序动作检测(Temporal Action Detection)论文总结
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-21 · 99 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/lrcnGnHyjV/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              TAD
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>迫于毕业，我会在本学期从事有关时序动作检测(以下简称TAD)的相关研究并争取发表<s>高水平</s>论文🤤。本博文旨在记载学习过程中遇到的高质量论文，同时进行总结和思路归纳。本博文将长期更新。</p>
+<p>↓这是一个超有爱的超链接目录↓<br>
+<ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B%E7%BB%BC%E8%BF%B0">时序动作检测综述</a>
+<ul>
+<li><a href="#%E5%86%99%E5%9C%A8%E5%89%8D%E8%BE%B9">写在前边</a></li>
+<li><a href="#%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91">时序动作检测研究方向</a></li>
+<li><a href="#%E5%8A%A8%E4%BD%9C%E5%80%99%E9%80%89%E6%A1%86%E6%8F%90%E5%90%8Dtemporal-action-proposal%E7%AE%80%E4%BB%8B">动作候选框提名(Temporal Action Proposal)简介</a></li>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E9%9A%BE%E7%82%B9">任务难点</a></li>
+<li><a href="#%E4%B8%BB%E8%A6%81%E5%88%B6%E7%BA%A6%E5%9B%A0%E7%B4%A0%E5%8F%8A%E6%94%B9%E8%BF%9B%E6%96%B9%E6%B3%95">主要制约因素及改进方法</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB">论文阅读</a>
+<ul>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+<li><a href="#1-2017-iccvturn-tap-temporal-unit-regression-network-for-temporal-action-proposals">(1) (2017 ICCV)TURN TAP: Temporal Unit Regression Network for Temporal Action Proposals</a></li>
+<li><a href="#2-2019-iccvbmn-boundary-matching-network-for-temporal-action-proposal-generation">(2) (2019 ICCV)BMN: Boundary-Matching Network for Temporal Action Proposal Generation</a></li>
+<li><a href="#3-2017-iccvssn-temporal-action-detection-with-structured-segment-networks">(3) (2017 ICCV)SSN: Temporal Action Detection with Structured Segment Networks</a></li>
+<li><a href="#4-2018-cvprtal-net-rethinking-the-faster-r-cnn-architecture-for-temporal-action">(4) (2018 CVPR)TAL-Net: Rethinking the Faster R-CNN Architecture for Temporal Action</a></li>
+<li><a href="#5-2020-aaaidbg-fast-learning-of-temporal-action-proposal-via-dense-boundary-generator">(5) (2020 AAAI)DBG: Fast Learning of Temporal Action Proposal via Dense Boundary Generator</a></li>
+<li><a href="#6-2019-cvprmgg-multi-granularity-generator-for-temporal-action-proposal">(6) (2019 CVPR)MGG: Multi-granularity Generator for Temporal Action Proposal</a></li>
+<li><a href="#7-2017tag-a-pursuit-of-temporal-accuracy-in-general-activity-detection">(7) (2017)TAG: A Pursuit of Temporal Accuracy in General Activity Detection</a></li>
+<li><a href="#8-2017-iccvr-c3d-region-convolutional-3d-network-for-temporal-activity-detection">(8) (2017 ICCV)R-C3D: Region Convolutional 3D Network for Temporal Activity Detection</a></li>
+<li><a href="#9-2018-eccvctap-complementary-temporal-action-proposal-generation">(9) (2018 ECCV)CTAP: Complementary Temporal Action Proposal Generation</a></li>
+<li><a href="#10-2016-cvprscnn-temporal-action-localization-in-untrimmed-videos-via-multi-stage-cnns">(10) (2016 CVPR)SCNN: Temporal Action Localization in Untrimmed Videos via Multi-stage CNNs</a></li>
+<li><a href="#11-2020-aaaipbr-net-progressive-boundary-refinement-network-for-temporal-action-detection">(11) (2020 AAAI)PBR-Net: Progressive Boundary Refinement Network for Temporal Action Detection</a></li>
+<li><a href="#12-2017-acm-multimediasingle-shot-temporal-action-detection">(12) (2017 ACM multimedia)Single Shot Temporal Action Detection</a></li>
+<li><a href="#13-2020-trans-on-cyberneticsrecapnet-action-proposal-generation-mimicking-human-cognitive-process">(13) (2020 Trans on Cybernetics)RecapNet: Action Proposal Generation Mimicking Human Cognitive Process</a></li>
+<li><a href="#14-2018-cvprprecise-temporal-action-localization-by-evolving-temporal-proposals">(14) (2018 CVPR)Precise Temporal Action Localization by Evolving Temporal Proposals</a></li>
+<li><a href="#15-2017-bmvccascaded-boundary-regression-for-temporal-action-detection">(15) (2017 BMVC)Cascaded Boundary Regression for Temporal Action Detection</a></li>
+<li><a href="#16-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(16) (2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></li>
+<li><a href="#17-2020-eccvbottom-up-temporal-action-localization-with-mutual-regularization">(17) (2020 ECCV)Bottom-Up Temporal Action Localization with Mutual Regularization</a></li>
+<li><a href="#18-2020-icmescale-matters-temporal-scale-aggregation-network-for-precise-action-localization-in-unitrimmed-videos">(18) (2020 ICME)Scale Matters: Temporal Scale Aggregation Network for Precise Action Localization in Unitrimmed Videos</a></li>
+<li><a href="#19-2019-iccvp-gcn-graph-convolutional-networks-for-temporal-action-localization">(19) (2019  ICCV)P-GCN: Graph Convolutional Networks for Temporal Action Localization</a></li>
+<li><a href="#20-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(20) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
+<li><a href="#21-2020-eccvboundary-content-graph-neural-network-for-temporal-action-proposal-generation">(21) (2020 ECCV)Boundary Content Graph Neural Network for Temporal Action Proposal Generation</a></li>
+<li><a href="#n-20xx-cvpr%E6%A8%A1%E6%9D%BF">(n) (20xx CVPR)模板</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93">方法总结</a>
+<ul>
+<li><a href="#%E6%A0%B7%E6%9C%AC%E5%B9%B3%E8%A1%A1">样本平衡</a></li>
+</ul>
+</li>
+<li><a href="#ideas">ideas</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="时序动作检测综述">时序动作检测综述</h2>
+<h3 id="写在前边">写在前边</h3>
+<p>目标检测有两大派系，一派是以R-CNN为代表的two-stage方法，一派是以YOLO/SSD为代表的one-stage方法。<br>
+two-stage方法中，先通过<strong>启发式方法或CNN网络</strong>对密集anchor进行筛选，再将筛选后的<strong>稀疏</strong>候选框进行动作分类和回归(例如Faster RCNN的RPN是通过CNN在预设acnhor上校正和筛选)；<br>
+one-stage方法中，在图片所有位置进行<strong>均匀地密集采样</strong>(例如anchor)，不对采样样本进行筛选，而是直接将所有候选框对应的特征送去分类和回归(例如YOLOv3是将所有预设anchor提得的特征输入网络进行分类与回归)。<br>
+简而言之，two-stage的候选框是相对稀疏的，是经过筛选的；one-stage的候选框是密集的、基本无处理的。two-stage在一个独立的候选框生成CNN网络之外，还有一个特征提取、分类和回归的网络；one-stage则是将特征提取、候选框生成、分类和回归融到同一个网络中。(也可以这样认为，two-stage的两个网络是分开训练的，one-stage的网络是一个整体。)通常来讲，由于多了一个单独的候选框生成网络，two-stage网络比one-stage慢，但准。</p>
+<h3 id="时序动作检测研究方向">时序动作检测研究方向</h3>
+<p>时序动作检测(Temporal Action Detection, Temporal Action Localization)可以类比为三维尺度上的目标检测，其任务核心是，在尽可能保证时间效率的情况下，获取准确率(precision)和召回率(recall)较高的动作候选框(proposal)，同时完成对候选框的分类。<br>
+在更接近真实情况的未裁剪视频(untrimmed videos)中，我们需要进行时序动作检测以得到具体的动作类别、动作的开始和结束时刻；在更接近理想情况的裁剪好的视频(trimmed videos)中，由于假定动作占据了视频的全部/绝大部分时长，我们仅需要进行视频的动作识别(Action Recognition)并得到具体的动作类别即可。<br>
+类比目标检测，目前动作检测的研究方向主要也分两类：<br>
+一类应用two-stage框架，分别研究proposal（如何提出更高质量的框）和classification（如何更好地分类），前者被拆分成动作候选框提名(Temporal Action Proposal, TAP)任务，后者则更近似动作识别(Action recognition)的相关研究。两个网络常分开训练，常通过搭配动作分类的sota网络以测试TAP模型性能；<br>
+一类应用one-stage框架，直接对预设片段提取特征、回归和分类。<br>
+同目标检测一样，目前学界的普遍看法是，two-stage网络比one-stage慢，但准。</p>
+<h3 id="动作候选框提名temporal-action-proposal简介">动作候选框提名(Temporal Action Proposal)简介</h3>
+<p>候选框的生成标准：灵活长度，边界准确，尽可能详尽地覆盖真值(Ground Truth)，生成可信度高的置信度得分。<br>
+候选框生成的实现方法主要分以下两种：<br>
+(1) Anchor-based<br>
+人为设计proposal的尺度和检测密度，以滑窗(sliding window)形式对未裁剪视频进行处理，后期常存在分类并校正等操作。<br>
+优点：能较好地检测到绝大多数动作，可以同时对多个候选框的置信度进行评估。<br>
+缺点：计算量大，速度慢；时间尺度上常不够精准；受限于设计的proposal尺寸，对过长/过短的动作片段检测效果不佳。<br>
+(2) Anchor-free(boundary-based)<br>
+近似于自底向上(bottom-up)的聚类(grouping)过程，对视频中的每一时刻(单帧)进行评估。检测动作开始/结束关键帧并利用相关信息将其组成开始-结束对(start-end pair)以获得候选框。<br>
+优点：可产生灵活长度的候选框，贴近现实情况；对边界更敏感，得出的边界更准确。<br>
+缺点：候选框生成极其仰仗评估单帧得到的置信度和人为设计的筛选策略，但很难给出准确的表征动作进行情况的置信度；容易漏检，召回率相对较低。<br>
+注： 基于RNN的候选框生成方法在持续时间较长的动作上表现不佳。</p>
+<h3 id="任务难点">任务难点</h3>
+<ol>
+<li>动作起始/结束边界较难定义，不同人对于同一动作可能有着不同的看法(在训练中常将动作起始/结束边界由时间点延展为时间段)。</li>
+<li>时序信息较难利用(常见方法有利用光流，时序卷积，利用RNN读取特征等)。</li>
+<li>动作的时间跨度可能非常大。</li>
+</ol>
+<h3 id="主要制约因素及改进方法">主要制约因素及改进方法</h3>
+<p>不准确的边界是影响目前TAD性能的最关键因素，对此的改进方法主要为边界回归和frame-level score校正两种。<br>
+边界回归方法中，一类经典而有效的方法是循环回归(将输出的边界作为新输入输回网络执行新一轮的回归)，另一类常见方法是基于two-stage结构(类比Faster RCNN)完成边界回归(但额外的生成框阶段会降低检测速度)。然而以上方法均不能在细粒层面很好地得到精确边界。<br>
+frame-level score方法中，评估每一帧的得分，再应用阈值等方法去决定候选框。这种方法得到的边界是细粒的，但是十分仰仗选择策略和预设的阈值。</p>
+<h3 id="应用场景">应用场景</h3>
+<p>准确的候选框生成方法有较广泛的应用场景：视频推荐，智能安防，高光时刻统计，人机交互等。</p>
+<h3 id="评价指标">评价指标</h3>
+<h3 id="常用数据集">常用数据集</h3>
+<p>THUMOS-14<br>
+ActivityNet-1.3</p>
+<h2 id="论文阅读">论文阅读</h2>
+<h3 id="指标比对">指标比对</h3>
+<p>以THUMOS-14数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ID</th>
+<th style="text-align:center">paper</th>
+<th style="text-align:center">mAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">SCNN</td>
+<td style="text-align:center">19.0%</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">SSAD</td>
+<td style="text-align:center">24.6%</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">TURN</td>
+<td style="text-align:center">25.6%</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">TAG</td>
+<td style="text-align:center">28.2%</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">R-C3D</td>
+<td style="text-align:center">28.9%</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">SSN</td>
+<td style="text-align:center">29.8%</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">CTAP</td>
+<td style="text-align:center">29.9%</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">CBR</td>
+<td style="text-align:center">31.0%</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">ETP</td>
+<td style="text-align:center">34.2%</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">MGG</td>
+<td style="text-align:center">37.4%</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BMN</td>
+<td style="text-align:center">38.8%</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">DBG</td>
+<td style="text-align:center">39.8%</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">TAL-Net</td>
+<td style="text-align:center">42.8%</td>
+</tr>
+<tr>
+<td style="text-align:center">17</td>
+<td style="text-align:center">Mutual Regularization</td>
+<td style="text-align:center">45.4%</td>
+</tr>
+<tr>
+<td style="text-align:center">18</td>
+<td style="text-align:center">TSA-Net</td>
+<td style="text-align:center">46.9%</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td style="text-align:center">P-GCN</td>
+<td style="text-align:center">49.1%</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center">RecapNet</td>
+<td style="text-align:center">50.4%</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">PBR-Net</td>
+<td style="text-align:center">51.3%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-2017-iccvturn-tap-temporal-unit-regression-network-for-temporal-action-proposals">(1) <a href="https://arxiv.org/abs/1703.06189">(2017 ICCV)TURN TAP: Temporal Unit Regression Network for Temporal Action Proposals</a></h3>
+<p>本论文侧重于提出高质量的候选框。</p>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>滑窗方法计算效率过低。</li>
+<li>现有评估指标不精确。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>首次提出在时间尺度对动作进行回归，使用时序坐标回归模块(temporal coordinate regression)联合性地预测和修正候选框(proposals)。</li>
+<li>为候选框提出任务(TAP)提出新的度量标准“平均召回率-检出框频率”(Average Recall vs. Frequency of retrieved proposals, AR-F)。</li>
+</ol>
+<p>TURN在THUMOS-14和ActivityNet数据集上达到了当时的sota精度，在表现出较好鲁棒性的同时展现出了优秀的处理速度(880FPS on TITAN X)。</p>
+<ul>
+<li>实现流程：</li>
+</ul>
+<p><img src="https://FuNian788.github.io/post-images/TAD/TURN_1.jpg" alt="TURN实现流程图" loading="lazy"><br>
+先将原视频裁剪成多段无重叠的短视频(16/32帧)以作为基本处理结构，对每段短视频采用现有的特征提取模型（例如C3D、双流CNN）提取特征，得到单元特征(unit features)。</p>
+<p>在unit features上选取特定的锚单元(Anchor unit)，如下图所示，以Anchor unit为中心的一段连续的unit集合被称为clip，也称内部单元(internal units)。在得到网络输入的过程中，我们将internal units及其周围的语义单元(content units)一同进行均值池化，对池化后两部分特征进行连结(concatenation)操作得到该clip对应的特征fc。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TURN_2.jpg" alt="clip结构补充自绘图" loading="lazy"><br>
+将单一clip对应的特征fc输入网络，可以得到两个输出：一是输出该clip作为候选框的置信度以评判其是否为动作实例，一是输出对候选框开始和结束时间修正的offset。</p>
+<p>与Anchor unit中心对应，如上图所示，选取一系列长度的internal units和content units，得到一系列clip'（clip' = content units + internal units)以组成金字塔结构(clip pyramid)。可以将clip pyramid近似理解为一批次(batch)的数据。<br>
+<code>注：论文在对clip部分的阐述极为模糊，甚至乎混淆。博主反复确认细节后认为，clip'变量的引入有助于理解相关的处理流程，并绘制如上图片辅助理解。欢迎留言探讨，更多细节详见原文。</code></p>
+<ul>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>使用单元特征复用模块(unit feature reuse)避免了特征的重复提取，即所有unit无交集，对每个unit仅提取一次特征，基于此特征将预测结果回归至unit的边界，这相比于密集的滑窗计算大大减小了计算量。</li>
+<li>使用非极大值抑制(Non-maximum suppression, NMS)以去除冗余候选框。</li>
+<li>数据标注方面，对样本进行二值标注。与某GT交集最大的/tIoU大于阈值的强样本标注为正，与任何动作都无交集的样本方标注为负。</li>
+<li>设计带权重项的多任务损失函数，一部分用标准Softmax函数做是否为动作实例的二分类，一部分用L1函数做动作开始/结束时间的回归状况评估。</li>
+</ol>
+<ul>
+<li>效果评估：</li>
+</ul>
+<p>THUMOS2014数据集IoU=0.5时，MAP为25.6%。</p>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>unit无交集且对每个unit各自回归，在特别短的动作上是否会定位不准？eg一个较短的动作在连续的两个unit中恰好各占比50%。还是说unit的长度已经足够短可以避免这种情况的发生。</li>
+<li>回归时直接回归到unit的边界，即16/32的倍数帧，论文给出的说法是：特征提取是在unit级而非frame级完成的，其得到的特征不具有识别细粒度，且该状态下更容易学习和训练。但该方法无法掩盖的缺陷是其准确度注定不如frame级特征。</li>
+</ol>
+<hr>
+<h3 id="2-2019-iccvbmn-boundary-matching-network-for-temporal-action-proposal-generation">(2) <a href="https://arxiv.org/abs/1907.09702">(2019 ICCV)BMN: Boundary-Matching Network for Temporal Action Proposal Generation</a></h3>
+<p>本论文侧重于提出高质量的候选框。</p>
+<ul>
+<li>针对痛点：<br>
+bottom-up方法能产生精准的边界，但较难得到精确的置信度。<br>
+作者对其之前的工作BSN(anchor free, bottom-up)做出改进：</li>
+</ul>
+<ol>
+<li>BSN中特征提取和置信度评估是针对每个候选框单独进行的，低效。</li>
+<li>BSN中提取的特征过于简单，不能包含足够多时域信息。</li>
+<li>BSN是多阶段网络而非端到端框架。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出Boundary-Matching机制，利用2d图表示连续且密集分布的候选框的得分。</li>
+<li>提出高效且端到端的候选框生成网络BMN(Boundary-Matching Network)。</li>
+</ol>
+<p>BMN在THUMOS-14和ActivityNet-1.3数据集上有较好的指标提升，且效率较高。在候选框生成任务上可达到sota级精度。</p>
+<ul>
+<li>实现流程：</li>
+</ul>
+<p>BMN网络同时生成边界概率序列(Boundary Probability Sequence)和边界匹配置信图(Bounding-Matching confidence map)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_1.jpg" alt="BM confidence map" loading="lazy"><br>
+注：在2d BM confidence map中，横轴坐标相同代表开始时间相同，纵轴坐标相同代表持续时长相同。且需要理解到：2d BM confidence map中的每一个点都代表一个proposal，这也是BM confidence map尺寸为D*T的原因(D为每个候选框最长持续时间，T为视频序列长度)。<strong>注意D的设置既节约计算量，又规范了视频段长度，更重要的是它防止了开始时刻和终止时刻的跨动作组合。</strong></p>
+<p>(1)利用Boundary Probability Sequence，从开始-结束边界对(start-end boundary pair)得到候选框，易知候选框可在开始时间(y)-持续时间(x)二维连续坐标系上连续表示，该坐标系在本文中即为2d BM confidence map。<br>
+(2)借鉴热力图思路，展示任一时刻下动作的置信度(可理解为用z轴表示置信度得分)，在上图中置信度高低用红色深浅表示。<br>
+(3)依据置信度在(1)中得到的候选框中进行筛选。</p>
+<ul>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>BMN网络内部实现过程有相对琐碎的维度变化，参照下图使用以便提高消化速率。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_2.jpg" alt="BMN网络流程" loading="lazy"><br>
+通过双流网络从长度为T'的视频中提取C*T维度的时间特征序列(temporal feature sequence)。其中C为双流网络fc层输出维度，T = T' / t，t为视频采样间隔。<br>
+通过BM层从temporal feature sequence中生成维度为C*N*D*T的BM特征图(BM feature map)，BM feature map后接TEM和PEM两个分支，分别得到时序边界概率序列(temporal boundary probability sequence)和BM置信度图(BM confidence map)。结合上述两者得到最终候选框。<br>
+很多细节详见图片内注释及标注。<br>
+注：候选框生成的任务并不考虑proposal的种类。</li>
+<li>BM层的采样过程中有一些细节？<br>
+采样时遇到非整数点怎么处理：如下图所示，对每一proposal提出采样蒙版权重(sampling mask weight)，维度为N*T(N是采样点个数，T是视频时长)，每一行表征某一采样点发生的时刻(采样时刻为整数时该点蒙版值为1，采样时刻非整数时以和为1的两个连续分数表示)。将sampling mask weight(N*T)和feature sequence(C*T)在T维度点乘可得到C*T维度的boundary-mataching feature(BM feature)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_3.jpg" alt="BM layer点乘过程" loading="lazy"><br>
+那我们一共有多少个proposal呢，由2d BM confidence map点的个数可知共D*T个。则对所有的proposal同时进行处理，此时sampling mask weight的维度扩大到(N*T*D*T)，同理boundary-mataching feature的维度也扩大到(C*N*D*T)。由于sampling mask weight对可预先计算且形式简单，故其计算速度很快。</li>
+<li>训练GT数据是以D*T维度的tIoU(尺度同BM confidence map)。</li>
+<li>在结合temporal boundary probability sequence和BM confidence map得到最终候选框的过程中，设计阈值筛选候选框，进行分数模糊以扩大决策边界，采用soft-NMS删除冗余框。</li>
+</ol>
+<ul>
+<li>
+<p>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为38.8%。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que：<br>
+(1)这样的一顿操作能否直接从3d角度实现，近似于3dCNN？<br>
+(2)类似于D的设置，我们能否只组合其间动作进行得分(actionness score)高于阈值的开始时刻和结束时刻，以防止跨动作的开始/结束时刻组合。(大师兄说这样的话特征工程的味道太重了hhh)</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-2017-iccvssn-temporal-action-detection-with-structured-segment-networks">(3) <a href="https://arxiv.org/abs/1704.06228">(2017 ICCV)SSN: Temporal Action Detection with Structured Segment Networks</a></h3>
+<p>本论文在候选框产生，利用候选框进行视频的动作分类两方面都有涉及。</p>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有候选框提出方法会包含大量不完整的动作片段，且从不关注动作的当前状态和完整性。</li>
+<li>基于滑窗判断整段proposal状态的算法近似于均值滤波，磨平了动作发生的的得分趋势图，导致动作发生前后的分数差异并不明显。</li>
+<li>大量的视频数据计算限制了端到端模型在持续时间较长数据上的使用。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>首先提出关注动作的开始、进行与结束三个阶段性属性，依此时域结构信息提升候选框所包含动作的完整性，只在proposal与action对齐时显示较高的得分。</li>
+<li>基于稀疏采样策略(sparse snippet sampling strategy)实现了高效轻量的端到端模型。</li>
+<li>提出了基于分水岭(watershed)的候选框提出机制TAG(temporal actionness grouping)。</li>
+</ol>
+<p>SSN在THUMOS-14和ActivityNet数据集上达到了当时的sota精度，且展现了较好的鲁棒性/迁移性。</p>
+<ul>
+<li>
+<p>实现流程：<br>
+如下图所示，网络以视频和若干个候选框作为输入，输出一系列动作检测结果(动作类别+开始/结束时间)，图中绿色框代表候选框，将其前后延展得到黄色的增强框，后续操作基于该增强框进行。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SSN_1.jpg" alt="SNN网络框架图" loading="lazy"><br>
+将增强框分为三阶段：开始(黄色特征)、进行(绿色特征)和结束(蓝色特征)，使用结构化时序金字塔池化(structured temporal pyramid pooling, STPP)方法对三阶段分别处理，将各阶段STPP得到的特征连结成全局信息后传给动作类别判别器和动作完整性判别器，最终结合两个分类器的结果以输出完整动作实例结果。上述整体均被囊括在一个端到端的模型中进行训练。</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>对三个阶段都进行SSTP处理：每个阶段都包含多个小片段，采用双流提取每个小片段的特征，随后以金字塔池化的方法处理各阶段特征，最后将得到的三阶段的特征进行连结。实现时，对动作阶段(course)进行两层的金字塔池化，该金字塔池化层如上流程图中浅绿+深绿色块所示；对开始(starting)和结束(ending)阶段进行单层的金字塔池化。</li>
+<li>动作类别判别器(activity classifier)仅关注course阶段的特征，经由softmax层输出该视频为第K类/background的概率；动作完整性判别器(completeness classifiers)是K个二值分类器的集合，第K个二值分类器依据三阶段的整体特征判断该视频是否为完整的第K类动作。最后的损失函数由两个分类器的结果组合得到。</li>
+<li>将数据分为三类，正样本，background样本，不完整样本(仅包含一小部分GT)。每个batch都需要同时包含这三类数据。</li>
+<li>对输出框以回归中心和跨度的方式进行修正操作，同时将回归结果以损失函数的形式加入前文提及的损失函数中。</li>
+<li>采用稀疏片段采样策略(sparse snippet sampling strategy)降低计算量(此举明显是为了端到端训练且不炸显存的妥协之举)：一个候选框(proposal)必然包括很多片段(snippet)，实际操作时将任一候选框平均地分成九截(segment)，每一截中都会包含几个片段。在SSTP时，在每一截中仅处理其中的一个片段。同时这一行为也固定了SSTP在处理一个候选框后得到的特征维度。</li>
+<li>在测试时利用分类器的线性特性和矩阵知识，将矩阵W*Pool(矩阵V)转换成Pool(矩阵W*矩阵V)，测试速度提升20倍。</li>
+<li>下图中，上为score图，中为反score图，下为TAG算法得到的候选框。用不同阈值得到几组候选框，NMS后输入SSN网络。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SSN_2.png" alt="分水岭算法" loading="lazy"></li>
+</ol>
+<ul>
+<li>效果评估：</li>
+</ul>
+<p>THUMOS2014数据集IoU=0.5时，MAP为29.8%。</p>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>稀疏片段采样策略能否用其他方式代替？其他论文是如何解决类似问题的？这样做是否会导致大幅的性能下降？</li>
+</ol>
+<hr>
+<h3 id="4-2018-cvprtal-net-rethinking-the-faster-r-cnn-architecture-for-temporal-action">(4) <a href="https://arxiv.org/abs/1804.07667">(2018 CVPR)TAL-Net: Rethinking the Faster R-CNN Architecture for Temporal Action</a></h3>
+<p>本论文侧重于提出高质量的候选框。</p>
+<ul>
+<li>针对痛点：<br>
+本文的核心思路是在TAD任务中应用目标检测任务中的Faster R-CNN架构，为了适配性做了对应调整。</li>
+</ul>
+<ol>
+<li>How to handle large varaitions in action durations?(这段话还是英语读起来有味道)</li>
+<li>如何利用时域上下文信息？显然Faster R-CNN没有利用上下文。本文通过扩大候选框生成和动作分类时的感受野来解决该问题。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出利用空洞卷积使anchor的持续时长与感受野对齐，从而应用多尺度的anchor来适应动作片段多样化的持续时长。</li>
+<li>扩展感受野，利用时间上下文信息更好地判断动作种类和确定候选框边界。</li>
+<li>证明光流和RGB信息晚融合的优越性。</li>
+</ol>
+<p>TAL-Net在THUMOS-14数据集上达到了当时的sota精度，在ActivityNet数据集上达到了competitive精度。</p>
+<ul>
+<li>
+<p>实现流程：<br>
+对一个相对熟悉Faster R-CNN结构的小朋友来说，这一张图足矣。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAL-Net1.png" alt="TAL-Net和Faster R-CNN对照结构图" loading="lazy"><br>
+需要注意的是，动作候选框可视为一维时间轴上的线段，故均在一维特征上操作。</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>RPN细节补充：先采用softmax二分类判断每个pixel对应的9个anchor是否含有目标，同时完成第一次bbox回归；随后利用刚刚得到的含有目标的anchor(foreground box)、回归得到的bbox offset和卷积得到的feature map这三个信号输出初步proposals。对proposals进行NMS筛选，再进行ROI pooling以将其输入参数维度固定的全连接层。最后由全连接层输出bbox的分类置信度和回归结果。</li>
+</ol>
+<ol start="2">
+<li>如何对齐感受野？这段应该是本文理解难度最高的地方了，坐好小板凳认真听。<br>
+首先我们回顾一下RPN中无类别、多尺度proposal的生成过程：(感谢勇者归来在<a href="https://www.cnblogs.com/wangyong/p/8513563.html">博客</a>中细致的配图)<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAL-Net3.png" alt="Faster RCNN网络结构图" loading="lazy"><br>
+我们仅关注上图左下部分的RPN结构：现有3*3卷积后得到的feature map和人工设计的9种anchor尺度，在feature map的每个pixel上，以18个1*1卷积核进行卷积，分别表征以该像素点为中心的9种anchor是/否包含目标。这便是最大的限制：每个像素点处的(18个)分类器的感受野(receptive field)大小相同。因为都是只能看到feature map上的一个点，而这个点也是RGB图一路卷积池化得到的，在原图上的对应的区域大小也是一定的(eg:64*64)。<br>
+这种方法在目标检测上可能行得通，因为目标尺寸大小不会差距很大(从9个anchor实际面积也可见一斑)，但TAD任务中则不同，以THUMOS-14数据集为例，动作时长短则几秒，长则多于一分钟，如果将感受野设计小了，则在判断时间跨度较长anchor时则无法有充足信息，如果将感受野设计大了，在判断时间跨度较短anchor时容易被周围的信息支配和引导，如果能让感受野和时间跨度刚刚好对准就再好不过了。<br>
+本论文精心设计、仔细选取选取，使用多级塔型结构(a multi-tower network)和时域空洞卷积(dilated temporal convolutions)使任一anchor的感受野与其持续时长对应。同时，与RPN类似，也使用了并行的两个1*1卷积层以完成anchor包含目标的判断和bbox回归。<br>
+现在看看如下的设计对比图，希望你有茅塞顿开的感觉。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAL-Net2.jpg" alt="感受野对比图" loading="lazy"><br>
+不同于池化，空洞卷积可以在扩大感受野的同时维持较高的分辨率(全加普通卷积层使参数爆炸增长，全用池化层降低分辨率)。假定我们设置5个一维anchor，其时间跨度s分别为6,24,36,48,60秒，则在空洞卷积前分别对长度为(s/6=1,4,6,8,10)的特征进行最大值池化，便可以对齐anchor的持续时间和感受野。<br>
+实际应用中，将时间跨度前后分别延长(s/2)，将最大池化和空洞卷积的间隔扩大二倍至(s/6)*2=s/3以捕获前后文信息，整体流程如下图左所示。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAL-Net4.jpg" alt="空洞卷积/晚融合" loading="lazy"></li>
+<li>晚融合的流程如上图右所示，注意其中的求平均过程都是对每个个体而言的(element-wise average)。</li>
+<li>近似于RoI pooling，本文使用SoI pooling将特征分成七份后传给后续的全连接层，需要注意的是，这里的特征也包含前后文时序信息。</li>
+</ol>
+<ul>
+<li>效果评估：</li>
+</ul>
+<p>THUMOS2014数据集IoU=0.5时，MAP为42.8%。</p>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>空洞卷积前进行最大值池化这一步骤是否会损失大量的信息？那你用空洞卷积而不是直接池化的意义在哪里。</li>
+</ol>
+<hr>
+<h3 id="5-2020-aaaidbg-fast-learning-of-temporal-action-proposal-via-dense-boundary-generator">(5) <a href="https://arxiv.org/abs/1911.04127">(2020 AAAI)DBG: Fast Learning of Temporal Action Proposal via Dense Boundary Generator</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<p>作者对BMN工作做出改进：</p>
+<ol>
+<li>BMN的BM(boundary-matching)策略只利用了low-level的边界信息而忽视了动作整体信息，在处理复杂动作和模糊背景时表现不佳。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出网络结构扎实且快速的端到端DBG网络，可以对密集的选框生成置信图。</li>
+<li>引入额外的时序上的动作分类损失函数来辅助监督(auxiliary supervision)动作概率特征(action score feature)，该特征能够有效的促进动作完整度回归(Action-aware Completeness Regression，ACR)。</li>
+<li>设计PFG网络(Proposal Feature Generation)以获得具有全候选框视野的特征，从而进行接下来的动作分类和边界回归(针对痛点1)。</li>
+</ol>
+<p>在THUMOS14和ActivityNet-1.3上达到了sota效果。</p>
+<ul>
+<li>
+<p>实现流程：<br>
+DBG网络的实现流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/DBG_2.png" alt="DBG网络结构图" loading="lazy"><br>
+Video Representation阶段，从视频中提取得到RGB特征和光流特征以输入密集边界生成网络(DBG, Dense Boundary Generator)。<br>
+DBG阶段，特征首先由双流网络(DSB, Dual Stream BaseNet)处理以得到低层次的双流特征和高层次的动作得分特征(actionness score feature)，其中，双流特征由RGB和光流信息晚融合得到，actionness score feature从对动作分类的损失函数进行辅助监督(auxiliary supervision)得到；再将这两种特征由特征生成层(PFG, Proposal Feature Generation Layer)转化成矩阵形式的特征(matrix-like feature)；动作完整性回归网络(ACR, Action-aware Completeness Regression)对密集候选框输出动作完整性得分图，时序边界分类网络(TBC, Temporal Boundary Classification)生成边界置信图。<br>
+Post-processing阶段，对得到的三张图(action score map, starting score map, ending score map) 表征同一候选框的概率分数相乘以得到每个候选框的最终得分，对得分进行soft-NMS处理以得到最终选取的框。</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>下图左代表BMN只利用边界处的local信息进行边界判断，下图右代表DBG利用proposal级的全局信息进行整体的边界生成(可能利用了动作的模糊边界和持续时长信息)。体现了<strong>确定动作边界的过程也需要动作内部信息</strong>的思想。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/DBG_1.jpg" alt="DBG改进思路" loading="lazy"></li>
+<li>Video Representation阶段，依特定时间间隔将视频分割成L个片段，每个片段包含1帧RGB图像和5帧光流图像。</li>
+<li>PFG中，对L*C维的视频特征分开始、执行、结束三个区域进行采样，采样点分别设置为8、16、8个，将N=32个采样点的结果连结以得到输出特征。每个proposal上得到N*C维特征，遍历所有起始时刻和时间跨度后，PFG输出L*L*N*C维特征。非整数点采样方法参照BMN思路，此处不赘述。</li>
+<li>DSB中，计算每一个采样点及其邻域与GT的最大IoR(IoR = overlap with GT / region duration)，以0.5为阈值进行label二分类标记。训练时，利用三段二值逻辑回归(binary logistic regression)的结果来计算动作分类损失(actionness classification loss)来辅助监督；在测试时，动作分类损失不参与最后候选框的计算。</li>
+<li>ACR中，使用smooth-L1损失函数来测量当前候选框与GT的overlap，从而得到评估动作完整性的得分，每个候选框都是action completeness map中的一个点。</li>
+<li>在得到action completeness map后，进行map fusion以得到光滑而鲁棒的结果。对于起始点和终止点相同的候选框，对其概率计算均值得到每个点开始/结束的概率。对于开始结束时间分别为i，j的候选框(i, j)，该框最后的得分为P=P(start=i)*P(end=j)*P(ij框完整性得分)。</li>
+</ol>
+<ul>
+<li>
+<p>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为39.8%。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que：</p>
+</li>
+</ul>
+<ol>
+<li>和BMN的确有变化，取消了Boundary Probability Sequence，但是消融实验也没证明为啥要这么做啊？只是单纯地想看三个图？</li>
+<li>好好看看损失函数的设计，为什么这么设计？</li>
+</ol>
+<hr>
+<h3 id="6-2019-cvprmgg-multi-granularity-generator-for-temporal-action-proposal">(6) <a href="https://arxiv.org/abs/1811.11524">(2019 CVPR)MGG: Multi-granularity Generator for Temporal Action Proposal</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>特征金字塔网络(eg TAL-Net)的每一层都代表一个特定的时间跨度，但较低层特征缺乏高层语义信息，候选框定位不精准。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出端到端生成模型MGG，采用新颖的表示方法以集成视频特征和位置嵌入信息(position embedding information)。MGG在视频层面生成候选框的同时评估每一帧以生成动作得分。</li>
+<li>首次提出在特征提取处利用双线性匹配(bilinear matching)模型融合特征，以获取视频序列丰富的局部信息(local information)。</li>
+<li>提出类似U-Net的SPP网络以提出候选框。(针对痛点1改进)</li>
+</ol>
+<p>在THUMOS14和ActivityNet-1.3上达到了sota效果。</p>
+<ul>
+<li>
+<p>实现流程：<br>
+MGG网络的实现流程如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/MGG_1.jpg" alt="MGG流程图" loading="lazy"><br>
+该模型整体的网络结构在TAP任务中显得异常中规中矩：处理视频获取输入，利用BaseNet进一步提取特征，使用候选框产生器(Segment Proposal Producer, SPP)提取粗糙的候选框，使用图像动作得分产生器(Frame Actionness Producer, FAP)在精细尺度上获取每一帧的开始/结束/动作得分，最后利用时序边界调整模块(Temporal Boundary Adjustment, TBA)综合以上两步信息得到最终的准确的动作框输出。</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>利用C3D和双流处理视频，随后加上位置嵌入(position embedding)以明确描述序列位置信息。对于帧数为n的视频序列，其初始特征fn维度为n*df，则配套生成表示位置信息的特征pn，pn的维度为n*dp。pn的第i通道有表达式如下：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/MGG_2.jpg" alt="position embedding" loading="lazy"><br>
+将fn和pn连结以生成新的特征向量(维度n*dl，dl=df+dp)，输入BaseNet。<br>
+据作者所说，position embedding可以利用时序信息，对候选框边界的准确定位有帮助。😅</li>
+<li>BaseNet内部并非残差结构，特征只是经过两个相同卷积层，分别输出H1和H2，最后利用双线性模型融合H1和H2得到T。实现中使用因式分解加速计算：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/MGG_3.jpg" alt="因式分解" loading="lazy"><br>
+其中H^(1, n)维度为1*g，H(1, n)维度为1*dn，Wi维度为dn*g，bi维度为1*g。输出特征T的第i帧处有T(i, n)，其维度为1*1。共有n帧，Wi共有dh个，故最终输出T的维度为n*dh。</li>
+<li>提出了近U-Net结构、带跳连的候选框提出网络SPP，其网络示意图如下：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/MGG_4.jpg" alt="SPP" loading="lazy"><br>
+最开始的最大池化和卷积迅速将特征维度降至八分之一，在一定程度上增大了感受野。图中的卷积和反卷积的stride均为2。对于得到的金字塔特征fH，在不同尺度的金字塔子特征(fH0, fH1, fH2..)上应用anchor以获取候选框，候选框进后续的两个branch分别进行动作种类判断和边界回归。在动作种类判断branch，采用交叉熵损失函数，在边界回归branch，采用L1 smooth损失函数。<br>
+实验证明SPP的U结构有助于将高层语义信息传递到较低层，这对检测持续时长较短的动作大有帮助。</li>
+<li>FAP利用三个不共享权重的双卷积层获得各帧的开始/进行/结束得分。FAP采用交叉熵损失函数。</li>
+<li>TBA的双阶段结构综合了SPP和TAP的信息以得出最终输出：<br>
+Stage1. 对SPP得到的候选框进行NMS筛选，随后依据TAP得分调整候选框边界(将候选框开始/结束点调整至邻域内开始/结束得分最大的时间点)，最终得到候选框集合φ(p)。<br>
+Stage2. 利用动作进行得分，参照TAG论文(详见本博客第七篇分享论文)的思路得到候选框集合φ(tag)，计算φ(p)中候选框p与φ(tag)中所有元素的tIoU，如果有tIoU大于阈值的，以φ(tag)对应框替换p。</li>
+</ol>
+<ul>
+<li>
+<p>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为37.4%。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que：</p>
+</li>
+</ul>
+<ol>
+<li>这position embedding是在干个啥子...</li>
+<li>这篇文章除了最开始的position embedding和bilinear model，其余部分都平淡无奇，但偏偏效果刷到了sota。而从消融实验来看，这两部分的性能对模型的影响是最小的..SO😌</li>
+</ol>
+<hr>
+<h3 id="7-2017tag-a-pursuit-of-temporal-accuracy-in-general-activity-detection">(7) <a href="https://arxiv.org/abs/1703.02716">(2017)TAG: A Pursuit of Temporal Accuracy in General Activity Detection</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>不同于目标检测可以直接应用proposal+classification两段式处理，动作检测中，较长的动作持续时长让网络难以判断是否已窥到动作的全貌，完整动作与动作片段在判定上的模糊性影响了开始/结束时刻定位的精准程度。</li>
+<li>动作持续时长分布不一，故基于滑窗的方法常采用更多的窗尺度和更短的步长，造成了计算资源的浪费；同时在长时间跨度上进行卷积计算的代价也过于高昂。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出自底向上的候选框提出方法TAG(temporal actionness grouping)，对边界信息更加敏感。</li>
+<li>提出串联的分类网络以先后筛选掉background候选框和不完整候选框。</li>
+</ol>
+<p>在THUMOS14和ActivityNet-1.3上达到了sota效果，在较高IOU阈值的情况下效果尤佳。</p>
+<ul>
+<li>实现流程：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAG_1.jpg" alt="TAG" loading="lazy"><br>
+该模型先评估视频片段(snippet)的动作得分，随后使用TAG(temporal actionness grouping)算法生成动作候选框。候选框通过级联的分类器分别判断其是否为特定动作、检验特定动作的完整性。</li>
+<li>实现细节：<br>
+1.候选框生成作为一个自底向上的流程，主要分为三个步骤：提取片段，评估每个片段的动作得分，将片段聚类(grouping)成候选框。<br>
+<code>提取片段</code>：对视频以特定间隔提取图片，将图片及由其派生的光流特征一同组成片段。<br>
+<code>评估动作得分</code>：动作得分不在乎类别，只衡量视频片段内含有动作的概率，采用TSN(Temporal Segment Network)的网络结构训练了一个双流二分类分类器以实现功能。将有动作标记的片段置为正样本，无动作标记的背景置为负样本，调节数据比例为1:1。<br>
+<code>grouping</code>：为了实现对噪声的鲁棒性，需要模型能忍受偶尔的离群值(eg动作内部短暂的低置信度片段)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAG_2.jpg" alt="依据得分选取候选框" loading="lazy"><br>
+如上图所示进行聚类算法，首先设计一个动作阈值以得到较为确定是动作的片段，向后延展此步得到的片段；再设计一个容忍阈值以判断哪些片段定不是动作，在延展过程中遇到低于容忍阈值的片段即暂停延展。图中上半部分的动作阈值为0.7，容忍阈值为0.5；下半部分的动作阈值为0.9，容忍阈值为0.5。<br>
+易发现不同的阈值会生成不同的粒度的候选框，论文对两个阈值均匀采样，每对参数生成的候选框组成一个集合，对各集合元素进行NMS处理后取并集得到最终结果。<br>
+grouping优势：更关注动作内容，减少无用候选框的盲目生成；在新数据集上不需要手动调参；可以通过设置阈值组合进行不改变模型参数的训练。（但不得不说这网络特征工程的味道也太重了）</li>
+</ul>
+<ol start="2">
+<li>候选框筛选主要分两步，先在判断候选框动作类别的同时筛选掉背景框，再基于特定动作的完整性筛选掉不完整的框。<br>
+<code>是否为特定动作类别</code>：采用TSN提出的分类器，与特定动作IOU大于0.7的候选框视作正样本，与任意动作标注占比时长小于5%的候选框视作负样本，其背后隐含的道理是：那些小IOU但着实与GT有交集的候选框可能包含显著的动作片段，容易混淆判别器。这种策略可以帮助分类器更关注候选框是前景还是背景。<br>
+在测试时，先处理视频，对每一个片段进行动作类别判断，再把结果聚合到region-level来判断一个候选框是什么动作/背景。<br>
+<code>特定动作是否完整</code>：判断动作是否完整不能只看动作内部信息，还应该关注候选框内部不同部分的区别、候选框前后的视频信息。论文中搭建了如下模型以判断动作完整性：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TAG_3.png" alt="判断动作类别及完整性" loading="lazy"><br>
+一个双层金字塔结构：第一层对整个候选框内各片段(snippet)得分进行池化，如图深棕色；第二层对1/2候选框内各片段(snippet)得分进行池化，如图蓝色。前后片段的动作平均得分，如图绿色。论文中为每个动作训练了一个SVM分类器，逐个进行判断。（尽管现在看来，这种提特征的方式很简单甚至拙劣，但是金字塔结构、利用前后视频信息组成整体特征、利用分类器判断的思路还在一直延续被使用）<br>
+设判断动作类别的分类器给出置信度P，动作完整性得分为S，候选框的最终得分C= P * epx(S)。</li>
+<li>论文的实验结果证明，在判断特定动作是否完整时，基于deep learning方法的整体性能优于基于动作时长的试凑法。手工设计的动作完整性评估法有着特征工程的味道，例如在分类结果得分上乘以T^^α，T为片段持续时长，α为0.7，可以在ActivityNet上获得很好结果；在分类结果得分上乘以候选框的持续时长，可以在THUMOS14上获得很好结果。但基于深度学习的方法可以在两个数据集上均获得很好结果。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为28.2%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>大力鼓吹判断动作完整性是不是因为当时没有开始进行结束得分？分析一下，进行得分不足以判断所有？为啥还要搞一个开始得分和结束得分?</li>
+<li>筛选候选框级联的两个分类器，判断是否为动作的分类器，为啥设计这个负样本策略？直接IOU很小不好么。</li>
+</ol>
+<hr>
+<h3 id="8-2017-iccvr-c3d-region-convolutional-3d-network-for-temporal-activity-detection">(8) <a href="https://arxiv.org/abs/1703.07814">(2017 ICCV)R-C3D: Region Convolutional 3D Network for Temporal Activity Detection</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有的基于Temporal Aaction Proposal/滑窗的方法，计算效率均较低。</li>
+<li>作者认为，图像/视频分类任务训练好的特征提取模块(eg VGG/ResNet/C3D)，在不同视频域的动作检测任务上迁移性不佳。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出端到端的3D区域卷积网络模型(Region Convolutional 3D Network, R-C3D)，实现候选框生成到动作分类的全流程，且该模型迁移性较好。</li>
+<li>通过共享候选框生成和动作分类两阶段的全卷积C3D特征，节约计算量，在原最快方法的基础上将速度提升了五倍。<br>
+(总体来说，作者认为TAP和分类不应分开，故设立一个端到端网络同时学习两部分知识；作者认为2D卷积的特征提取法缺少时序信息，故采用3D卷积希望学到新的联系。)<br>
+在THUMOS14上达到了sota效果，且运行速度大幅超过原有方法。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/R-C3D_1.png" alt="实现流程" loading="lazy"><br>
+使用R-C3D网络的三通道全卷积网络对视频进行编码，提出动作候选片段，随后利用候选片段边界处的池化特征进行边界校准，再进行分类。</li>
+<li>实现细节：<br>
+如下图所示，主要具体分为三个部分：3D卷积特征提取模块，候选框生成模块、动作框校正与分类模块。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/R-C3D_2.png" alt="实现细节" loading="lazy"></li>
+</ul>
+<ol>
+<li>对于3*L*H*W维度的视频输入，将其通过C3D提出的3D ConvNet网络的卷积层(conv1a-conv5b)，得到512*(L/8)*(H/16)*(W/16)维度的输出。其中输入视频时长L只取决于内存。</li>
+<li>在Proposal Subnet部分基于anchor思路生成候选框。具体为，对512*(L/8)*(H/16)*(W/16)维度的输入，过一个3*3*3的3D卷积层和一个1*(H/16)*(W/16)的3D最大池化层，得到512*(L/8)*1*1维度的输出，再在每个时间点采用K个pre-defined的anchor，最终得到(L/8)*K个512维的候选片段。<br>
+将IoU&gt;0.7或最大IoU的片段标注为包含动作的正样本，将IoU小于0.3的片段标注为背景负样本，选取1:1的正负样本进行训练。</li>
+<li>在Classification Subnet部分，先对上一步得到的片段进行贪心NMS操作；随后对得到的任意长的片段进行3DRoI池化操作(近似Faster R-CNN，将任意维度的输入切块、池化以得到特定维度的输出，具体输入为3D ConvNet在特定片段区域下的特征)，注意此处原论文图片有误，本博客附图以蓝色箭头对该特征传递过程进行修正；最后在特定大小的特征后接全连接层，分别进行类别判断和边界回归。<br>
+将IoU&gt;0.5或最大IoU的片段标记其动作类别，将IoU小于0.5的片段标记为背景负样本，选取1:3的正负样本进行训练。</li>
+<li>分类时采用softmax损失函数，边界回归采用L1损失函数，二者联合进行优化。其中边界回归的输入指向anchor框与ground truth框在中心位置和持续时长的差异。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/R-C3D_3.png" alt="损失函数" loading="lazy"><br>
+不同于流程图所示，Proposal Subnet损失函数为上式，进行二分类和边界回归，Classification Subnet损失函数也为上式，进行多分类和边界回归，实际上是四个loss联合优化。</li>
+<li>实际实现中，受限于内存，会将长视频切分成几段；对较短视频进行最后一帧的pad操作以延长；在inference生成结果的时候也采用了小阈值(0.1)的NMS操作。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为28.9%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="9-2018-eccvctap-complementary-temporal-action-proposal-generation">(9) <a href="https://arxiv.org/abs/1807.04821">(2018 ECCV)CTAP: Complementary Temporal Action Proposal Generation</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>sliding window ranking方法和actionness score grouping方法各有各的优缺点。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CTAP_1.png" alt="方法比较" loading="lazy"><br>
+sliding window + proposal ranking + boundary adjustment方法边界不够准确，高召回率也是建立在大量检出proposal基础上的，如图中SW+R&amp;A所示；<br>
+unit-level actionness方法边界相对准确，但对actionness score精度要求极高(精度不高时会<strong>生成错误候选框、忽略正确框</strong>)，这也限制了其AR值的上限，如图中TAG所示；<br>
+一种融合方式是在unit-level actionness based方法后接一个window-level的分类器以进行候选框排序、边界回归，可以有效减少错误候选框的生成，但<strong>无法解决忽略正确框的问题</strong>，如图中TAG+R&amp;A所示。<br>
+本论文的主要思路是，在滑窗得到的proposal中收集于actionness方法中可能被忽略的正确框，并将其补加回来。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>针对痛点1，提出新的互补融合(actionness proposals + sliding windows)方法CTAP，以生成高质量候选框。</li>
+<li>基于时空卷积，设计新的边界调整(boundary adjustment)和候选框排名(proposal ranking)网络TAR，以高效存储候选框边界的序列信息。</li>
+</ol>
+<p>在THUMOS-14和ActivityNet v1.3上达到了sota效果。</p>
+<ul>
+<li>实现流程：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CTAP_2.png" alt="CTAP网络结构图" loading="lazy"><br>
+如流程图所示，CTAP主要由三部分组成。先通过actionness和滑窗生成候选框；再基于PATE对TAG方法准确性进行判断，将可能判错的部分用滑窗代替；提出TAR网络进行最后的边界回归和候选框排名。</li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>候选框生成：在生成候选框阶段，先将视频切成无数等长片段，使用双流CNN提取unit-level特征，基于交叉熵训练二分类器，对片段属于动作的概率进行判断，随后采用TAG(分水岭)算法+NMS的方式生成基于特征的候选框bj；再加上滑窗得到的候选框ak组成全体候选框集合。</li>
+<li>候选框互补滤波(Proposal Complementary Filtering)：在滑窗得到的proposal中收集于actionness方法中可能被忽略的正确框，并将其补加回来。<br>
+PATE(Proposal-level Actionness Trustworthiness Estimator)：核心思路为训练一个二分类器，输入proposal对应的unit-level特征，输出其可以正确被TAG算法识别的概率。<br>
+二分类器训练方法：将GT中有bj框对应的置为正样本，没有bj框对应的置为负样本，采用交叉熵损失函数进行训练。<br>
+二分类器测试方法：将ak内所有框的特征输入网络，如果输出的概率低于阈值(这个框可能被TAG网络忽略)，则将这个框收集起来，最后收集得到ak的候选框子集pt(ak)，将pt(ak)和bj集合取并集得到最终的候选框集合cm。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CTAP_3.png" alt="PATE结果" loading="lazy"><br>
+实验证明PATE(pt(ak)+bj)优于(ak+bj)，后者会添加过多低质量候选框；PATE(pt(ak)+bj)优于NMS(ak+bj)，后者忽视了候选框的优先级，直接的NMS操作可能会用高分不准确的滑窗框代替低分却精准的actionness框，而PATE则只会在actionness表现不佳时考虑滑窗框；tIoU同上。</li>
+<li>设计动作判别网络TAR，输入候选框cm，输出候选框包含动作的概率和回归边界。<br>
+对于cm内的候选框，将候选框单元(proposal units)和边界单元(boundary units)分别输入三个独立的子网络，proposal对应的子网络输出动作的概率，边界修正子网络输出边界回归的offset。<br>
+论文认为，TURN采用池化聚合特征会忽略边界时序信息，故采用基于时序卷积(temporal conv)的TAR网络来提取特征。<br>
+训练TAR网络时，对于滑窗得到的候选框ak，将与GT的tIOU大于0.5的框/与某一GT框tIoU最大的框视作正样本。采用Softmax交叉熵训练proposal子网络，采用L1 loss训练边界回归子网络。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为29.9%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="10-2016-cvprscnn-temporal-action-localization-in-untrimmed-videos-via-multi-stage-cnns">(10) <a href="https://arxiv.org/abs/1601.02129">(2016 CVPR)SCNN: Temporal Action Localization in Untrimmed Videos via Multi-stage CNNs</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>前人的TAL任务做的不够好。</li>
+<li>NMS时，常选取与GT IoU小但得分高的候选框，错误地抛弃了与GT IoU大但得分稍低的候选框。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>首先提出用3D卷积+多阶段处理来解决TAL任务。</li>
+<li>提出多阶段Segment-CNN网络结构，分别实现候选框提取、动作识别。</li>
+<li>针对痛点2，提出了考虑overlap的loss。</li>
+</ol>
+<p>在THUMOS-14和MEXaction2上达到了sota效果。</p>
+<ul>
+<li>实现流程：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SCNN_1.png" alt="SCNN流程图" loading="lazy"><br>
+生成候选框，将具体片段输入Segment-CNN网络，利用localization网络的得分进行NMS操作以得到最终结果。</li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>在Segment-CNN中，三个网络(proposal，classification，localization)均采用C3D网络作为基本结构，只在最后一层全连接层时因任务不同而选用不同的结构；同时三个网络的输入均为以6种proposal长度+75%overlap滑窗+降采样到16帧方式生成的候选框。</li>
+<li>proposal network：依据IoU将数据分为正负样本进行训练，输出样本为动作/背景的概率，损失函数为softmax。</li>
+<li>classification network：仅在训练阶段使用，输出样本为K类动作/背景的概率，损失函数为softmax。将其作为localization网络的初始化model（可认为受限于模型性能，在相同的网络结构下，先用简单loss和数据训练出一个分类器，再在此基础上用复杂loss和数据finetune出一个高级分类器，测试时只使用高级分类器）。</li>
+<li>localization network：输出样本为K类动作/背景的概率，损失函数为Loss = Loss_softmax + Loss_overlap，其中后者表达式如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SCNN_2.png" alt="localization损失函数" loading="lazy"><br>
+其中，kn代表动作种类，P代表网络对该动作类别的动作得分，v代表该片段与GT的IoU，这种损失函数的设计使得网络倾向于拒绝v较小的片段。</li>
+<li>在测试时，将proposal network得分大于0.7的候选框传给localization network，利用localization network的得分进行NMS操作以得到最终结果。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为19.0%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="11-2020-aaaipbr-net-progressive-boundary-refinement-network-for-temporal-action-detection">(11) <a href="https://aaai.org/Papers/AAAI/2020GB/AAAI-LiuQ.4870.pdf">(2020 AAAI)PBR-Net: Progressive Boundary Refinement Network for Temporal Action Detection</a></h3>
+<ul>
+<li>背景概述：</li>
+</ul>
+<ol>
+<li>不准确的边界是影响目前TAD性能的最关键因素，对此的改进方法主要为边界回归和frame-level score校正两种。<br>
+边界回归方法中，一类经典而有效的方法是循环回归(将输出的边界作为新输入输回网络执行新一轮的回归)，另一类常见方法是基于two-stage结构(类比Faster RCNN)完成边界回归(但额外的生成框阶段会降低检测速度)。然而以上方法均不能在细粒层面很好地得到精确边界。<br>
+frame-level score方法中，评估每一帧的得分，再应用阈值等方法去决定候选框。这种方法得到的边界是细粒的，但是十分仰仗选择策略和预设的阈值。</li>
+<li>类比目标检测的两大派系：two-stage方法中，如R-CNN算法，先通过<strong>启发式方法或CNN网络</strong>产生一系列<strong>稀疏</strong>的候选框(例如Faster RCNN的RPN是通过CNN在预设acnhor上校正和筛选)，再对这些候选框进行分类与回归；one-stage算法中，如YOLO和SSD，先在图片所有位置进行<strong>均匀地密集采样</strong>(例如anchor)，再对采样结果经CNN提得的特征全部进行分类与回归。(例如YOLOv3是将所有预设anchor提得的特征输入网络进行分类回归)。简而言之，two-stage的候选框是相对稀疏的，是经过筛选的；one-stage的候选框是密集的、基本无处理的。<br>
+one-stage和two-stage的核心区别是，one-stage中特征提取、候选框生成、分类和回归是同一个网络，two-stage中候选框生成是一个单独的网络。从CNN网络数/运行速度角度进行分析，除图像提取的CNN(feature extractor)之外，two-stage跑了两个CNN，一个用于筛选候选框，一个对特征进行分类和校正；one-stage只跑了一个CNN，对用预设策略得到的候选框的特征进行分类和校正。<br>
+目前的动作检测的研究方向也主要分两类：一类应用two-stage框架，分别研究proposal（如何提出更高质量的框）和classification（如何更好地分类），大家常对两个网络分开训练；一类应用one-stage框架，直接对预设片段提取特征、回归和分类。</li>
+</ol>
+<p>本文则是在基于anchor的端到端one-stage网络中，用特征提取网络的中间结果对anchor进行循环回归式的渐进校正。整体框架是one-stage的，但这个对候选框进行校正和微调的部分有two-stage的味道(单开网络筛选框就是名副其实的two-stage了)，作者认为这样的网络是对两种方法的一种融合。</p>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出端到端的one-stage网络PBRNet，设计三个串联的的回归模块渐进地修正边界信息，同时融合了frame-level细粒度特征和anchor-based方法。在大幅刷新sota精度的同时，有较好的检测速度。</li>
+<li>打破了TAD任务two-stage准确度定优于one-stage的错误想法。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+流程图如下所示，PBR-Net整体结构为类U-Net结构，其中加入融合模块(fusion block)FBv1和FBv2以融合不同层的信息。<br>
+PBR-Net包含三个级联的回归模块以渐进地定位边界：模糊金字塔检测模块(coarse pyramidal detection, CPD)，校正金字塔检测模块(refined pyramidal detection, RPD)和细粒度检测模块(fine-grained detection, FGD)。三个模块不断回归，渐进校正，利用不断丰富的特征信息将边界从粗糙打磨到细致。<br>
+前两个模块建立了对称的特征金字塔，在多尺度上执行anchor-based的检测（其实就是U-Net型结构）；最后一个模块基于frame-level特征对每一个action candidate进行细粒度边界校正，同时提出了三个分类branch。在frame-level预测时更新每一个anchor的分类得分。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/PBR_1.png" alt="PBR-Net网络结构" loading="lazy"></li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>特征提取：视频数据被裁剪成Length*Height*Width的片段(H=W=96)，选用I3D网络在最后一个均值池化前的层作为backbone，提取得到Length/8*Height/32*Width/32的特征。</li>
+<li>模糊金字塔检测模块(coarse pyramidal detection, CPD)：该模块处特征不断降采样，不同尺度的特征对应不同长度的动作。在长度为N特征的每个时刻划K个候选框，得到KN个候选框。同时对金字塔特征的每一层，采用kernel为3*3*3的3D卷积进行分类和边界回归(返回offset)。<br>
+如图上方所示，蓝色箭头表示特征进行3D卷积后的分类和offset结果，橙色箭头表示对预设anchor的校正。此时得到了一阶段结果：预设anchor经校正后的候选框，但由于此时的较低层layer特征缺乏语义级信息，较高层layer特征缺乏详实细节，故此时输出的只是粗糙边界，需要进一步处理。</li>
+<li>校正金字塔检测模块(refined pyramidal detection, RPD)：为丰富CPD的细节，RPD在不断的上采样的同时进行特征融合(类比U-net的shortcut)，融合时使用的FBv1网络结构如下图左所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/PBR_2.png" alt="FB网络结构" loading="lazy"><br>
+在FBv1中，先对RPD上一层的特征进行3D反卷积，对CPD更高层的特征进行卷积，再将二者相加。<br>
+由于CPD和RPD结构对称，故直接将CPD的输出框作为RPD的候选anchor，同样再对其进行分类和边界回归，以得到RPD输出的相对精细的候选框。</li>
+<li>细粒度检测模块(fine-grained detection, FGD)：FGD是用来对候选框进行更细粒度的校正的。此处首先使用FBv2网络进行特征融合(结构图见上图右侧)，注意此处的特征一部分是RPD的输出，一部分直接是raw input(认为其可以补充空间细节)，将分别经过卷积/反卷积的两部分进行特征融合，FBv2输出的特征就是最终的frame-level特征。将frame-level特征过三个由kernel为3*3*3的3D卷积和softmax组成的分类branch，分别输出每一帧在第K类动作的动作得分、开始置信度和结束置信度(图示即为第K类动作的三条曲线)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/PBR_3.png" alt="FGD边界校正" loading="lazy"><br>
+如下图所示，使用frame-level特征校正RPD输出候选框的开始时刻s和终止时刻e，动作持续时长s=e-t，利用空洞3D卷积(temporal dilated 3D conv)处理以s/e为中心，跨度为s/8的视频段，输出对应的offset，调整后得到最终输出。由此实现了frame-level特征对anchor-based候选框的校正，也便是一直提到的frame-level和anchor-based的融合。<br>
+将最终候选框映射回FGD中frame-level分类branch处，记录该候选框起始点/结束点在第k类动作下的得分<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>p</mi><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow><mi>k</mi></msubsup></mrow><annotation encoding="application/x-tex">p_{start}^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.096108em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>p</mi><mrow><mi>e</mi><mi>n</mi><mi>d</mi></mrow><mi>k</mi></msubsup></mrow><annotation encoding="application/x-tex">p_{end}^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.132216em;vertical-align:-0.2831079999999999em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-2.4168920000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">d</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2831079999999999em;"><span></span></span></span></span></span></span></span></span></span>；结合CPD和RPD对该候选框的第k类动作分类得分，将四个值相乘以得到最终该框在第k类动作下的的得分。</li>
+<li>实现细节<br>
+分别设计三个IoU阈值以判定三个模块中什么样的anchor为正样本，当然，阈值是逐渐上升的，这也是涨点的措施之一；<br>
+分类使用classification损失函数，回归使用平滑l1损失函数；<br>
+为了平衡正负样本，在将anchor从一个模块传到下一个模块前会执行以下两步操作：根据上一模块在分类时的得分，仅保留背景分类得分较低(低于阈值)的动作候选框，即保留尽可能多的动作框，舍弃过于明显的背景框；使用hard sample mining策略，仅保留有大loss值的背景框，尽可能使正负样本数均衡；<br>
+论文尝试用过双流，效果有轻微提升；</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为51.3%。（都是2020AAAI，你怎么比DBG涨了12个点）。但有一说一，就像TAL-Net一样，模型在THUMOS上表现超群，但在ActivityNet上表现相对正常，仅是刚超了零点几个百分点的sota。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="12-2017-acm-multimediasingle-shot-temporal-action-detection">(12) <a href="https://arxiv.org/abs/1710.06236">(2017 ACM multimedia)Single Shot Temporal Action Detection</a></h3>
+<ul>
+<li>针对痛点：<br>
+目前的动作检测算法均是two-stage(proposal+classification)的，作者认为尽管proposal阶段提出了框，也需要在后续的classification阶段重新校正，有点重复操作的意思。</li>
+<li>主要贡献：<br>
+首将one-stage网络迁移到视频动作检测(无proposal阶段)，探究了输入特征种类、网络结构、预处理策略等相关配置。<br>
+达到了当时的sota精度，在THUMOS-14数据集IoU=0.5时达到了24.6%的mAP。</li>
+<li>实现流程：<br>
+本论文主要流程如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SSAD_1.png" alt="流程图" loading="lazy"><br>
+给定未裁剪的长视频，通过多个动作分类器提取片段级的动作得分(Snippet-level Action Score，SAS)特征序列，将特征输入SSAD网络并直接输出多尺寸的动作实例(起始时刻+类别)。</li>
+<li>实现细节：<br>
+具体实现的流程图如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/SSAD_2.png" alt="实现流程图" loading="lazy"></li>
+</ul>
+<ol>
+<li>特征提取：对于不同长度视频，先用特定长度窗口截得等长视频，再将其转为片段(snippet)。第t个片段包括第t帧的图像信息，以第t帧为中心的8帧的光流信息，以第t帧为中心的16帧的视频信息。(对等长视频进行pad操作使snippet个数与等长视频帧数相同)<br>
+随后以多个动作分类模型去提取多粒度的特征，第t帧及对应光流信息进双流网络的Spatial和Temporal分支，连续的视频信息进C3D网络。对每个片段，三个独立的分类器都给出了该片段对应K+1类的概率(K类动作+背景)，随后对结果进行简单的concatenate操作构建SAS特征<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mrow><mi>S</mi><mi>A</mi><mi>S</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{SAS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>(Snippet-level Action Score)。对一段时长为T的视频，提取后的特征大小是是T*3*(K+1)。</li>
+<li>SSAD网络<br>
+如图所示，SSAD网络包括三个部分，分别是基本层(base layer)，anchor层(anchor layer)和预测层(prediction layer)。SSAD网络中的卷积都是一维时序卷积(1D temporal conv，空洞卷积，因果卷积)，池化也是时序最大池化。<br>
+在base layer中，连续进行两次conv(9/1)+pool(4/4)操作，输出(T/16)*256大小的特征；<br>
+在anchor layer中，对于尺度为M*512的特征，在M个时刻中心分别设计D个anchor；<br>
+在prediction layer中，输出anchor的分类得分(称为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mrow><mi>c</mi><mi>l</mi><mi>a</mi><mi>s</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{class}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)、offset和与anchor对应GT的overlap，输出特征的大小为M*D* (K+1+3)，其中3代表开始、结束时刻的offset和overlap（论文原文如下：与one-stage目标检测任务对应，采YOLO和SSD所长：YOLO预测种类置信度、offset 和overlap，SSD采用多尺度的anchor。但个人印象中YOLOv3不需要overlap，且也有多尺度anchor，故此处行文有待商榷）。如图所示，该层最终输出矫正后的anchor框。<br>
+其中，base layer降低了特征的维度，增大感受野，且实验表明大卷积核比多层小卷积核效果更佳，最大池化比时域卷积更佳；anchor layer渐进地降低特征维度，从而使网络在多尺度上进行预测。</li>
+<li>预测和后处理<br>
+在inference过程中，对于每一个动作window，其得分为由三部分组成，一部分源于SAS特征<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mrow><mi>S</mi><mi>A</mi><mi>S</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{SAS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，为window内部帧在三个分类器下各时刻得分的平均值；一部分源于prediction layer输出的anchor分类得分<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mrow><mi>c</mi><mi>l</mi><mi>a</mi><mi>s</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{class}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>；将以上两者相加，最后乘以prediction layer输出的overlap得分，即为最终得分；<br>
+在选择出表现最佳的anchor后，进行NMS操作。</li>
+<li>训练过程<br>
+训练时使用hard negative mining策略；<br>
+损失函数包括以下几个部分，基于softmax的动作分类损失、基于MSE的overlap损失、基于Smooth L1的边界回归损失和L2正则损失，其中overlap是为了进行后续的NMS操作；</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，mAP为24.6%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>该方法用了action recognition网络提好的动作分类得分，有点高维打低维的感觉，但最后好歹还是用一个网络综合了上述信息，也算是一种借力吧。</li>
+<li>拓展思路，图像分类网络可以用于目标检测，故动作识别(action recognition)任务的分类网络可以用于动作检测。</li>
+<li>本篇论文把特征提取和动作检测分开了，这样网络可以处理更高级的特征，也更容易训练，作者也希望之后的发展方向是将特征提取网络和后边的主干网络融合，做一个端到端一步训成的网络。</li>
+</ol>
+<hr>
+<h3 id="13-2020-trans-on-cyberneticsrecapnet-action-proposal-generation-mimicking-human-cognitive-process">(13) <a href="https://pure.ulster.ac.uk/en/publications/recapnet-action-proposal-generation-mimicking-human-cognitive-pro">(2020 Trans on Cybernetics)RecapNet: Action Proposal Generation Mimicking Human Cognitive Process</a></h3>
+<ul>
+<li>针对痛点：<br>
+以往的TAP任务主要基于特定尺度的滑窗或anchor的方法生成候选框，这种方法本身具有低效性；同时由于输入视频长度任意，动作长度任意，基于定长框的方法存在一定不可行性。</li>
+<li>写在前边：<br>
+针对痛点1，常对应的解决思路是anchor-free体系，这种思路下，结果的精准程度十分仰仗对每一时刻得分的评估及人为设计的筛选策略。<br>
+如下图，人类对动作信息的判断有滞后性，例如常在t1时刻才认识到t0时刻动作已开始，t3时刻才认识到t2时刻动作已结束，这是因为人需要接收足够的信息来做决定。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Recap_1.png" alt="人的滞后性" loading="lazy"></li>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>本文提出模仿人类认知视频信息过程的RecapNet，利用因果残差卷积模块(residual causal convolution)回顾并保留对临近过往视频信息的记忆，并基于此，利用整体动作概率筛选机制(joint probability actionness density ranking mechanism)在全局提取候选框。</li>
+<li>RecapNet网络可以处理任意长度的视频信息。</li>
+</ol>
+<p>在THUMOS-14和ActivityNet-1.3上达到了sota精度。</p>
+<ul>
+<li>实现流程：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Recap_2.png" alt="流程图" loading="lazy"></li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>特征提取：<br>
+将视频裁剪成定长，随后采用双流I3D方法提取视频的spatial和temporal特征，并对其进行concatenate操作。</li>
+<li>因果残差卷积模块(residual causal convolution，RCCM)：<br>
+causal指卷积层只关注当前帧之前的信息，如下图展示causal conv和普通conv的区别。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Recap_3.png" alt="空洞卷积" loading="lazy"><br>
+提出的因果残差卷积模块RCCM网络结构如下图右所示，RCCM中使用的空洞卷积示意图如下图左所示。在t时刻，由于卷积层处理了最邻近K帧的视频信息，故RCCM可在t时刻输出3*K尺度的特征，表征t时刻前K帧的动作开始/结束/进行得分。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Recap_4.png" alt="RCCM" loading="lazy"></li>
+<li>动作边界判定：<br>
+在t时刻，卷积层处理t-K+1至t时刻的特征，相当于保留了对前K帧的短暂记忆；同理，在t时刻，我们也可以得到t至t+K-1时刻对该帧情况的判断，相当于对后人的结果进行汇总和回溯，有盖棺定论的味道。<br>
+基于t至t+K-1时刻的结果，我们对第t帧进行如下判断，此处的筛选策略有二，以动作开始为例：<br>
+一是投票策略，计算K个结果中高于阈值得分的得分个数，如果个数超过特定值，此设为候选。此方法避免少数值对整体结果产生影响；<br>
+一是局部最大值策略，计算t时刻在K个结果下的开始得分均值，若得分均值比t-1时刻和t+1时刻的得分均值都高，将此设为候选。<br>
+如此，我们得到了开始时刻的集合S，结束时刻的集合E，将两个集合所有元素一一组合，即为所有的候选框。（此处的限制是结束时刻应晚于开始时刻，同时有一个论文中没强调，但从BMN处学来的trick：设计候选框长度阈值，不能多长的框都要的）</li>
+<li>整体动作概率筛选机制(joint probability actionness density ranking mechanism)：<br>
+动作的开始和结束只是一方面，我们还需要基于动作持续得分(actionness score)来进一步筛选，例如一个候选框含有两个动作，那两个动作间的背景部分注定动作得分较低，那这个候选框就应该被去除。整体动作概率筛选机制先计算框p的平均动作持续得分，再乘上框p的平均开始得分和平均结束得分，以最终得分作为筛选依据去拒绝掉那些不能很好coverGT的框。</li>
+<li>网络训练：<br>
+标签标注：将开始/结束时刻延展至开始/结束区域，特定区域内即打标签；<br>
+样本平衡：通过在损失函数中加上二值mask以将部分样本在BP中忽略，尽可能平衡正负样本数相同；<br>
+损失函数：损失函数统计动作开始、结束和持续的得分，采用交叉熵损失函数。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+虽然paper没有公布，但是和大师兄确认后得到了数据：在THUMOS-14数据及IoU=0.5时，mAP为50.4%。</li>
+<li>改进/Challenge/idea/Que：<br>
+既然回顾的recap不错，那么整段放到网络岂不是更好？这种也是一种别样的滑窗，只是从滑anchor变成了滑检测网络。<br>
+补充判定策略，例如动作持续得分一直不能低于某个阈值。<br>
+这个ranking机制能不能通过一个网络替代一下，就是走feature途径；</li>
+</ul>
+<hr>
+<h3 id="14-2018-cvprprecise-temporal-action-localization-by-evolving-temporal-proposals">(14) <a href="https://arxiv.org/abs/1804.04803">(2018 CVPR)Precise Temporal Action Localization by Evolving Temporal Proposals</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有方法在精准边界定位方面仍不尽如人意。</li>
+<li>不同于目标检测的物体有固定边界，动作检测因为其连续图像的区别较为微小，故动作和背景的界定较为模糊和主观，这使得基于frame-level score的方法在边界回归时容易出错。</li>
+<li>动作的多样性和复杂性使得动作片段的识别变得十分困难。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出三阶段候选框生成网络ETP，基于不同粒度的特征(unit-based feature和non-local pyramid feature)，进行多阶段候选框回归，得到的动作边界较为精准。<br>
+在THUMOS-14数据集上达到了sota精度。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+一阶段的Actionness Network通过帧级特征(frame-level feature)生成候选框；二阶段的Refinement Network在候选框内裁取unit，基于其特征对候选框进行进一步校正；三阶段的Localization Network对二阶段候选框提取non-local特征，输出最终候选框及相应得分。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/ETP_2.png" alt="流程图" loading="lazy"></li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>Actionness Network(AN)：先将视频的每一帧输入AN网络以计算frame-level score。输入时长为T的视频，输出每帧图像在k类动作下分别的得分，共T*K个。<br>
+考虑到动作检测任务的复杂性，论文想使用基于frame-level和class-specific的注意力特征(与关注整张图像与近邻图像显著性差异的注意力机制相对)，故采用图像分类(image classification)预训练网络作为AN的特征提取网络，实践中使用ImageNet预训练+UCF101fine-tune的ResNet架构图像分类网络。<br>
+同时依据frame-level score，采用特定算法生成初始候选框，算法的核心思想包括：将正常得分曲线和高斯平滑后的得分曲线均过一遍算法，二者结果取并集作为候选框；包含动作的视频片段需由多个动作得分高于阈值的帧组成；候选框的最小/最大长度受限；融合有交叉的高得分候选框；对最终候选框进行NMS操作。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/ETP_3.png" alt="算法" loading="lazy"><br>
+ps1：很多论文就只做到这一步，即特征提取网络和筛选策略，本文可以理解为大杂烩吧，融汇了很多方法。<br>
+ps2：个人对于注意力机制很是反感，可能是因为那两年的章不管怎么做最后都加个Attention水一下吧。简单类比，注意力机制可近似理解为对图片的显著性视觉刺激。</li>
+<li>Refinement Network(RN)：RN网络基于RNN方法，利用上下文信息对AN输出的候选框进行校正。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/ETP_1.png" alt="RN" loading="lazy"><br>
+对每一个候选框(start, start+length)，先扩展到(start-length/2, start+3*length/2)，再对扩展后的框依固定的步长(stride)和时长裁剪出许多视频单元(unit)，借鉴王小龙那篇&quot;Non-local neural networks&quot;的思路，在提取每个unit特征时得到unit-level的non-local pyramid feature，再将各个unit的特征输入BiGRU网络中(GRU作为RNN的一个变种，可以将任意长度的输入编码成特定长度的输出。BiGRU作为GRU的一种，可以接收任意个unit的特征，处理完最后一个unit后BiGRU的状态即为输出)，随后采用全连接层处理BiGRU输出的特征，得到对候选框的中心和持续时长的offset，即对AN网络结果的进一步回归。</li>
+<li>Localization Network(LN)：LN网络采取SSN网络作为backbone，并在网络最后一层前加了non-local层。LN网络输入RN的候选框，由分类器输出最终的候选框和对应得分。<br>
+分类器由三种损失函数构成：利用正负样本和交叉熵损失函数判定动作种类(K动作+1背景)，利用正样本和不完全样本二分类判断动作是前景还是背景(non-local特征在此方面表现卓越)，利用正样本训练回归模型（正样本：IoU大于0.7；负样本：IoU小于0.1；不完全样本：IoU介于0.3和0.7之间）。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+在THUMOS-14数据集IoU=0.5时mAP为32.4%。</li>
+<li>改进/Challenge/idea/Que：<br>
+Actionness Network其实就是SSN中提出的TAG方法；在unit-level上做regression效果比frame-level上要好在TURN中已得到应用；pyramid特征获取上下文信息，non-local特征扩大感受野等也被人用过。整个模型可以看成是TAG+TURN+RNN的缝合怪，但效果尚可。</li>
+</ul>
+<hr>
+<h3 id="15-2017-bmvccascaded-boundary-regression-for-temporal-action-detection">(15) <a href="https://arxiv.org/abs/1705.01180v1">(2017 BMVC)Cascaded Boundary Regression for Temporal Action Detection</a></h3>
+<ul>
+<li>针对痛点<br>
+滑窗得到的proposal可能包含动作中具有显著特征的部分，但可能不能包含完整动作或包含外来的背景帧。</li>
+<li>主要贡献<br>
+首先提出时序坐标回归方法；提出CBR(cascaded boundary regression)方法进行级联式的渐进边界回归，即将回归后的片段再度输回网络进行进一步的回归，这种方法在TAP和TAD任务上都有较明显的效果，达到了当时的sota效果。</li>
+<li>实现流程<br>
+如下图所示，提出two-stage的CBR网络，输入动作片段，一阶段的proposal网络输出对开始/结束时刻回归的offset和该片段的动作得分(无视动作类别)，若得分高于阈值，将校正后的片段输入二阶段的detection网络，输出K+1类动作下的具体动作得分和K类动作对应的offset。两阶段内均对候选框的边界进行串联的渐进回归。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CBR_1.png" alt="CBR流程图" loading="lazy"></li>
+<li>实现细节</li>
+</ul>
+<ol>
+<li>特征提取<br>
+将视频裁剪成多个不重叠的单元(unit)，采用C3D和双流CNN网络进行对应片段的特征提取。一个片段(clip)由多个unit组成，这些unit称为内部单元(internal unit)，clip前后的、用于边界回归的unit被称为语义单元(context unit)，对上述两种单元分别进行池化，得到clip对应的内部特征和语义特征。</li>
+<li>时序坐标回归<br>
+对于边界回归，以往的工作主要使用参数化的坐标偏移量(parameterized coordinates offsets)，即先对候选框的中心位置和长度进行参数化(由此可推导得到候选框边界坐标)，再基于中心和长度坐标表示具体的偏移量。例如<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>O</mi><mi>x</mi></msub><mo>=</mo><mo>(</mo><msup><mi>x</mi><mrow><mi>g</mi><mi>t</mi></mrow></msup><mo>−</mo><msup><mi>x</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup><mo>)</mo><mi mathvariant="normal">/</mi><msub><mi>l</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msub><mo separator="true">,</mo><msub><mi>O</mi><mi>l</mi></msub><mo>=</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>(</mo><msup><mi>l</mi><mrow><mi>g</mi><mi>t</mi></mrow></msup><mi mathvariant="normal">/</mi><msup><mi>l</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O_x = (x^{gt} - x^{clip}) / l_{clip}, O_l = log(l^{gt} / l^{clip})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.043556em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.1352159999999998em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0991079999999998em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。<br>
+本文的思路是直接进行具体坐标的回归。由于GT的标注单位常常是秒，故先利用FPS计算得到开始/结束时刻对应帧，再通过unit长度和取整操作确定开始/结束时刻对应的unit索引，随后进行精细的坐标回归：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>O</mi><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><msup><mi>t</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup><mo>−</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><msup><mi>t</mi><mrow><mi>G</mi><mi>T</mi></mrow></msup><mo separator="true">,</mo><msub><mi>O</mi><mrow><mi>e</mi><mi>n</mi><mi>d</mi></mrow></msub><mo>=</mo><mi>e</mi><mi>n</mi><msup><mi>d</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup><mo>−</mo><mi>e</mi><mi>n</mi><msup><mi>d</mi><mrow><mi>G</mi><mi>T</mi></mrow></msup></mrow><annotation encoding="application/x-tex">O_{start} = start^{clip} - start^{GT}, O_{end} = end^{clip} - end^{GT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9324379999999999em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.035771em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9324379999999999em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span> ，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><msup><mi>t</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">start^{clip}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>n</mi><msup><mi>d</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">end^{clip}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">p</span></span></span></span></span></span></span></span></span></span></span></span>既可对应unit-level标注，也可对应frame-level标注，论文最后选用前者，详情见实验部分。</li>
+<li>级联边界回归(cascaded boundary regression)<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CBR_2.png" alt="CBR" loading="lazy"><br>
+在proposal和detection的两个阶段中，边界回归都是以级联的方式进行的：输出的边界作为输入再输回网络进行进一步的校正。如图所示，每个校正流程由K次回归构成，最终的框是K次校正的结果，最终的动作得分也是K次得分的乘积。两阶段的网络是分开训练的，但每一阶段内出于简便性考量共享了网络参数。</li>
+<li>损失函数由表征分类的交叉熵损失函数和表征回归的L1损失函数组成，注意此处直接将回归后的开始/结束时刻值代入进行计算，而非参数化时代入的中心值和时长值。</li>
+<li>实验表明，坐标的直接回归优于参数化后的回归(作者认为这是因为视频时长不像图像中的目标一样可以随意放缩)；基于unit-level的回归优于基于frame-level的回归(这是我没想到的，作者认为原因是特征是在unit层级提取的，frame层级的坐标可能包含了不必要的信息)；<br>
+<img src="https://FuNian788.github.io/post-images/TAD/CBR_3.png" alt="实验结果" loading="lazy"><br>
+同时，对于CBR模块的内部回归次数，不同阶段、不同特征，其最优值是不同的，且不是越多越好的。但实验也表明了一些缺陷，对于不同数据集，滑窗的尺度、CBR内部回归次数等参数均需手动调整。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+在THUMOS-14数据集IoU=0.5时mAP为31.0%。</li>
+<li>改进/Challenge/idea/Que：<br>
+PBRNet是stage之间的级联回归，这个是stage内部的级联回归。</li>
+</ul>
+<hr>
+<h3 id="16-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(16) <a href="https://arxiv.org/abs/180.01244">(2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></h3>
+<p>该论文为anchor-free的目标检测论文，对动作检测有很大借鉴意义。</p>
+<ul>
+<li>针对痛点<br>
+为覆盖真值，需要大量的anchor，这会造成正负样本的不平衡并降低训练速度；同时anchor的设计需要大量人为设计的超参数和结构，与DL的核心思路不符。</li>
+<li>主要贡献<br>
+CornerNet使用候选框左上角和右下角的点来表示bounding box，在摒弃anchor复杂设计的基础上大幅精简了网络的输出；同时论文提出了corner pooling方法以进行更好的角点定位。</li>
+<li>实现流程<br>
+如下图所示，卷积层输出一个包含所有左上角点的热图(heatmap)，输出一个包含所有右下角点的热图(heatmap)，为每个检出角点输出一个嵌入向量(embedding vector)。网络通过训练，为同一目标的角点输出尽可能相似的嵌入向量。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_1.png" alt="流程图" loading="lazy"><br>
+更详细的细节如下图，两个预测模块(prediction module)是独立的，每个模块都有独有的corner pooling层，并基于此输出heatmap，embedding和offset。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_2.png" alt="详细流程图" loading="lazy"><br>
+这种寻找左上/右下点并将其聚合起来的bottom-up方法是受到skeleton-detection的相关研究启发的。</li>
+<li>实现细节</li>
+</ul>
+<ol>
+<li>角点检测<br>
+对于输出，以左上角点对应的heatmap为例，heatmap的尺寸为K*H*W，其中K个通道分别代表K个类别，每个通道均为二值mask，表示某一像素点是不是该类别下的角点。<br>
+对于每一个角点，都有其对应的唯一真值点，但训练时并不采用简单的0-1损失函数，而是基于2D高斯核，对以真值为圆心，以特定值为半径的的圆内的预测值给予相对较小的惩罚(半径大小与目标尺寸有关，需保证以圆内点作为角点的候选框与GT的IoU大于0.3)，具体损失函数采用focal loss的变种。<br>
+很多网络采用降采样层来获得全局信息、减少存储空间，此时输出的尺寸常小于输入的尺寸，目标边界的定位准确性不免受像素点对齐的影响。为避免此问题，网络在将heatmap中的点映射回原输入图像前先行预测offset以对角点坐标进行微调，对应的offset为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>=</mo><mo>(</mo><mfrac><mi>x</mi><mi>n</mi></mfrac><mo>−</mo><mo>⌊</mo><mfrac><mi>x</mi><mi>n</mi></mfrac><mo>⌋</mo><mo separator="true">,</mo><mfrac><mi>y</mi><mi>n</mi></mfrac><mo>−</mo><mo>⌊</mo><mfrac><mi>y</mi><mi>n</mi></mfrac><mo>⌋</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">O = (\frac {x}{n} - \lfloor \frac {x}{n} \rfloor,  \frac {y}{n} - \lfloor \frac {y}{n} \rfloor)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7475em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7475em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mclose">)</span></span></span></span>，具体回归时采用Smooth L1损失函数。</li>
+<li>角点合并<br>
+模型为所有检测到的角点输出一维embedding，并基于embedding间的距离进行聚类。采用pull-push损失函数。<br>
+在对corner heatmap进行max pooling+NMS操作后，得到100个最有可能的左上角点和100个最有可能的右下角点，在用offset进行校正后，比较左上/右下角点embedding间的L1距离，舍弃距离大于阈值和非同一类别的角点对，保留下来的角点对为初步结果，角点对中两角点的平均值作为检测得分。</li>
+<li>角点池化(Corner Pooling)<br>
+对于目标检测来讲，角点处可能不存在目标信息，且目标信息都处于角点的同一方向。基于此先验信息，将局部max-pooling转变成corner pooling，其核心思想为对于左上角点，目标在其右下方，故只对角点右侧和下侧的特征进行池化(而非右下侧)，具体示意如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_3.png" alt="corner pooling" loading="lazy"><br>
+且实验表明，corner pooling在尺度大小不同的区域上表现近似相同，展现了一定的稳定性。</li>
+<li>详细的网络结构如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_4.png" alt="网络结构" loading="lazy"><br>
+其中backbone采用了在人体骨架检测中广泛应用的沙漏网络(Hourglass network)的变种。</li>
+</ol>
+<ul>
+<li>对视频检测的启发</li>
+</ul>
+<ol>
+<li>视频由开始和结束定义，对应两个heatmap，可将人为的筛选策略换成embedding对应的匹配机制，这也是一种基于模型的输出方式。</li>
+<li>正如corner常常是在目标之外，start/end时刻常常也在动作边界处（数据集标注怎么标，在之内还是之外），但总之边界的定位很难由local信息决定。</li>
+<li>corner pooling的思路能否借鉴？例如网络中采用corner pooling，只对开始点右边的视频进行池化，只对结束点左侧的视频进行池化？</li>
+<li>hourglass model</li>
+</ol>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="17-2020-eccvbottom-up-temporal-action-localization-with-mutual-regularization">(17) <a href="https://arxiv.org/abs/2002.07358">(2020 ECCV)Bottom-Up Temporal Action Localization with Mutual Regularization</a></h3>
+<ul>
+<li>针对痛点：<br>
+现有的bottom-up的TAP方法将获取三个动作得分(开始/结束/进行得分)的过程转换为三个二分类任务，使用frame-level的正/负标注数据进行有监督训练。<br>
+然而由于<strong>很难保证每一帧都包含足够多的信息以进行正确的二分类</strong>，我们很难判定动作到底是何时开始/结束的，甚至不能确定动作是否还在进行。换而言之，我们需要足够多的信息才能判断动作的具体状态(eg如果没有足够明确的动作结束标志，动作的进行得分还会很高)。<br>
+以三个独立二分类branch获取得分的方式主要有以下两个缺点：<br>
+1 每个动作段(temporal location)都被视为孤立的实例，并未考虑动作间的联系；<br>
+2 每个动作内的三种得分是独立评估的，并未考虑得分间的顺序联系。<br>
+以上缺点这可能会得到前后矛盾的结果，作者探究使用两种正则方法来解决此问题。</li>
+<li>主要贡献：<br>
+针对缺点1，提出阶段内一致性正则方法(Intra-phase Consistency regularization, IntraC regularizaiton)，致力于在各阶段内，最小化正(负)样本内部的差异，最大化正负样本间的差异；<br>
+针对缺点2，提出跨阶段一致性正则方法(Inter-phase Consistency regularization, InterC regularizaiton)，通过强迫进行-开始(continuing-starting)阶段和进行-结束(continuing-ending)阶段保持一致性以实现三阶段的顺序约束。<br>
+二者整体实现了对分类器输出的连续性校正。同时，这两个正则方法可以作为优化置信度得分过程的外挂式工具，其加入不改变端到端结构。在达到sota的基础上，可对以往的优秀模型有较好的指标提升，可以理解为更好得到score置信度的一种策略。</li>
+<li>实现流程：<br>
+实现流程如下图所示，输入视频，由3D卷积提特征，过一维卷积层(ProbNet)输出三条得分序列；过RegrNet输出开始时刻和结束时刻的回归值。最后通过结合具有较高置信度的开始-结束时刻点得到候选框并对其进行分类。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/mutual_consistency_1.png" alt="流程图" loading="lazy"></li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>数据标注<br>
+动作内，标注进行变量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>g</mi><mi>C</mi></msub></mrow><annotation encoding="application/x-tex">g_C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为1， 其余为0；扩展后的开始时刻段，标注开始变量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>g</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">g_s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为1， 其余为0；扩展后的结束时刻段，标注结束变量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>g</mi><mi>e</mi></msub></mrow><annotation encoding="application/x-tex">g_e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为1， 其余为0。在训练时将正负样本平衡为1:1。</li>
+<li>IntraC regularizaiton<br>
+IntraC regularizaiton是在开始/进行/结束阶段内分别进行的。在每个阶段内，根据标注g，可以将视频分为正样本集合(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">g = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>)和负样本集合(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">g = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>)。将区域一致性问题转化为优化问题，即使正样本集合内的元素间L1距离较小，使负样本集合内的元素间L1距离较小，使正样本元素和负样本元素间的L1距离较大。损失函数如下所示，最终损失函数为开始/进行/结束段损失函数之和。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/mutual_consistency_2.png" alt="损失函数" loading="lazy"></li>
+<li>InterC regularizaiton<br>
+如果进行得分有骤涨，开始得分需给出较高置信度，反之亦然；如果进行得分有骤降，结束得分需给出较高置信度，反之亦然。将进行-开始一致性和进行-结束一致性转化为优化问题，即使t时刻进行得分上涨的幅度和开始得分上涨的幅度间L1距离较小，t时刻进行得分下降的幅度和结束得分的上涨的幅度间L1距离较小。</li>
+<li>损失函数<br>
+在训练开始/进行/结束二分类器使用的交叉熵损失函数的基础上，加入基于smooth L1的边界回归损失和上述提及的IntraC及InterC对应的损失函数。</li>
+<li>筛选策略<br>
+通过阈值和局部最大值选取开始/结束时刻点，在限定最大持续时长的情况下进行随意组合以生成全部候选框。通过添加一个网络给每个proposal打分，将其得分与开始时刻和结束时刻的得分相乘，最终进行ranking。使用soft-NMS筛选候选框。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+在THUMOS-14数据集IoU=0.5时mAP为45.4%。</li>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<hr>
+<h3 id="18-2020-icmescale-matters-temporal-scale-aggregation-network-for-precise-action-localization-in-unitrimmed-videos">(18) <a href="https://arxiv.org/abs/1908.00707">(2020 ICME)Scale Matters: Temporal Scale Aggregation Network for Precise Action Localization in Unitrimmed Videos</a></h3>
+<ul>
+<li>针对痛点</li>
+</ul>
+<ol>
+<li>现有方法均不能较好解决动作持续时长分化严重的问题，可能导致边界不够准确，作者认为这主要是感受野尺度无法匹配候选框长度导致的。</li>
+<li>现有方法常使用强迫特征尺度一致的方式来处理不同时长的候选框，最常用的方法便是建立特征金字塔然后从不同金字塔层抽取同样大小的特征，此时动作只在特定层被检出而在其它层被忽略。金字塔类的方法常容易把高效的模型复杂化，导致其性能稍弱于其他方法。</li>
+</ol>
+<ul>
+<li>主要贡献</li>
+</ul>
+<ol>
+<li>提出基于score-sequence的TAP网络TSA-net，首先使用多空洞尺度的时序卷积块(multi-dilation temporal convolution block，MDC)作为网络的核心组件，并在此基础上设置不同大小的卷积核以获得多尺度感受野，在保持较小计算开销的同时从感受野角度切入，解决候选框长度不一的问题。</li>
+</ol>
+<ul>
+<li>实现流程<br>
+TAP任务的典型流程。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TSA_1.png" alt="流程图" loading="lazy"></li>
+<li>实现细节</li>
+</ul>
+<ol>
+<li>特征提取<br>
+以特定间隔将视频裁成片段，并提取片段的P3D/C3D特征(C3D即单纯的3D卷积核，P3D是将3D卷积转换为2D空间卷积和1D时间卷积的结合体，作者认为I3D和P3D差不多但懒就没做)。</li>
+<li>多空洞尺度的时序卷积块(multi-dilation temporal convolution block，MDC)<br>
+MDC的网络结构如下图所示，可发现其在一维卷积时使用了不同尺度的dilation。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TSA_2.png" alt="MDC" loading="lazy"><br>
+在整个网络的层面考虑感受野，对于较短的视频，大感受野会掺入不必要的信息，对于较长的视频，小感受野会缺失关键信息，由于理论上不能找到一个适用于所有情况的感受野，故考虑融合多个不同感受野的branch。具有多个branch的网络结构如下图所示，其中在MDC前的一维卷积层是为了进行临近帧的特征融合，同时MDC内部的参数可以手动调整以适应具体的动作长度，值得注意的网络设计trick：最后的aggregation层可以保证每个MDC branch都既学习到中间点信息，也学习到边界信息。该网络最终输出三条得分曲线，分别代表对应时刻点start/end/intermediate的得分，使用交叉熵损失函数进行训练。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/TSA_3.png" alt="MDC具体结构" loading="lazy"><br>
+网络使用了许多我个人持反对意见的方法，一是标注时把开始结束时刻的终点作为intermediate point(决定视频进行的关键帧可能不在正中心，且评估动作进行应看整个持续过程而不是单独的一个点)，二是将动作检测转化为sequence-to-sequence学习问题(RNN-based方法在实践中并不适合动作检测任务)</li>
+<li>候选框生成和排序<br>
+循规蹈矩地，网络使用局部最大值和阈值在得分曲线中寻找可能的开始/结束时刻。在组合开始/结束时刻时遵循以下两条要求：候选框的长度保持在一个范围内；候选框对应的中点若intermediate得分较低则被舍弃(作者认为intermediate得分低可能表征此候选框的开始/结束时刻并不对应同一动作)。<br>
+每个候选框的得分由三部分的乘积组成：开始得分，结束得分和将候选框特征输入小网络输出的得分。使用贪婪NMS/soft-NMS进行筛选。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+在THUMOS-14数据集IoU=0.5时，P3D特征+U-Net分类器可达到46.9%的mAP。</li>
+<li>改进/Challenge/idea/Que：<br>
+参考痛点2，RoI pooling能不能也成为一种思路呢？</li>
+</ul>
+<hr>
+<h3 id="19-2019-iccvp-gcn-graph-convolutional-networks-for-temporal-action-localization">(19) <a href="https://arxiv.org/abs/1911.11462">(2019  ICCV)P-GCN: Graph Convolutional Networks for Temporal Action Localization</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有的TAD方法在训练时对每个候选框单独处理，忽略了候选框之间的联系。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/PGCN_1.png" alt="候选框间联系" loading="lazy"><br>
+然而如上图所示，候选框2、3的特征有助于候选框1的边界回归，候选框4的语义信息(eg动作发生的场景)有助于网络理解候选框1具体发生的动作。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>首先提出利用候选框间的联系，并通过GCN(graph convolutional network)来实现。<br>
+注：注意力机制(self-attention)可通过习得的聚类权重获取候选框之间的联系，但这种方法在TAD方法中计算开销过于庞大。而GCN可通过仅采集近邻的信息大幅降低计算复杂度。<br>
+在THUMOS-14数据集上大幅度刷新sota精度，IoU=0.5时达到了49.1%的mAP。</li>
+</ol>
+<ul>
+<li>实现流程<br>
+构建一张有关候选框的图，每个候选框是一个节点，两个候选框之间的联系(relation)是边。联系分两种，一种是获取每个候选框前后的上下文信息(例如首图中P1和P2、P3的关系)，称为contextual edge；一种是获取临近但不相交的候选框间的关联性(例如首图中P1和P4的关系)，称为surrounding edge；GCN的核心逻辑就是利用了候选框之间的联系，即采用临近框的特征完善当前框的信息。使用两个独立的GCN分别进行候选框的分类和回归；在训练时使用了采样策略，可在保持性能的同时显著降低计算复杂度。<br>
+PGCN的核心思路就是构建一张能合理拟合候选框关系的图，其流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/PGCN_2.png" alt="PGCN流程图" loading="lazy"><br>
+注：若在现实世界中使用GCN，过大的图可能会导致计算十分低效，常使用采样等方法尽可能降低其计算复杂度，本文使用了node-wise的近邻方法SAGE。</li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>采用I3D提取视频特征，用TAG方法预先提取些候选框，将特征和候选框作为GCN的输入，用GCN输出的增强后的候选框特征进行动作种类和动作边界的合理预测。在此过程中，GCN的目标是学习候选框间的联系。</li>
+<li>构建一张表示候选框间联系的图<br>
+简单地将所有候选框相连既会增加不必要的计算量，也会引入冗余信息和噪声。本文中只连接两种边，contextual edge和surrounding edge。<br>
+contextual edge的连接条件是两个候选框的tIoU大于阈值，符合此情况的候选框大概率归属于同一动作。基于此边，有重叠的候选框就会相互共享语义信息，这部分信息将在GCN中得到进一步处理；<br>
+surrounding edge的连接条件是两个无重叠的候选框距离小于阈值（候选框距离 = 候选框中心点距离 / 两个候选框长度和），符合此情况的候选框大概率归属于不同动作，或归属于动作及其背景。基于此边，无重叠但临近的候选框就会跨动作实例地进行信息分享。</li>
+<li>使用GCN在图的基础上学习候选框的联系并得到TAD结果<br>
+论文应用了K层GCN+ReLU的结构，每层结束后对网络输出和隐藏层的特征进行concate操作，将合并后的特征作为新一层的输入。<br>
+具体地，第k层图卷积的实现方式如下：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>X</mi><mi>k</mi></msup><mo>=</mo><mi>A</mi><msup><mi>X</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>W</mi><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">X^k = AX^{k-1}W^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span>，其中，A为基于节点cos相似性定义的邻接矩阵，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>W</mi><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">W^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span>为模型需要学习的矩阵参数(shape: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>d</mi><mi>k</mi></msub><mo>∗</mo><msub><mi>d</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">d_k * d_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>X</mi><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">X^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span>为第k层的隐藏层特征(shape: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mo>∗</mo><msub><mi>d</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">N * d_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>X</mi><mn>0</mn></msup></mrow><annotation encoding="application/x-tex">X^0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span>为输入特征(shape: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mo>∗</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">N * d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span></span></span></span>)。<br>
+使用两个GCN分支分别进行种类和边界回归的任务：一个GCN branch处理候选框内部的特征(intern feature)，通过softmax+FC层后输出动作种类；一个GCN branch处理延展后的候选框特征(intern &amp; context feature)，通过三个FC层分别输出开始边界/结束边界/动作完整性(<strong>不能仅通过分类得分来衡量候选框，一些较低tIoU/并不完整的候选框也可能会有很高的分类得分</strong>)。</li>
+</ol>
+<ul>
+<li>效果评估：<br>
+在THUMOS-14数据集IoU=0.5时，可达到49.1%的mAP。</li>
+<li>改进/Challenge/idea/Que：<br>
+对比实验中，BSN+U-Net达到了36.9的mAP</li>
+</ul>
+<hr>
+<h3 id="20-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(20) <a href="https://arxiv.org/abs/1904.01355">(2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>anchor-based方法需要人为设计框的尺寸及超参数，这些参数的优劣会造成显著地性能差异，且人为设计的候选框很难匹配尺度多变的目标；</li>
+<li>anchor-based方法常需要海量的候选框(eg FPN在800见方的图片中需要180K个anchor)，过多的负样本框会造成训练时的样本不平衡；训练时对IoU的不断计算也会导致较大的计算开销；</li>
+<li>传统的anchor-free &amp; one-stage方法有<strong>两大弊端</strong>，一是只将anchor中心点所在的网格试做正样本，这种样本不平衡对recall有较大负面影响；一是很难处理重叠物体(anchor方法可很好的解决重叠问题)。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>FCN(fully convolutional networks)已其他领域开展得如火如荼，eg语义分割，首在object detection领域基于FCN方法实现的FCOS有助于复用其他领域经验。</li>
+<li>anchor-free的FCOS省去了调参的负担，在计算更轻量、训练更容易的同时有着不亚于two-stage/anchor-based方法的精度，启发了对anchor必要性的思考。</li>
+<li>提出one-stage的FCN-based网络，提出基于FPN的多尺度预测和center-ness方法，有效解决了当下存在的两大弊端。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+网络的流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_1.png" alt="流程图" loading="lazy"><br>
+对于单个候选框，每层网络输出一个K维分类label、一个4维距离坐标和一个center-ness得分。该网络较常用的anchor-based方法减少了近9倍的参数量。</li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>one-stage FCN网络<br>
+针对弊端一，FCOS不再只将中心点所在的网格视为正样本，而是将GT bbox所覆盖的所有网格均视为正样本。因此，FCOS舍弃了anchor-based方法中先确定候选框中心位置，再以依此对anchor进行回归的做法，具体地，如下左图所示，对每个前景框的每个点(location)，都预测其到GT bbox的上下左右四条边的距离[t, b, l, r]，该做法与FCN-based方法在语义分割领域的实现思路一致，且值得注意的是，与anchor-based方法仅将与GT bbox有较高IoU的anchor作为正样本相比，FCOS将GT内的所有像素均作为正样本进行训练，无形中获取了更多更准的信息。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_2.png" alt="示例图" loading="lazy"><br>
+对于某层feature map上的location点(x, y)，基于当前层的步长s，先将其映射到原始输入图上的点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>⌊</mo><mfrac><mi>s</mi><mn>2</mn></mfrac><mo>⌋</mo><mo>+</mo><mi>x</mi><mi>s</mi><mo separator="true">,</mo><mo>⌊</mo><mfrac><mi>s</mi><mn>2</mn></mfrac><mo>⌋</mo><mo>+</mo><mi>y</mi><mi>s</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\lfloor \frac s2 \rfloor + xs, \lfloor \frac s2 \rfloor + ys)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">(</span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault">x</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span>，用映射后的坐标再进行到框边距离的预测，使用指数函数输出四个非负距离量，考虑到不同尺度feature map预测物体大小不同，单纯的指数函数得到距离有失偏颇，FCOS在指数函数中加入可学习参数s(distance = exp(s * x))来适应各个尺度的预测。<br>
+损失函数方面，分类方面使用focal loss，坐标回归方面使用IOU loss。</li>
+<li>基于FPN的多尺度预测<br>
+为解决重叠候选框时的分类问题(如上图右)，anchor-based方法在不同特征尺度设计不同尺寸的候选框，FCOS则遵循FPN的思路，在不同的feature map层检测不同尺度的目标，且<strong>通过阈值直接限制了每一层检出框的尺寸大小</strong>。在FCOS的五个回归branch中，若预测得到的边长长度不符合当前层的长度限制，直接将其视为负样本，这样便粗暴地解决了不同层内目标含有重叠区域的问题。对于同一层内的重叠区域，FCOS直接使用最小的区域作为回归目标(即使同一层内两个同类物体有重叠，小物体会马上被检出，而大物体也定会在未重叠的区域被检出；但不得不说该方法存在理论缺陷，就是同一层内两个不同类物体有重叠，在重叠部分的location可能会返回A物体的种类和B物体的候选框)。依此，FCOS在多尺度预测的同时很好地解决了物体重叠的问题。<br>
+如流程图所示，C3、C4、C5是backbone的feature map，通过1*1的卷积层得到P3、P4、P5，而P6和P7则是由P5、P6经过stride为2的卷积层得到的，不同层之间的heads共享权重。<br>
+直觉上可能会认为FCOS的BPR(best possible recall，检测器能实现的recall上限，只要有一个anchor涉及到GT框便将其纳入BPR计算范畴内)会受到FCN-based方法中大步长的制约，但实际上FCOS的BPR甚至优于传统的anchor-based方法，所以recall不是FCOS需要着重解决的问题，或者说FPN解决了这一问题。</li>
+<li>center-ness分支<br>
+在前两步之后，FCOS的性能较anchor-based方法仍有一定的gap，这主要是由一些距物体中心较远的location产生的低质量候选框导致的，FCOS在不引入更多超参数的情况下提出了center-ness分支直接而有效地减少了低质量候选框。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_3.png" alt="center-ness" loading="lazy"><br>
+center-ness的核心思想是，一个GT bbox内的点很多，但它们对目标的贡献是不同的。偏图像中心的点包含了更多的目标信息，理应得到重视；偏图像边界的点包含的信息相对较少，甚至点可能就不在目标上，这些location提出的候选框的质量常较低，理应设置更小的权重。center-ness表征了一个点到其预测候选框中心的距离，其表达式如下所示：</li>
+</ol>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mo>−</mo><mi>n</mi><mi>e</mi><mi>s</mi><mi>s</mi><mo>=</mo><msqrt><mrow><mfrac><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>)</mo></mrow><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>)</mo></mrow></mfrac><mo>∗</mo><mfrac><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>t</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo></mrow><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mi>t</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo></mrow></mfrac></mrow></msqrt></mrow><annotation encoding="application/x-tex">center-ness = \sqrt{ \frac {min(l, r)}{max(l, r)} *  \frac {min(t, b)}{max(t, b)} }
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69841em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.04em;vertical-align:-1.160625em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.879375em;"><span class="svg-align" style="top:-5em;"><span class="pstrut" style="height:5em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span style="top:-3.839375em;"><span class="pstrut" style="height:5em;"></span><span class="hide-tail" style="min-width:1.02em;height:3.08em;"><svg width='400em' height='3.08em' viewBox='0 0 400000 3240' preserveAspectRatio='xMinYMin slice'><path d='M473,2793c339.3,-1799.3,509.3,-2700,510,-2702
+c3.3,-7.3,9.3,-11,18,-11H400000v40H1017.7s-90.5,478,-276.2,1466c-185.7,988,
+-279.5,1483,-281.5,1485c-2,6,-10,9,-24,9c-8,0,-12,-0.7,-12,-2c0,-1.3,-5.3,-32,
+-16,-92c-50.7,-293.3,-119.7,-693.3,-207,-1200c0,-1.3,-5.3,8.7,-16,30c-10.7,
+21.3,-21.3,42.7,-32,64s-16,33,-16,33s-26,-26,-26,-26s76,-153,76,-153s77,-151,
+77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,104,606z
+M1001 80H400000v40H1017z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.160625em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>当该点为候选框中心时，center-ness的值为1，该点离中心越远，其值越接近0，使用交叉熵损失函数进行训练。center-ness仅在测试时使用，将其与分类得分(classification score)相乘，共同作为候选框的得分，随后进行NMS筛选。</p>
+<ul>
+<li>对动作检测的启发</li>
+</ul>
+<ol>
+<li>FCN网络结构</li>
+<li>动作框预测方式：遍历视频的每一个时刻，返回其到所属动作开始/结束时刻的时间距离</li>
+<li>基于FPN的多尺度预测：如果出现了动作套娃(eg运动里套打篮球)，可以考虑使用这种方法来一起检出；其他情况下则不合适，eg峰谷峰时如何只取两个峰。但多尺度思路可以应用于尺度不同的任务。</li>
+<li>如果一个候选框和GT的IoU较低，其就是一个低质量候选框，这时如果其confidence得分很高，就是Fasle Positive了。center-ness的应用，可以有效解决当前实践中<strong>置信度最高的候选框可能不是最好的</strong>这一问题。<br>
+FCOS认为中心lcoation预测的框是高质量的，边缘location预测的框是低质量的，通过表征location位置的center-ness指标来衡量框的质量，利用其削减低质量候选框得分，从而在NMS阶段保留下真正好的候选框。<br>
+在动作检测中，center-ness可以IoU的形式出现，拓展地，可以参考IoUNet新建一个独立的网络去预测候选框和GT的IoU以参与得分评价(FCOS的center-ness计算更为简洁，只是在原有预测基础上进行简单比例计算，并没有涉及神经网络架构)；而如果搭建FCOS-based的动作检测框架，可以直接利用center-ness思路，但要考虑动作并没有明确中心点这一问题。</li>
+</ol>
+<hr>
+<h3 id="21-2020-eccvboundary-content-graph-neural-network-for-temporal-action-proposal-generation">(21) <a href="https://arxiv.org/abs/2008.01432">(2020 ECCV)Boundary Content Graph Neural Network for Temporal Action Proposal Generation</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有方法常常忽略边界和动作内部信息之间的联系。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出BC-GNN(boundary content graph neural network)，将候选框动作边界作为节点，将候选框动作信息作为边，利用图网络进行建模。</li>
+</ol>
+<ul>
+<li>
+<p>实现流程：</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+<li>
+<p>效果评估：</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que：</p>
+</li>
+</ul>
+<hr>
+<hr>
+<h3 id="n-20xx-cvpr模板">(n) <a href="https://arxiv.org/abs/1907.09702">(20xx CVPR)模板</a></h3>
+<ul>
+<li>
+<p>针对痛点：</p>
+</li>
+<li>
+<p>主要贡献：</p>
+</li>
+<li>
+<p>实现流程：</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+<li>
+<p>效果评估：</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que：</p>
+</li>
+</ul>
+<hr>
+<p>SCNN通过3d卷积对时间结构进行建模，但其能力受限于底层结构，因为它被设计只能获得16帧。<br>
+基于RNN的方法依赖于密集采样，会面临计算的挑战。</p>
+<h2 id="方法总结">方法总结</h2>
+<h3 id="样本平衡">样本平衡</h3>
+<p>视频数据中，非边界时刻要远远多于边界时刻，这种边界样本的不平衡会极大影响训练的稳定性。<br>
+实现中主要采用候选框平衡和采样点平衡两种方法来平衡样本(二者采用一种即可)，常设置正负样本比例为1比1：<br>
+候选框平衡：候选框平衡常用于训练基于特定完整候选框的动作分类器。具体地，将样本分为隶属于GT标注的正样本和与GT标注无交集的负样本，对应地调整样本数量以保证每个batch内样本数量相对均衡，再将平衡后的样本送入网络。相应地，将样本分为正样本、包含部分GT样本、负样本三类/通过候选框与GT的IoU进行阈值筛选将样本分为正样本和负样本/通过当前model得分去除过于明显的背景框等也是此方法的变种。常采用Softmax/交叉熵函数进行动作二分类(二分类时的Softmax可用Sigmoid替代)，采用Softmax函数进行动作K分类。<br>
+采样点平衡：采样点平衡常用于训练基于动作特定时刻的评分网络。具体地，通过不同阈值将GT开始/结束/动作进行得分序列区分成正、负样本(负样本定远远多于正样本)，获取batch数据(每条得分序列的采样点时刻)时，在吸纳序列内所有正样本的基础上，通过随机采样补齐特定比率的负样本使得送入model的正负样本时刻保持均衡。常采用交叉熵损失函数来动作评分网络训练。</p>
+<h2 id="ideas">ideas</h2>
+<ol>
+<li>从目标检测 eg DERT yolov4 transformer 找一些想法</li>
+<li>现有的裁剪视频并截取成snippet的方法能否变成随机性压缩 增强鲁棒性？</li>
+<li>类比位置敏感得分图P-FCN来做视频中开始和结束的检测，加速？</li>
+<li>缝合怪的时候是不是得统计下每个论文的优点？</li>
+<li>我自己的 评估每一帧的得分，再接一个筛选策略（或者是网络直接输出），再在网络某个位置对边界进行回归，回归器的输入是临近帧的特征，级联方式？。</li>
+</ol>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B%E7%BB%BC%E8%BF%B0">时序动作检测综述</a>
+<ul>
+<li><a href="#%E5%86%99%E5%9C%A8%E5%89%8D%E8%BE%B9">写在前边</a></li>
+<li><a href="#%E6%97%B6%E5%BA%8F%E5%8A%A8%E4%BD%9C%E6%A3%80%E6%B5%8B%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91">时序动作检测研究方向</a></li>
+<li><a href="#%E5%8A%A8%E4%BD%9C%E5%80%99%E9%80%89%E6%A1%86%E6%8F%90%E5%90%8Dtemporal-action-proposal%E7%AE%80%E4%BB%8B">动作候选框提名(Temporal Action Proposal)简介</a></li>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E9%9A%BE%E7%82%B9">任务难点</a></li>
+<li><a href="#%E4%B8%BB%E8%A6%81%E5%88%B6%E7%BA%A6%E5%9B%A0%E7%B4%A0%E5%8F%8A%E6%94%B9%E8%BF%9B%E6%96%B9%E6%B3%95">主要制约因素及改进方法</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB">论文阅读</a>
+<ul>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+<li><a href="#1-2017-iccvturn-tap-temporal-unit-regression-network-for-temporal-action-proposals">(1) (2017 ICCV)TURN TAP: Temporal Unit Regression Network for Temporal Action Proposals</a></li>
+<li><a href="#2-2019-iccvbmn-boundary-matching-network-for-temporal-action-proposal-generation">(2) (2019 ICCV)BMN: Boundary-Matching Network for Temporal Action Proposal Generation</a></li>
+<li><a href="#3-2017-iccvssn-temporal-action-detection-with-structured-segment-networks">(3) (2017 ICCV)SSN: Temporal Action Detection with Structured Segment Networks</a></li>
+<li><a href="#4-2018-cvprtal-net-rethinking-the-faster-r-cnn-architecture-for-temporal-action">(4) (2018 CVPR)TAL-Net: Rethinking the Faster R-CNN Architecture for Temporal Action</a></li>
+<li><a href="#5-2020-aaaidbg-fast-learning-of-temporal-action-proposal-via-dense-boundary-generator">(5) (2020 AAAI)DBG: Fast Learning of Temporal Action Proposal via Dense Boundary Generator</a></li>
+<li><a href="#6-2019-cvprmgg-multi-granularity-generator-for-temporal-action-proposal">(6) (2019 CVPR)MGG: Multi-granularity Generator for Temporal Action Proposal</a></li>
+<li><a href="#7-2017tag-a-pursuit-of-temporal-accuracy-in-general-activity-detection">(7) (2017)TAG: A Pursuit of Temporal Accuracy in General Activity Detection</a></li>
+<li><a href="#8-2017-iccvr-c3d-region-convolutional-3d-network-for-temporal-activity-detection">(8) (2017 ICCV)R-C3D: Region Convolutional 3D Network for Temporal Activity Detection</a></li>
+<li><a href="#9-2018-eccvctap-complementary-temporal-action-proposal-generation">(9) (2018 ECCV)CTAP: Complementary Temporal Action Proposal Generation</a></li>
+<li><a href="#10-2016-cvprscnn-temporal-action-localization-in-untrimmed-videos-via-multi-stage-cnns">(10) (2016 CVPR)SCNN: Temporal Action Localization in Untrimmed Videos via Multi-stage CNNs</a></li>
+<li><a href="#11-2020-aaaipbr-net-progressive-boundary-refinement-network-for-temporal-action-detection">(11) (2020 AAAI)PBR-Net: Progressive Boundary Refinement Network for Temporal Action Detection</a></li>
+<li><a href="#12-2017-acm-multimediasingle-shot-temporal-action-detection">(12) (2017 ACM multimedia)Single Shot Temporal Action Detection</a></li>
+<li><a href="#13-2020-trans-on-cyberneticsrecapnet-action-proposal-generation-mimicking-human-cognitive-process">(13) (2020 Trans on Cybernetics)RecapNet: Action Proposal Generation Mimicking Human Cognitive Process</a></li>
+<li><a href="#14-2018-cvprprecise-temporal-action-localization-by-evolving-temporal-proposals">(14) (2018 CVPR)Precise Temporal Action Localization by Evolving Temporal Proposals</a></li>
+<li><a href="#15-2017-bmvccascaded-boundary-regression-for-temporal-action-detection">(15) (2017 BMVC)Cascaded Boundary Regression for Temporal Action Detection</a></li>
+<li><a href="#16-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(16) (2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></li>
+<li><a href="#17-2020-eccvbottom-up-temporal-action-localization-with-mutual-regularization">(17) (2020 ECCV)Bottom-Up Temporal Action Localization with Mutual Regularization</a></li>
+<li><a href="#18-2020-icmescale-matters-temporal-scale-aggregation-network-for-precise-action-localization-in-unitrimmed-videos">(18) (2020 ICME)Scale Matters: Temporal Scale Aggregation Network for Precise Action Localization in Unitrimmed Videos</a></li>
+<li><a href="#19-2019-iccvp-gcn-graph-convolutional-networks-for-temporal-action-localization">(19) (2019  ICCV)P-GCN: Graph Convolutional Networks for Temporal Action Localization</a></li>
+<li><a href="#20-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(20) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
+<li><a href="#21-2020-eccvboundary-content-graph-neural-network-for-temporal-action-proposal-generation">(21) (2020 ECCV)Boundary Content Graph Neural Network for Temporal Action Proposal Generation</a></li>
+<li><a href="#n-20xx-cvpr%E6%A8%A1%E6%9D%BF">(n) (20xx CVPR)模板</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93">方法总结</a>
+<ul>
+<li><a href="#%E6%A0%B7%E6%9C%AC%E5%B9%B3%E8%A1%A1">样本平衡</a></li>
+</ul>
+</li>
+<li><a href="#ideas">ideas</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

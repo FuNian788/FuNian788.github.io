@@ -1,0 +1,379 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Docker大杂烩 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Docker大杂烩 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="上个项目的甲方要求以Docker形式提供算子方便系统集成.迅速学习了相关知识🚀，目前项目暂告一段落，决定写一篇欢脱的博客来简单做个梳理~~(争做市面最佳)~~。总体来讲，Docker足够轻量，足够便捷，期待在实战中逐渐探索！
+
+
+
+Doc..." />
+  <meta property="og:title" content="Docker大杂烩 - Zexian Li">
+  <meta property="og:description" content="上个项目的甲方要求以Docker形式提供算子方便系统集成.迅速学习了相关知识🚀，目前项目暂告一段落，决定写一篇欢脱的博客来简单做个梳理~~(争做市面最佳)~~。总体来讲，Docker足够轻量，足够便捷，期待在实战中逐渐探索！
+
+
+
+Doc..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/docker/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Docker大杂烩 - Zexian Li">
+  <meta name="twitter:description" content="上个项目的甲方要求以Docker形式提供算子方便系统集成.迅速学习了相关知识🚀，目前项目暂告一段落，决定写一篇欢脱的博客来简单做个梳理~~(争做市面最佳)~~。总体来讲，Docker足够轻量，足够便捷，期待在实战中逐渐探索！
+
+
+
+Doc...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/docker/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Docker大杂烩
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-04-07 · 3 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/mvqgWAWQms/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Docker
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>上个项目的甲方要求以Docker形式提供算子方便系统集成.迅速学习了相关知识🚀，目前项目暂告一段落，决定写一篇欢脱的博客来简单做个梳理~~(争做市面最佳)~~。总体来讲，Docker足够轻量，足够便捷，期待在实战中逐渐探索！</p>
+<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#docker%E7%AE%80%E4%BB%8B">Docker简介</a></li>
+<li><a href="#docker%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">Docker安装和环境配置</a></li>
+<li><a href="#%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8">日常使用</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C">常用命令行</a>
+<ul>
+<li><a href="#%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95">挂载目录</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9C%A8docker%E4%B8%AD%E4%BD%BF%E7%94%A8conda">在Docker中使用conda</a>
+<ul>
+<li><a href="#conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">conda环境配置</a></li>
+<li><a href="#conda%E5%90%AF%E5%8A%A8%E9%A1%B9">conda启动项</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="docker简介">Docker简介</h2>
+<p>Docker是一个开源的应用容器引擎，开发者可以使用其快速搭建轻量的虚拟环境，打包应用及依赖，实现Linux环境下的快速部署和移植。<br>
+Docker的优势主要体现在持续集成性、隔离性、安全性。<br>
+Docker通过镜像文件来分发，通过镜像仓库解决了分发问题<br>
+对于没有了解过Docker的新手玩家，</p>
+<h2 id="docker安装和环境配置">Docker安装和环境配置</h2>
+<p>作为深度炼丹爱好者，强烈建议使用nvidia-docker以解决cuda、cudnn、显卡适配等一系列烦恼。正所谓前人种树，后人乘凉，本着不重复造轮子的初衷，下文以nvidia-docker的安装和配置作示例讲解整个流程。</p>
+<ol>
+<li>卸载Docker旧版本</li>
+</ol>
+<pre><code>sudo apt-get remove docker docker-engine docker.io
+</code></pre>
+<ol start="2">
+<li>安装系统工具</li>
+</ol>
+<pre><code>sudo apt-get update
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+</code></pre>
+<ol start="3">
+<li>安装GPG证书</li>
+</ol>
+<p>在国内建议使用国科大源：</p>
+<pre><code>curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+</code></pre>
+<p>若是安装官方源则如下所示：</p>
+<pre><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+</code></pre>
+<ol start="4">
+<li>写入软件源</li>
+</ol>
+<pre><code>sudo add-apt-repository \
+    &quot;deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable&quot;
+</code></pre>
+<ol start="5">
+<li>更新并安装Docker-CE</li>
+</ol>
+<h2 id="日常使用">日常使用</h2>
+<h2 id="常用命令行">常用命令行</h2>
+<p>docker run -it python:3.5 /bin/bash<br>
+docker run -it --runtime=nvidia -p 5050:8080 ocr_img<br>
+docker build –t 镜像名称 .<br>
+docker ps 运行中的容器 （-a？所有<br>
+sudo docker commit 763f3bcd887e ocr_img:1.0 将正在运行的容器保存成镜像<br>
+sudo docker rmi -f ocr_test<br>
+宿主机只能与容器做文件交互，不可与镜像做文件交互。<br>
+通过docker ps查看镜像名NAMES，此处以NAME作示例，<br>
+从宿主机拷贝文件1.py到容器，docker cp /host/1.py NAME:/usr/local<br>
+start.sh<br>
+#! /bin/bash<br>
+source /home/anaconda3/bin/activate ocr</p>
+<p>cd /app/lib<br>
+python /app/lib/ocr.py</p>
+<h3 id="挂载目录">挂载目录</h3>
+<h2 id="在docker中使用conda">在Docker中使用conda</h2>
+<h3 id="conda环境配置">conda环境配置</h3>
+<h3 id="conda启动项">conda启动项</h3>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#docker%E7%AE%80%E4%BB%8B">Docker简介</a></li>
+<li><a href="#docker%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">Docker安装和环境配置</a></li>
+<li><a href="#%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8">日常使用</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C">常用命令行</a>
+<ul>
+<li><a href="#%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95">挂载目录</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9C%A8docker%E4%B8%AD%E4%BD%BF%E7%94%A8conda">在Docker中使用conda</a>
+<ul>
+<li><a href="#conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">conda环境配置</a></li>
+<li><a href="#conda%E5%90%AF%E5%8A%A8%E9%A1%B9">conda启动项</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

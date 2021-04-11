@@ -1,0 +1,395 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="Colorful life." />
+</head>
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+
+    <div class="nav py-3 md:py-8 fixed w-full z-10 bg-gray-50 dark:bg-gray-700 transition-all duration-300" :class="{ 'scroll': scrolled }">
+  <div class="flex justify-end px-4">
+    <div class="w-8 h-8 flex justify-center items-center rounded-full md:hidden" @click="showMenu = !showMenu">
+      <i class="ri-close-line" v-show="showMenu"></i>
+      <i class="ri-menu-3-line" v-show="!showMenu"></i>
+    </div>
+  </div>
+  <nav class="max-w-4xl w-full mx-auto text-center flex flex-col md:flex-row justify-center md:block" :class="`${ showMenu ? 'block' : 'hidden' }`">
+    
+      <a href="/" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        首页
+      </a>
+    
+      <a href="/archives" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        归档
+      </a>
+    
+      <a href="/tags" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        标签
+      </a>
+    
+      <a href="/post/about" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        关于
+      </a>
+    
+    <a href="https://FuNian788.github.io/atom.xml" target="_blank" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+      RSS
+    </a>
+  </nav>
+</div>
+
+    <div class="max-w-4xl w-full mx-auto ">
+      
+        <header class="flex py-16 md:py-32 mt-12 flex-col md:flex-row px-4 md:px-0 animated fadeIn">
+  <div class="flex-1 order-2 md:order-1 md:pr-16">
+    <div class="text-4xl font-bold text-center md:text-left">
+      Zexian Li
+    </div>
+    <div class="text-xl text-gray-500 mt-4 text-center md:text-left">
+      Colorful life.
+    </div>
+    
+    
+  </div>
+  <div class="md:mx-8 flex-shrink-0 self-start rounded-full border-4 border-dotted border-transparent hover:border-yellow-50 p-2 w-32 h-32 order-1 md:order-2 mx-auto s3-dotted">
+    <img class="rounded-full object-cover" src="https://FuNian788.github.io/images/avatar.png?v=1618143631235" alt="Zexian Li" width="100%" height="100%">
+  </div>
+</header>
+      
+
+      <div class="shadow-box bg-white dark:bg-gray-600 border-gray-300 rounded-none md:rounded-lg -mx-1 md:mx-0 md:px-0">
+        
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+      <i class="ri-star-line text-orange-200 absolute text-2xl left-0 ml-1 rotate-90"></i>
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/temporal-action-detection-papers/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          时序动作检测(Temporal Action Detection)论文总结
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-03-21</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于毕业，我会在本学期从事有关时序动作检测(以下简称TAD)的相关研究并争取发表高水平论文🤤。本博文旨在记载学习过程中遇到的高质量论文，同时进行总结和思路归纳。本博文将长期更新。
+↓这是一个超有爱的超链接目录↓
+
+
+
+时序动作检测综述
+
+...
+      </div>
+      <a href="https://FuNian788.github.io/post/temporal-action-detection-papers/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/11/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          11
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2021-04-11</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        111
+
+      </div>
+      <a href="https://FuNian788.github.io/post/11/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/action-recognition/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          动作识别(action recognition)论文总结
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-12-15</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+任务定义
+常用数据集
+应用场景
+实现思路
+
+指标比对
+
+
+论文阅读
+
+(1) (2016 ECCV)TSN: Temporal Segment Networks for Action Recognition in Videos
+(2)...
+      </div>
+      <a href="https://FuNian788.github.io/post/action-recognition/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          常用损失函数合集(Pytorch)
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-12-11</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        训model嘛，损失函数总是要得。这里简单归纳一下常见的损失函数及其在Pytorch中的使用方法，以便查阅👨‍💻。
+
+
+
+
+
+1. 交叉熵损失函数
+
+nn.LogSoftmax()
+nn.NLLLoss()
+nn.CrossEntrop...
+      </div>
+      <a href="https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          牛客网读取数据输入(Python3)
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-12-09</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        之前都是Leetcode刷题，感受了一下牛客网ACM模式的刷题环境，emmm，简单记录一下吧🦄
+举个例子，执行a+b算法，输入3组数据，内容如下(第一行代表数据组数，后几行为数据)：
+3
+1 2
+3 4
+5 6
+
+数据读取方式如下，最终将...
+      </div>
+      <a href="https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/spatio-temporal-action-localization/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          时空动作定位(spatio-temporal action localization)论文总结
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-11-08</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        迫于老板突然改题，匆忙阅读时空动作检测相关论文🤒
+
+
+
+任务定义
+常用数据集
+应用场景
+实现思路
+
+指标比对
+
+
+论文阅读
+
+(1) (2020 ECCV)MOC: Actions as Moving Points
+(2) YOWO: y...
+      </div>
+      <a href="https://FuNian788.github.io/post/spatio-temporal-action-localization/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Pytorch Debug小记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-10-21</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+THCUNN/BCECriterion.cu:42: Assertion `input &gt;= 0. &amp;&amp; input &lt;= 1.` failed.
+
+
+
+
+
+
+THCUNN/BCECriterion.c...
+      </div>
+      <a href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/pytorch-view-reshape/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          一文详解Pytorch中view()和reshape()的区别
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-22</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+torch.view()
+torch.reshape()
+Pytorch与TensorFlow对比
+总结
+
+
+
+
+
+
+Pytorch中主要使用view()与reshape()来改变tensor的shape。
+torch.view(...
+      </div>
+      <a href="https://FuNian788.github.io/post/pytorch-view-reshape/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/ubuntu-misc/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Ubuntu杂记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-17</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+Ubuntu在当前目录及子目录寻找文件
+Ubuntu查看文件夹内文件数量
+
+
+
+
+
+
+Ubuntu在当前目录及子目录寻找文件
+以检索所有xml文件为例：
+sudo find | grep -i .*[.]xml
+
+在检索指令gre...
+      </div>
+      <a href="https://FuNian788.github.io/post/ubuntu-misc/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/pytorch-misc/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Pytorch杂记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-17</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
+Pytorch使用scatter_函数将label变成one hot编码
+DataLoader中collate_fn的使用
+nn.modules和n...
+      </div>
+      <a href="https://FuNian788.github.io/post/pytorch-misc/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+  
+      </div>
+
+      
+  <div class="my-4 flex justify-between px-4 md:px-0">
+    
+    
+      <a href="https://FuNian788.github.io/page/2" class="btn btn-white">
+        下一页
+        <i class="ri-arrow-right-line ml-4"></i>
+      </a>
+    
+  </div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+</body>
+
+</html>

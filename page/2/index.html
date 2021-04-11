@@ -1,0 +1,415 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="Colorful life." />
+</head>
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+
+    <div class="nav py-3 md:py-8 fixed w-full z-10 bg-gray-50 dark:bg-gray-700 transition-all duration-300" :class="{ 'scroll': scrolled }">
+  <div class="flex justify-end px-4">
+    <div class="w-8 h-8 flex justify-center items-center rounded-full md:hidden" @click="showMenu = !showMenu">
+      <i class="ri-close-line" v-show="showMenu"></i>
+      <i class="ri-menu-3-line" v-show="!showMenu"></i>
+    </div>
+  </div>
+  <nav class="max-w-4xl w-full mx-auto text-center flex flex-col md:flex-row justify-center md:block" :class="`${ showMenu ? 'block' : 'hidden' }`">
+    
+      <a href="/" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        首页
+      </a>
+    
+      <a href="/archives" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        归档
+      </a>
+    
+      <a href="/tags" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        标签
+      </a>
+    
+      <a href="/post/about" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        关于
+      </a>
+    
+    <a href="https://FuNian788.github.io/atom.xml" target="_blank" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+      RSS
+    </a>
+  </nav>
+</div>
+
+    <div class="max-w-4xl w-full mx-auto pt-32">
+      
+
+      <div class="shadow-box bg-white dark:bg-gray-600 border-gray-300 rounded-none md:rounded-lg -mx-1 md:mx-0 md:px-0">
+        
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/deep-learning-misc/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Deep Learning杂记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-17</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+数据归一化
+BN和非线性激活层的前后顺序
+precision &amp; recall
+AR@AN &amp; mAP
+如何拟合落地model时遇到的特殊案例
+
+
+
+
+
+
+数据归一化
+数据归一化的核心形式：减去均值，除以标准差，施...
+      </div>
+      <a href="https://FuNian788.github.io/post/deep-learning-misc/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/python-misc/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Python杂记
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-17</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+scipy模块插值使用方法fdgfgdgfd
+Python中队列的使用方法
+Python2和Python3除法
+Python3中列表、元组、字典和集合
+Python字符串
+Python导入方式
+Python3迭代器(iterato...
+      </div>
+      <a href="https://FuNian788.github.io/post/python-misc/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/vscode-zhong-python-bao-de-dao-ru/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          VScode中Python包的导入
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-11</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+任务
+解决思路
+bug复现
+解决方法
+
+
+
+
+
+
+在VScode跨文件夹导入包时遇到了一些奇妙问题，mark一下(据传Pycharm没有这些问题，但颜党表示VScode永香)。
+任务
+目录如下所示：
+-- test
+-- -- a...
+      </div>
+      <a href="https://FuNian788.github.io/post/vscode-zhong-python-bao-de-dao-ru/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/vscode-sftp/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          VScode sftp同步代码
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-09-09</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        VScode的sftp插件可以将本地代码自动保存到服务器上，体验棒棒，简要记录。
+1. 下载VScode并安装sftp插件
+2. 配置
+使用快捷键CTRL+SHIFT+P 打开命令行，选择SFTP: Config打开用户设置，即会在项目根目...
+      </div>
+      <a href="https://FuNian788.github.io/post/vscode-sftp/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/anaconda-sh/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          sh文件切换conda环境踩坑记录
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-08-29</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+
+
+1. 修改启动项以实现Docker启动后自动切换conda环境
+2. 在cron定时执行的Shell脚本内实现conda的环境切换
+
+
+
+
+
+
+1. 修改启动项以实现Docker启动后自动切换conda环境
+第一次踩坑是在项目中，...
+      </div>
+      <a href="https://FuNian788.github.io/post/anaconda-sh/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/scp/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          SCP文件传输
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-08-28</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        scp即secure copy，使用ssh数据传输进行远程文件拷贝。
+scp的命令格式如下所示，其中本机的地址可以省略不写：
+scp [参数] &lt;源地址(用户名@IP地址)&gt;:&lt;文件路径&gt; &lt;目标地址(用户名@...
+      </div>
+      <a href="https://FuNian788.github.io/post/scp/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/python-wechat-clock-in/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Python实现微信小程序自动打卡
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-08-28</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        前边的话：本博客仅讨论技术实现，疫情防控需谨慎，如有异常请及时上报。
+
+
+
+
+
+Charles + iPhone抓包
+打卡代码
+定时启动
+
+
+
+
+
+
+Charles + iPhone抓包
+将iPhone和电脑连在同一wifi下，设置手机ht...
+      </div>
+      <a href="https://FuNian788.github.io/post/python-wechat-clock-in/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/ubuntu-gpu/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Ubuntu显卡资源配置
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-08-13</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
+
+查看显卡状态
+nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷...
+      </div>
+      <a href="https://FuNian788.github.io/post/ubuntu-gpu/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/traversal-of-binary-tree/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          二叉树类算法题目
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-06-04</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+二叉树题目思想总结
+1. 二叉树的遍历
+
+写在前边
+前序遍历
+
+递归
+迭代
+
+
+中序遍历
+
+递归
+迭代
+
+
+后续遍历
+
+递归
+迭代
+
+
+层序遍历
+
+迭代
+
+
+
+
+2. 二叉树祖先问题
+3. 二叉树高度问题
+4. 二叉树路径问题
+5. ...
+      </div>
+      <a href="https://FuNian788.github.io/post/traversal-of-binary-tree/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/tricks-in-C-plus-plus/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          刷题常见技巧
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-06-03</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        
+
+
+1. 排序
+
+函数简介
+example
+Leetcode实战
+
+
+2. 查找
+3. 指数
+4. 常识
+
+
+
+
+1. 排序
+排序是刷题中最常见的预处理操作，在C++中可利用sort函数实现数组、链表、向量等的优化排序。
+函数简介
+在C+...
+      </div>
+      <a href="https://FuNian788.github.io/post/tricks-in-C-plus-plus/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+  
+      </div>
+
+      
+  <div class="my-4 flex justify-between px-4 md:px-0">
+    
+      <a href="https://FuNian788.github.io/" class="btn btn-white">
+        <i class="ri-arrow-left-line mr-4"></i>
+        上一页
+      </a>
+    
+    
+      <a href="https://FuNian788.github.io/page/3/" class="btn btn-white">
+        下一页
+        <i class="ri-arrow-right-line ml-4"></i>
+      </a>
+    
+  </div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+</body>
+
+</html>

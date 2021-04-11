@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://FuNian788.github.io</id>
+    <title>Zexian Li</title>
+    <updated>2021-04-11T12:20:47.686Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://FuNian788.github.io"/>
+    <link rel="self" href="https://FuNian788.github.io/atom.xml"/>
+    <subtitle>Colorful life.</subtitle>
+    <logo>https://FuNian788.github.io/images/avatar.png</logo>
+    <icon>https://FuNian788.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2021, Zexian Li</rights>
+    <entry>
+        <title type="html"><![CDATA[11]]></title>
+        <id>https://FuNian788.github.io/post/11/</id>
+        <link href="https://FuNian788.github.io/post/11/">
+        </link>
+        <updated>2021-04-11T12:20:24.000Z</updated>
+        <content type="html"><![CDATA[<p>111</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[动作识别(action recognition)论文总结]]></title>
+        <id>https://FuNian788.github.io/post/action-recognition/</id>
+        <link href="https://FuNian788.github.io/post/action-recognition/">
+        </link>
+        <updated>2020-12-15T02:30:22.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89">任务定义</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF">实现思路</a>
+<ul>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB">论文阅读</a>
+<ul>
+<li><a href="#1-2016-eccvtsn-temporal-segment-networks-for-action-recognition-in-videos">(1) (2016 ECCV)TSN: Temporal Segment Networks for Action Recognition in Videos</a></li>
+<li><a href="#2-2019-iccvtsm-temporal-shift-module-for-efficient-video-understanding">(2) (2019 ICCV)TSM: Temporal Shift Module for Efficient Video Understanding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="任务定义">任务定义</h2>
+<p>在较小计算代价情况下实现较高准确率。视频理解</p>
+<h2 id="常用数据集">常用数据集</h2>
+<h2 id="应用场景">应用场景</h2>
+<h2 id="实现思路">实现思路</h2>
+<h3 id="指标比对">指标比对</h3>
+<p>以UCF101-24和JHMDB数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ID</th>
+<th style="text-align:center">paper</th>
+<th style="text-align:center">JHMDB Frame mAP</th>
+<th style="text-align:center">JHMDB Video mAP</th>
+<th style="text-align:center">UCF Frame mAP</th>
+<th style="text-align:center">UCF Video mAP</th>
+<th style="text-align:center">附注</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<h2 id="论文阅读">论文阅读</h2>
+<h3 id="1-2016-eccvtsn-temporal-segment-networks-for-action-recognition-in-videos">(1) <a href="https://arxiv.org/abs/1705.02953">(2016 ECCV)TSN: Temporal Segment Networks for Action Recognition in Videos</a></h3>
+<p>首先看到作者就直接跪了，王利民、熊元骏、乔宇、林达华、汤晓鸥..来拜读一下大佬组的工作。</p>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>现有动作识别方法常只关注短期动作(eg 至多10帧)，通过隔特定间隔采样的方法获取信息，既缺乏对长视频信息建模的能力，在处理长时段视频时又有过大的计算开销。</li>
+<li>现有动作识别方法仅能处理裁剪好的视频，未裁剪视频中的背景信息会极大损伤模型识别结果。</li>
+<li>现有数据集(eg UCF101，HMDB51)在大小和多样性方面存在限制，使模型容易过拟合；光流提取是计算瓶颈等。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出TSN模型，在舍弃冗余信息的基础上对任意长度长视频进行建模。</li>
+<li>提出分层聚合方法以在未裁剪视频上实现动作识别。(anchor-based)</li>
+</ol>
+<ul>
+<li>
+<p>实现流程：<br>
+TSN从整个视频中稀疏地采样一系列段片段，每个片段都给出基于自身对行为的初步判断，再组合这些判断得到视频级的预测结果。<br>
+<img src="https://FuNian788.github.io/post-images/ActionRecognition/TSN_1.png" alt="TSN实现流程图" loading="lazy"><br>
+现将整个视频分成K个区域(segment)；在每区域内随机采样一个短片段(snippet)，每个片段由多种模态(eg RGB、光流、RGB差异图等)表示，且每个片段均给出基于自身信息对行为类别的初步判断；随后使用区域一致函数(segment consensus function)将所有片段的类别得分综合，最后经过Softmax函数以得到视频层级的动作种类预测结果。<br>
+该方法的计算负载恒定，可处理任意长度视频(有RoI pooling的味道)；片段采样法在时序上贡献均匀，且采样片段可粗略地覆盖整个视频的信息。</p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>TSN网络</li>
+</ol>
+<p>TSN网络的动作识别结果如下式所示：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>S</mi><mi>N</mi><mo>(</mo><msub><mi>T</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>T</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mo separator="true">,</mo><msub><mi>T</mi><mi>K</mi></msub><mo>)</mo><mo>=</mo><mi>H</mi><mo>(</mo><mi>G</mi><mo>(</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mn>1</mn></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo separator="true">,</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mn>2</mn></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo separator="true">,</mo><mo>⋯</mo><mo separator="true">,</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mi>K</mi></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">TSN(T_1,T_2,⋯,T_K)=H(G(F(T_1;W),F(T_2;W),⋯,F(T_K;W))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathdefault">G</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+<p>其中F代表卷积网络，W代表卷积网络内部参数(卷积网络参数共享)，G代表区域一致函数(segment consensus function)，H使用Softmax函数。<br>
+损失函数如下所示，其中C是动作种类总数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是第i类动作的标签，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>g</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">g_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>是G的第j维度结果</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>y</mi><mo separator="true">,</mo><mi>G</mi><mo>)</mo><mo>=</mo><mo>−</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>C</mi></munderover><msub><mi>y</mi><mi>i</mi></msub><mo>(</mo><msub><mi>g</mi><mi>i</mi></msub><mo>−</mo><mi>log</mi><mo>⁡</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>C</mi></munderover><mi>exp</mi><mo>⁡</mo><msub><mi>g</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">L(y,G) = -\sum_{i=1}^{C} y_i(g_i - \log\sum_{i=1}^{C}\exp g_j)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.106005em;vertical-align:-1.277669em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:3.106005em;vertical-align:-1.277669em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>在区域一致函数的选用上，在最大池化(在某一动作种类的不同片段上)、均值池化(在某一动作种类的不同片段上)、top-K池化(在某一动作对应得分最高的K个片段上执行均值池化)、线性网络组合、注意力得分组合(相较线性网络更利用了视频的信息)。</p>
+<ol start="2">
+<li>训练trick</li>
+</ol>
+<p>跨模态初始化：空间网络以RGB图像作为输入，故使用ImageNet上的预训练模型；然而对于光流等其他时序模态数据，采用跨模态初始化方法，即先将其输入线性放缩至与RGB输入类似，然后用RGB模型第一个卷积层的各通道均值权重来处理光流场的输入，时序模型后续层的权重则直接copy RGB模型的权重。该策略对时序网络降低过拟合方面有较好效果。</p>
+<p>正则化技术：为防止过拟合，冻结除第一个BN层外所有BN层的均值和方差参数；同时，由于光流和RGB的分布不同，第一个BN层会有不同的分布，第一个BN层需各自估计。此策略为部分BN(partial BN)。在网络最后的池化层后加一个额外的dropout层，以进一步降低过拟合的影响。</p>
+<p>数据增强：传统双流采用随机裁剪和水平翻转方法来增加训练样本，本文添加角裁剪（corner cropping）和尺度抖动（scale-jittering）。角裁剪即仅从图片边角或中心提取区域，避免默认关注中心；尺度抖动即固定输入图像大小，裁剪区域大小随机选择，最后将裁剪区域resize以用于网络训练。</p>
+<h3 id="2-2019-iccvtsm-temporal-shift-module-for-efficient-video-understanding">(2) <a href="https://arxiv.org/abs/1811.08383">(2019 ICCV)TSM: Temporal Shift Module for Efficient Video Understanding</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>对于视频理解任务，2D卷积backbone时计算量小，但不能获取时序关系；3D卷积backbone效果很好，但计算量过大。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出基于时序转移(temporal shift)的高效视频建模方法，在无额外计算开销的同时有较强的时空建模能力。在和2D卷积使用等量计算过程和参数量的情况下实现了3D卷积级的时空建模能力。</li>
+<li>提出(partial shift)和(residual shift)以实现高效的模型设计。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+MOC实现流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/STAD/MOC_2.png" alt="MOC实现流程图" loading="lazy"><br>
+（左侧feature提取部分，一次输入K张图片，R表示空间尺度下采样，默认为4，B为卷积后通道数，默认为64；右侧feature下的数字代表N、H、W、C，卷积层下的数字代表输入通道、输出通道、卷积核高度、卷积核宽度)。<br>
+模型先将图片输入2D特征提取backbone DLA-34(来自CenterNet，在ImageNet/COCO上预训练)，然后将任务分成三个步骤：</li>
+</ul>
+<ol>
+<li>Center分支：仅在关键帧处尝试找到动作实例中心点的可能位置，并进行动作分类；</li>
+<li>Movement分支：通过估计当前帧运动实例中心所在位置与管路中心的offset，实现连续帧内动作中心点的运动估计(将连续帧动作实例中心的移动转化为单点的运行轨迹)；</li>
+<li>Box分支：在每帧图像的回归中心处预测当前帧动作bbox的尺寸。<br>
+以上三分支可以从短视频片段从提取动作管道，在连结方法的基础上可以实现从长的未裁剪视频进行动作检测。<br>
+MOC三阶段示意图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/STAD/MOC_1.png" alt="MOC三阶段示意图" loading="lazy"></li>
+</ol>
+<ul>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>Center分支：构建大小为W'*H'*C，数值为0至1的热力图，表征关键帧处第C类动作中心在各个空间位置发生的几率。具体地，使用高斯核函数扩张动作中心点GT所在范围；使用focal loss来解决正负样本分布不均衡的问题；筛选策略为：在每一动作类别内，若一点处取值大于等于其八近邻，则将其作为候选；对于一段短视频，仅选取得分最高的N=100个视频进行后续操作。</li>
+<li>Movement分支：对K帧连续图像，将其作为整体输入3D卷积层，再输出W'*H'*(k*2)的特征图，等同于为每帧输出W'*H'*2的offset数值，表征每一个中心点处的移动方向；通过Center分支和Movement分支即可得到特定动作中心点的运动轨迹；仅GT所涵盖的中心点处的移动参与反向传播，具体损失函数使用L1。</li>
+<li>Box分支：实验表明class-agnostic bbox的产生与时序信息无关，故仅采用当前帧的信息输入Box分支，每一帧输出W'*H'*2的数值，表征每一个中心点处的候选框大小；具体损失函数使用L1。</li>
+<li>连结策略：对于任连续的K帧图片，选取动作通道(tubelets)并保留top10作为候选(candidate)；<br>
+初始化：对于首帧，每个候选通道开启一个link，对于其他帧，每个与现有link无交集的候选开启一个新link。<br>
+连结：一个候选需至少满足三个条件中的一个方可添加到现有link中：1候选并未被其他link选取，2link和候选的交集大于阈值，3候选具有最高的得分。在非首帧时，我们基于link得分的降序将当前帧的候选与现有link相连结(link的得分即使管道所有得分的均值)。<br>
+结束：当一个link在连续K帧没被扩展时，将link结束。</li>
+<li>补充：以上几分支的损失函数进行均衡；采用尺度变换、位置表换、图像转换等视频数据增强方法；可实现实时动作检测，通过用内存保存前K-1帧的特征来实现；连结策略中的一点是会舍弃过低置信度和过短的动作管道。</li>
+</ol>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>Center分支：仅在核心帧进行动作实例的中心点检测及动作分类，是不是不够好？应该在每一帧都看才对呀</li>
+<li>是不是不够anchor free，一次只能输入一部分frame</li>
+<li>Movement分支为什么不是针对类别的？</li>
+<li>Box分支为啥没类别？</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常用损失函数合集(Pytorch)]]></title>
+        <id>https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/</id>
+        <link href="https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/">
+        </link>
+        <updated>2020-12-11T07:41:26.000Z</updated>
+        <content type="html"><![CDATA[<p>训model嘛，损失函数总是要得。这里简单归纳一下常见的损失函数及其在Pytorch中的使用方法，以便查阅👨‍💻。<br>
+<ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">1. 交叉熵损失函数</a>
+<ul>
+<li><a href="#nnlogsoftmax">nn.LogSoftmax()</a></li>
+<li><a href="#nnnllloss">nn.NLLLoss()</a></li>
+<li><a href="#nncrossentropyloss">nn.CrossEntropyLoss()</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B">示例</a></li>
+</ul>
+</li>
+<li><a href="#2-%E4%BA%8C%E5%88%86%E7%B1%BB%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">2. 二分类交叉熵损失函数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="1-交叉熵损失函数">1. 交叉熵损失函数</h3>
+<p>交叉熵常用于多分类任务，在Pytorch中使用torch.nn.CrossEntropyLoss()函数实现。底层地，该函数是由<code>nn.LogSoftmax()</code>函数和<code>nn.NLLLoss()</code>函数结合得到的。</p>
+<h4 id="nnlogsoftmax">nn.LogSoftmax()</h4>
+<p>很简单的，<code>nn.LogSoftmax()</code>就是在Softmax()的基础上取对数(ln，以e为底)。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">LogSoftmax</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow><mo>=</mo><mi>log</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mrow><mi>exp</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow></mrow><mrow><munder><mo>∑</mo><mi>j</mi></munder><mi>exp</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><msub><mi>x</mi><mi>j</mi></msub><mo fence="true">)</mo></mrow></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\operatorname{LogSoftmax}\left(x_{i}\right)=\log \left(\frac{\exp \left(x_{i}\right)}{\sum_{j} \exp \left(x_{j}\right)}\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">L</span><span class="mord mathrm">o</span><span class="mord mathrm" style="margin-right:0.01389em;">g</span><span class="mord mathrm">S</span><span class="mord mathrm">o</span><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">t</span><span class="mord mathrm">m</span><span class="mord mathrm">a</span><span class="mord mathrm">x</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0000299999999998em;vertical-align:-1.25003em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16195399999999993em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">exp</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.1218180000000002em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size4">)</span></span></span></span></span></span></span></p>
+<h4 id="nnnllloss">nn.NLLLoss()</h4>
+<p><code>nn.NLLLoss()</code>即负对数似然函数(negative log likelihood loss)，常用于处理K分类问题。该损失函数的输入是对数概率向量和类别标签，适合最后一层是<code>nn.LogSoftmax()</code>的网络。<br>
+参考下述代码中loss1及loss2的计算方法去理解：<code>nn.NLLLoss()</code>就是将<code>nn.LogSoftmax()</code>输出中与label对应的值拿出来，去掉负号，再取均值。<br>
+以3张图片的5分类任务为例，我们假设label为0,2,4，我们将第一张图片网络输出五个值中的第一个值(index=0)、第二张图片输出的第三个值(index=2)、第三张图片输出的第五个值(index=4)拿出来，将这个三个数取相反数，求平均值，即为负对数似然函数的输出。</p>
+<h4 id="nncrossentropyloss">nn.CrossEntropyLoss()</h4>
+<h4 id="示例">示例</h4>
+<pre><code class="language-Python">import torch
+import torch.nn as nn
+
+inputs = torch.randn(3, 5)
+label = torch.tensor([0, 2, 4])
+print(inputs)
+'''
+tensor([[-4.0413e-01, -2.3209e+00,  7.4667e-01, -1.5884e-01, -9.4237e-01],
+        [ 9.7085e-02,  6.3694e-02, -1.7933e-01,  2.6058e-01, -1.9870e-01],
+        [ 1.0408e-01,  5.2098e-05, -9.9802e-01, -2.0989e-01,  1.1665e+00]])
+'''
+
+log_softmax = nn.LogSoftmax(dim=1)
+net = log_softmax(inputs)
+print(net)
+'''
+tensor([[-1.8196, -3.7364, -0.6688, -1.5743, -2.3579],
+        [-1.5363, -1.5697, -1.8127, -1.3728, -1.8321],
+        [-1.7677, -1.8717, -2.8698, -2.0817, -0.7052]])
+'''
+
+# NLLLoss after LogSoftmax.
+nll = nn.NLLLoss()
+loss1 = nll(net, label)
+print('NLLLoss value after LogSoftmax layer is {}.'.format(loss1))  
+# 1.4459
+
+# Simulink the process of NLLLoss.
+loss2 = 0.
+for i in range(len(label)):
+    loss2 += net[i][label[i]]
+loss2 = (-1.0) * loss2 / len(label)
+print(&quot;Simulink the process of NLLLoss to get loss: {}.&quot;.format(loss2))  
+# 1.4459
+
+# CrossEntropyLoss: combination of Softmax, log and NLLLoss.
+ce = nn.CrossEntropyLoss()
+loss3 = ce(inputs, label)
+print(&quot;Loss from CrossEntropyLoss is {}.&quot;.format(loss3))
+# 1.4459
+</code></pre>
+<h3 id="2-二分类交叉熵损失函数">2. 二分类交叉熵损失函数</h3>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[牛客网读取数据输入(Python3)]]></title>
+        <id>https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/</id>
+        <link href="https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/">
+        </link>
+        <updated>2020-12-09T13:03:09.000Z</updated>
+        <content type="html"><![CDATA[<p>之前都是Leetcode刷题，感受了一下牛客网ACM模式的刷题环境，emmm，简单记录一下吧🦄<br>
+举个例子，执行a+b算法，输入3组数据，内容如下(第一行代表数据组数，后几行为数据)：</p>
+<pre><code class="language-shell">3
+1 2
+3 4
+5 6
+</code></pre>
+<p>数据读取方式如下，最终将结果以<code>print</code>形式输出：</p>
+<pre><code class="language-Python">import sys
+
+n = int(sys.stdin.readline())
+for i in range(n):
+    line = sys.stdin.readline().strip()
+    data = list(map(int, line.split()))
+    a, b = data
+    print(a + b)
+</code></pre>
+<p>以下补充一种数据读取方法，但没使用过，仅做记录：</p>
+<pre><code class="language-Python">import sys
+try:
+    while True:
+        line = sys.stdin.readline().strip()
+        if line == '':
+            break
+        lines = line.split()
+        print int(lines[0]) + int(lines[1])
+except:
+    pass
+
+##############
+while True:
+    try:
+        number = input()
+        if(number == &quot;&quot;):
+            break
+        list1.append(number)
+    except EOFError:
+        break
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[时空动作定位(spatio-temporal action localization)论文总结]]></title>
+        <id>https://FuNian788.github.io/post/spatio-temporal-action-localization/</id>
+        <link href="https://FuNian788.github.io/post/spatio-temporal-action-localization/">
+        </link>
+        <updated>2020-11-08T06:24:44.000Z</updated>
+        <content type="html"><![CDATA[<p>迫于老板突然改题，匆忙阅读时空动作检测相关论文🤒<br>
+<ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89">任务定义</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF">实现思路</a>
+<ul>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB">论文阅读</a>
+<ul>
+<li><a href="#1-2020-eccvmoc-actions-as-moving-points">(1) (2020 ECCV)MOC: Actions as Moving Points</a></li>
+<li><a href="#2-yowo-you-only-watch-once-a-unified-cnn-architecture-for-real-time-spatio-temporal-action-localization">(2) YOWO: you only watch once: A unified CNN architecture for real-time spatio-temporal action localization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="任务定义">任务定义</h2>
+<p>检测视频中所有动作的同时，在时序和空间位置上给出定位。</p>
+<h2 id="常用数据集">常用数据集</h2>
+<p>UCF101-24：由3207段<strong>未裁剪</strong>的视频组成，涵盖24类运动动作，常使用第一split的视频来衡量动作检测的性能；<br>
+JHMDB：由928段<strong>裁剪好</strong>的视频组成，涵盖21类运动动作，常使用前三个split的均值来衡量动作检测的性能。数据集包含单帧层面的人体光流、人体mask、骨骼关节点、动作类别、图像性质(相机运动/可见人体部分/相机视角/人数/视频质量)等。<br>
+AVA：每3秒片段仅有一个动作类别标签，主要致力于基于单关键帧的动作检测，且该数据集不适合验证动作管道的性能。<br>
+实践中，常采用前两个数据集来衡量时空动作检测的指标。</p>
+<h2 id="应用场景">应用场景</h2>
+<p>视频监控、事件检测、人机交互、智能安防、异常检测、自动驾驶等</p>
+<h2 id="实现思路">实现思路</h2>
+<ol>
+<li>使用动作检测器在每一帧进行独立检测，再组合各帧检测结果以得到动作管路；或对单一目标检测结果进行进行时序跟踪。这种方法既低效又难以利用时序上下文信息。</li>
+<li>使用3D anchor和3D卷积，在视频片段层级执行动作分类和边界回归。此anchor-based方法是目前主流做法，eg人体检测(ResNet50-based Faster RCNN pretrained on ImageNet) +动作分类(I3D/S3D-G pretained on Kinetics + ROI pooling)，但会面临超参多、计算开销极大、动作时序/空间边界不够灵活、缺乏时空上下文连结信息等问题。</li>
+<li>基于目标跟踪轨迹线的anchor free动作检测方法，例如MOC。</li>
+<li>基于融合时序特征的类目标检测算法，例如YOWO。</li>
+</ol>
+<h3 id="指标比对">指标比对</h3>
+<p>以UCF101-24和JHMDB数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ID</th>
+<th style="text-align:center">paper</th>
+<th style="text-align:center">JHMDB Frame mAP</th>
+<th style="text-align:center">JHMDB Video mAP</th>
+<th style="text-align:center">UCF Frame mAP</th>
+<th style="text-align:center">UCF Video mAP</th>
+<th style="text-align:center">附注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">MOC</td>
+<td style="text-align:center">70.8</td>
+<td style="text-align:center">77.2</td>
+<td style="text-align:center">78.0</td>
+<td style="text-align:center">53.8</td>
+<td style="text-align:center">JHMDB averaged three split</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">YOWO(LFB)</td>
+<td style="text-align:center">75.7</td>
+<td style="text-align:center">85.9</td>
+<td style="text-align:center">87.3</td>
+<td style="text-align:center">53.1</td>
+<td style="text-align:center">JHMDB first split</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">TACNet</td>
+<td style="text-align:center">65.5</td>
+<td style="text-align:center">73.4</td>
+<td style="text-align:center">72.1</td>
+<td style="text-align:center">52.9</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">n</td>
+<td style="text-align:center">暴力3D sota</td>
+<td style="text-align:center">77.9</td>
+<td style="text-align:center">80.1</td>
+<td style="text-align:center">76.3</td>
+<td style="text-align:center">59.9</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="论文阅读">论文阅读</h2>
+<h3 id="1-2020-eccvmoc-actions-as-moving-points">(1) <a href="https://arxiv.org/abs/2001.04608">(2020 ECCV)MOC: Actions as Moving Points</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>基于tubelet的检测器很依赖启发式anchor设计，计算开销大，定位不够精准。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>通过将动作实例转换成对一个运动点的轨迹的分析与扩展，实现了高效而精准的检测框架MOC detector。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+MOC实现流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/STAD/MOC_2.png" alt="MOC实现流程图" loading="lazy"><br>
+（左侧feature提取部分，一次输入K张图片，R表示空间尺度下采样，默认为4，B为卷积后通道数，默认为64；右侧feature下的数字代表N、H、W、C，卷积层下的数字代表输入通道、输出通道、卷积核高度、卷积核宽度)。<br>
+模型先将图片输入2D特征提取backbone DLA-34(来自CenterNet，在ImageNet/COCO上预训练)，然后将任务分成三个步骤：</li>
+</ul>
+<ol>
+<li>Center分支：仅在关键帧处尝试找到动作实例中心点的可能位置，并进行动作分类；</li>
+<li>Movement分支：通过估计当前帧运动实例中心所在位置与管路中心的offset，实现连续帧内动作中心点的运动估计(将连续帧动作实例中心的移动转化为单点的运行轨迹)；</li>
+<li>Box分支：在每帧图像的回归中心处预测当前帧动作bbox的尺寸。<br>
+以上三分支可以从短视频片段从提取动作管道，在连结方法的基础上可以实现从长的未裁剪视频进行动作检测。<br>
+MOC三阶段示意图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/STAD/MOC_1.png" alt="MOC三阶段示意图" loading="lazy"></li>
+</ol>
+<ul>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>Center分支：构建大小为W'*H'*C，数值为0至1的热力图，表征关键帧处第C类动作中心在各个空间位置发生的几率。具体地，使用高斯核函数扩张动作中心点GT所在范围；使用focal loss来解决正负样本分布不均衡的问题；筛选策略为：在每一动作类别内，若一点处取值大于等于其八近邻，则将其作为候选；对于一段短视频，仅选取得分最高的N=100个视频进行后续操作。</li>
+<li>Movement分支：对K帧连续图像，将其作为整体输入3D卷积层，再输出W'*H'*(k*2)的特征图，等同于为每帧输出W'*H'*2的offset数值，表征每一个中心点处的移动方向；通过Center分支和Movement分支即可得到特定动作中心点的运动轨迹；仅GT所涵盖的中心点处的移动参与反向传播，具体损失函数使用L1。</li>
+<li>Box分支：实验表明class-agnostic bbox的产生与时序信息无关，故仅采用当前帧的信息输入Box分支，每一帧输出W'*H'*2的数值，表征每一个中心点处的候选框大小；具体损失函数使用L1。</li>
+<li>连结策略：对于任连续的K帧图片，选取动作通道(tubelets)并保留top10作为候选(candidate)；<br>
+初始化：对于首帧，每个候选通道开启一个link，对于其他帧，每个与现有link无交集的候选开启一个新link。<br>
+连结：一个候选需至少满足三个条件中的一个方可添加到现有link中：1候选并未被其他link选取，2link和候选的交集大于阈值，3候选具有最高的得分。在非首帧时，我们基于link得分的降序将当前帧的候选与现有link相连结(link的得分即使管道所有得分的均值)。<br>
+结束：当一个link在连续K帧没被扩展时，将link结束。</li>
+<li>补充：以上几分支的损失函数进行均衡；采用尺度变换、位置表换、图像转换等视频数据增强方法；可实现实时动作检测，通过用内存保存前K-1帧的特征来实现；连结策略中的一点是会舍弃过低置信度和过短的动作管道。</li>
+</ol>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>Center分支：仅在核心帧进行动作实例的中心点检测及动作分类，是不是不够好？应该在每一帧都看才对呀</li>
+<li>是不是不够anchor free，一次只能输入一部分frame</li>
+<li>Movement分支为什么不是针对类别的？</li>
+<li>Box分支为啥没类别？</li>
+</ol>
+<h3 id="2-yowo-you-only-watch-once-a-unified-cnn-architecture-for-real-time-spatio-temporal-action-localization">(2) <a href="https://arxiv.org/abs/1911.06644">YOWO: you only watch once: A unified CNN architecture for real-time spatio-temporal action localization</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>two-stage时空检测方法(tubelet+classification)：依赖人为设计的tubelet，计算开销大，边界难调整；双阶段网络难以全局优化；先检测人框再对3D anchor进行动作分类的方法过分关注人所在处的信息，忽略了背景等语义交互信息；计算开销更大，时间更久，更耗空间。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>建立one-stage的实时时空动作检测框架YOWO，一分支通过2D卷积提取当前帧的空间信息，一分支通过3D卷积提取前些帧的时空信息，使用注意力机制和通道融合方法，在融合特征的基础上进行检测任务输出动作种类和人体bbox，在达到sota精度的同时有着较快的检测速度。</li>
+</ol>
+<ul>
+<li>
+<p>实现流程：<br>
+YOWO实现流程图如下所示，核心部分为3D卷积分支，2D卷积分支，CFAM模块，边界回归模块。<br>
+<img src="https://FuNian788.github.io/post-images/STAD/YOWO_1.png" alt="YOWO实现流程图" loading="lazy"></p>
+</li>
+<li>
+<p>实现细节：</p>
+</li>
+</ul>
+<ol>
+<li>
+<p>特征提取<br>
+YOWO用于特征提取的2D/3D分支可使用任何形式的CNN替代，可在考量实时性和性能指标的基础上对其进行替换。<br>
+具体地，3D卷积分支使用在Kinetics上预训练的3D-ResNext-101作为backbone，输入视频段<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mo>∗</mo><mi>C</mi><mo>∗</mo><mi>H</mi><mo>∗</mo><mi>W</mi><mo separator="true">,</mo><mo>(</mo><mi>C</mi><mo>=</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">N*C*H*W,(C=3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>，选取网络最后一层卷积层输出的特征<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>N</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>C</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>H</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>W</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo separator="true">,</mo><mo>(</mo><msup><mi>N</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mn>1</mn><mo separator="true">,</mo><msup><mi>H</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mfrac><mi>H</mi><mn>32</mn></mfrac><mo separator="true">,</mo><msup><mi>W</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mfrac><mi>W</mi><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">N^{&#x27;}*C^{&#x27;}*H^{&#x27;}*W^{&#x27;},(N&#x27;=1,H&#x27;=\frac{H}{32}, W&#x27;=\frac{W}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.19248em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.08125em;">H</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">W</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span>；<br>
+2D卷积分支使用在PASCAL VOC上预训练的DarkNet-19作为backbone，输入图片<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mo>∗</mo><mi>H</mi><mo>∗</mo><mi>W</mi><mo separator="true">,</mo><mo>(</mo><mi>C</mi><mo>=</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">C*H*W,(C=3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>，输入特征<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>C</mi><msup><mrow></mrow><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msup></msup><mo>∗</mo><msup><mi>H</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>W</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo separator="true">,</mo><mo>(</mo><msup><mi>H</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mfrac><mi>H</mi><mn>32</mn></mfrac><mo separator="true">,</mo><msup><mi>W</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mfrac><mi>W</mi><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">C^{&#x27;&#x27;}*H^{&#x27;}*W^{&#x27;},(H&#x27;=\frac{H}{32}, W&#x27;=\frac{W}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.19248em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.08125em;">H</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">W</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span>。<br>
+两分支联合训练；使用StepLR策略；采用图像增强算法例如水平翻转、随机放缩、随机裁剪；使用阈值筛选bbox得分并通过NMS；鉴于数据集过小，在训练J-HMDB-21数据集时冻结了3D卷积的网络参数以加速收敛、避免过拟合。<br>
+从实验结果分析，2D网络更擅长定位任务(localization)，3D网络更擅长分类任务。从activation map角度分析，2D网络关注图像内所有的人，3D网络关注正在进行动作的发生位置。</p>
+</li>
+<li>
+<p>特征融合CFAM(channel fusion and attension mechansim)</p>
+</li>
+</ol>
+<p>补充知识：n维欧式空间中任意k个向量之间两两的内积所组成的矩阵，称为这k个向量的格拉姆矩阵(Gram matrix)，Gram矩阵可反映出一组向量中各个向量之间的关系。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Δ</mi><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>α</mi><mi>k</mi></msub><mo fence="true">)</mo></mrow><mo>=</mo><mrow><mo fence="true">(</mo><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>1</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>2</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mi>k</mi></msub><mo fence="true">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>1</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>2</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>α</mi><mi>k</mi></msub><mo fence="true">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>1</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>α</mi><mn>2</mn></msub><mo fence="true">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mo>…</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo fence="true">(</mo><msub><mi>α</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>α</mi><mi>k</mi></msub><mo fence="true">)</mo></mrow></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Delta\left(\alpha_{1}, \alpha_{2}, \ldots, \alpha_{k}\right)=\left(\begin{array}{cccc}
+\left(\alpha_{1}, \alpha_{1}\right) &amp; \left(\alpha_{1}, \alpha_{2}\right) &amp; \ldots &amp; \left(\alpha_{1}, \alpha_{k}\right) \\
+\left(\alpha_{2}, \alpha_{1}\right) &amp; \left(\alpha_{2}, \alpha_{2}\right) &amp; \ldots &amp; \left(\alpha_{2}, \alpha_{k}\right) \\
+\ldots &amp; \ldots &amp; \ldots &amp; \ldots \\
+\left(\alpha_{k}, \alpha_{1}\right) &amp; \left(\alpha_{k}, \alpha_{2}\right) &amp; \ldots &amp; \left(\alpha_{k}, \alpha_{k}\right)
+\end{array}\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Δ</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:4.80006em;vertical-align:-2.15003em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500299999999997em;"><span style="top:-1.6499900000000003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎝</span></span></span><span style="top:-2.805em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎜</span></span></span><span style="top:-3.4050100000000003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎜</span></span></span><span style="top:-4.65003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.15003em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500000000000004em;"><span style="top:-4.8100000000000005em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-1.2099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.1500000000000004em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500000000000004em;"><span style="top:-4.8100000000000005em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-1.2099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.1500000000000004em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500000000000004em;"><span style="top:-4.8100000000000005em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-1.2099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.1500000000000004em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500000000000004em;"><span style="top:-4.8100000000000005em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner">…</span></span></span><span style="top:-1.2099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.1500000000000004em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.6500299999999997em;"><span style="top:-1.6499900000000003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎠</span></span></span><span style="top:-2.805em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎟</span></span></span><span style="top:-3.4050100000000003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎟</span></span></span><span style="top:-4.65003em;"><span class="pstrut" style="height:3.1550000000000002em;"></span><span class="delimsizinginner delim-size4"><span>⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.15003em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>例如输入图像的特征维度为(C, H, W)，通过flatten可得到(C, H*W)形式的矩阵，对该矩阵做内积，即将其与转置得到的(H*W, C)型矩阵做矩阵乘法，即得到(C, C)形式的Gram矩阵(显然Gram矩阵是一个对称矩阵)。<br>
+Gram矩阵可以看作特征之间的偏心协方差矩阵(未减去均值故偏心)。Gram矩阵第(i, j)个元素表示通道i特征和通道j特征的内积，故其可以代表i和j通道特征的相关程度，例如特征同时出现/此消彼长的程度等。<br>
+Gram可应用于风格迁移中，例如以原图和风格图像feature map对应的Gram矩阵差异化最小为目标进行优化，最近也有了在分割任务中的应用。<br>
+将2D分支和3D分支输出的特征沿通道叠加，流程如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/STAD/YOWO_2.png" alt="CFAM特征融合" loading="lazy"><br>
+特征C是由特征B的原始特征加上计算的通道权重得到的。将B至C的四条线分别认为是1~4步，则3、4步即为Gram矩阵计算过程，其中3输出(C, H*W)的矩阵，4输出(H*W, C)的矩阵，但随后进行softmax归一化操作以得到矩阵M(C, C)；M矩阵与2输出的(C, H*W)矩阵点乘，再reshape得到(C, H, W)的矩阵F，最终C矩阵为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mo>=</mo><mi>α</mi><mi>F</mi><mo>+</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">C = \alpha F+B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span></span></span></span>为从0开始学习的参数。<br>
+注意，前后的两层卷积层可以对2D分支、3D分支这样来自不同backbone，可能有分布差异的特征进行融合。CFAM的性能提升是显著的，但如果没有这四层卷积层，性能只有小幅提升。</p>
+<ol start="3">
+<li>bbox连结策略(linking strategy)<br>
+采用通用连结策略：</li>
+</ol>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>s</mi><mi>c</mi></msub><mrow><mo fence="true">(</mo><msub><mi>R</mi><mi>t</mi></msub><mo separator="true">,</mo><msub><mi>R</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo fence="true">)</mo></mrow><mo>=</mo><mi>ψ</mi><mo>(</mo><mi>o</mi><mi>v</mi><mo>)</mo><mo>⋅</mo><mrow><mo fence="true">[</mo><msub><mi>s</mi><mi>c</mi></msub><mrow><mo fence="true">(</mo><msub><mi>R</mi><mi>t</mi></msub><mo fence="true">)</mo></mrow><mo>+</mo><msub><mi>s</mi><mi>c</mi></msub><mrow><mo fence="true">(</mo><msub><mi>R</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo fence="true">)</mo></mrow></mrow><mo>+</mo><mi>α</mi><mo>⋅</mo><msub><mi>s</mi><mi>c</mi></msub><mrow><mo fence="true">(</mo><msub><mi>R</mi><mi>t</mi></msub><mo fence="true">)</mo></mrow><mo>⋅</mo><msub><mi>s</mi><mi>c</mi></msub><mrow><mo fence="true">(</mo><msub><mi>R</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo fence="true">)</mo></mrow><mrow><mo>+</mo><mi>β</mi><mo>⋅</mo><mi>o</mi><mi>v</mi><mrow><mo fence="true">(</mo><msub><mi>R</mi><mi>t</mi></msub><mo separator="true">,</mo><msub><mi>R</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo fence="true">)</mo></mrow><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">s_{c}\left(R_{t}, R_{t+1}\right)= \psi(o v) \cdot\left[s_{c}\left(R_{t}\right)+s_{c}\left(R_{t+1}\right)\right.
++\alpha \cdot s_{c}\left(R_{t}\right) \cdot s_{c}\left(R_{t+1}\right) 
+\left.+\beta \cdot o v\left(R_{t}, R_{t+1}\right)\right]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">ψ</span><span class="mopen">(</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen nulldelimiter"></span><span class="mord">+</span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose delimcenter" style="top:0em;">]</span></span></span></span></span></span></p>
+<p>其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">R_{t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>代表t时刻检测区域；<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">R_{t+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>代表t+1时刻检测区域；<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>o</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">o v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>代表两个区域的IoU值；<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>ψ</mi><mo>(</mo><mi>o</mi><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\psi(o v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">ψ</span><span class="mopen">(</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>为单值函数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>o</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">o v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>为0时为0，其余相交时刻为1；<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>s</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">s_{c}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>代表c类别动作的得分。<br>
+在得到所有两两图像的连结得分后，使用Viterbi算法寻找最优路径以得到动作管道tubelet。</p>
+<ol start="4">
+<li>
+<p>长时特征存储(Long-Term Feature Bank)<br>
+YOWO仅输入当前时刻之前的短时频段(8/16帧)以保证实时性，但也可利用较长的前后视频特征以提高性能。在3D分支处，LFB方法使用以当前帧为中心的8个特征平均后的结果作为CFAM模块的输入(每个特征是由8帧图像得到的，相当于共利用了前后共64帧的信息)。该方法在损伤实时性的同时却显著提高了效果。</p>
+</li>
+<li>
+<p>3D网络输入视频帧数及降采样频率<br>
+<img src="https://FuNian788.github.io/post-images/STAD/YOWO_3.png" alt="降采样" loading="lazy"><br>
+如图，作者做了详细的实验，eg frame-8 &amp; d-3代表从24帧中采样8帧。16帧效果较好因为其包括了更多的时序信息，降采样频率较大效果不好是因为可能没有很好地捕获动作模式，且过长的序列可能破坏时序结构(eg对于较短的动作而言，较长的序列可能包含许多不相干的信息)。</p>
+</li>
+<li>
+<p>bbox回归<br>
+沿袭YOLO的结构，在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>H</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>W</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup></mrow><annotation encoding="application/x-tex">H^{&#x27;}*W^{&#x27;}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>的每个grid处，设计5个先验框，输出<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mn>5</mn><mo>+</mo><mi>n</mi><mi>u</mi><msub><mi>m</mi><mi>c</mi></msub><mi>l</mi><mi>a</mi><mi>s</mi><mi>s</mi><mo>)</mo><mo>∗</mo><msup><mi>H</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>∗</mo><msup><mi>W</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup></mrow><annotation encoding="application/x-tex">(5+num_class)*H^{&#x27;}*W^{&#x27;}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.94248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.94248em;"><span style="top:-2.94248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>，其中5代表xywh的offset和confidence score。<br>
+具体地，使用多尺度训练，测试时将图片压缩至224*224；使用SGD+momentum+weight decay济宁训练；使用smooth L1损失函数以定位(对于坏点较L2更不敏感)；使用focal loss以分类。</p>
+</li>
+</ol>
+<ul>
+<li>改进/Challenge/idea/Que：</li>
+</ul>
+<ol>
+<li>光流去哪里了</li>
+<li>时序因果卷积可以加载哪里</li>
+<li>作者认为，YOWO获取了过多的前置信息以至于有时会在动作开始前便给出高置信度，flase positive，这个是不是可以和我的时序方法综合一下，例如我输出score结果来辅助一下。<br>
+同时作者认为，YOWO需要很多前置信息，以至于动作刚开始时容易判断错类别。<br>
+我觉得这部分的工作可以很好地和proposal的score思路进行结合。·</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pytorch Debug小记]]></title>
+        <id>https://FuNian788.github.io/post/pytorch-debug-xiao-ji/</id>
+        <link href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/">
+        </link>
+        <updated>2020-10-21T04:44:40.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#thcunnbcecriterioncu42-assertion-input-0-input-1-failed">THCUNN/BCECriterion.cu:42: Assertion `input &gt;= 0. &amp;&amp; input &lt;= 1.` failed.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="thcunnbcecriterioncu42-assertion-input-0-input-1-failed">THCUNN/BCECriterion.cu:42: Assertion `input &gt;= 0. &amp;&amp; input &lt;= 1.` failed.</h3>
+<p>直接原因：torch.nn.BSEloss()函数输入值不在0-1的范围内<br>
+根本原因：网络参数运算过程中出现NAN数值破坏最终结果<br>
+bug定位过程：<br>
+初始化模型后，第一个epoch即有一定几率报错，排查数据后，将学习率设置为1e-10时仍可偶尔复现该错误，故排除模型训飞(反向传播时偶有极大梯度，在部分层处发生梯度爆炸)；<br>
+猜测是模型初始化问题，舍弃框架原有初始化方式，改用kaiming_normal方法，错误仍产生，排除初始化参数时造成的NAN；<br>
+模型最后一层为Sigmoid，原则上会限制输入在0-1范围内，故得知NAN发生在模型运行中，才发生了Sigmoid(tensor(NAN))==NAN的错误；<br>
+猜测是LayerNorm连续遇到不同类型数据，通过线性放缩将模型带飞，将batch_size从2改到16，问题消失。<br>
+补充思路：<br>
+使用binary_cross_entropy_with_logits函数替代Sigmoid+BSEloss()函数；<br>
+使用torch.clamp(0,1)将数据限制在特定范围内(不靠谱)；<br>
+使用x = torch.where(torch.isnan(x), torch.zeros_like(x), x)将数据限制在特定范围内(不靠谱)；<br>
+补充知识：<br>
+Pytorch的torch.nn.BSEloss()函数在求梯度时进行截断操作，最多仅能传递-100的梯度；</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一文详解Pytorch中view()和reshape()的区别]]></title>
+        <id>https://FuNian788.github.io/post/pytorch-view-reshape/</id>
+        <link href="https://FuNian788.github.io/post/pytorch-view-reshape/">
+        </link>
+        <updated>2020-09-22T11:39:12.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#torchview">torch.view()</a></li>
+<li><a href="#torchreshape">torch.reshape()</a></li>
+<li><a href="#pytorch%E4%B8%8Etensorflow%E5%AF%B9%E6%AF%94">Pytorch与TensorFlow对比</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<p>Pytorch中主要使用<code>view()</code>与<code>reshape()</code>来改变tensor的shape。</p>
+<h3 id="torchview">torch.view()</h3>
+<p><code>torch.view()</code>通过<strong>共享内存地址</strong>的方式使用原tensor的基础数据，通过改变数据读取方式来返回一个具有新shape的新tensor；只能使用<code>torch.Tensor.view()</code>方式调用；在使用时要求新shape与原shape的尺寸兼容，即函数只能应用于<strong>内存中连续存储</strong>的tensor，使用<code>transpose</code>、<code>permute</code>等函数改变tensor在内存内连续性后需使用<code>contiguous()</code>方法返回拷贝后的值再调用该函数。<br>
+可参照下例辅助理解：</p>
+<pre><code class="language-Python">import torch
+
+a = torch.arange(24).view(1,2,3,4)
+b = a.view(1,3,2,4)     # b.shape: 1 * 3 * 2 * 4  
+c = a.transpose(1,2)    # c.shape: 1 * 3 * 2 * 4
+# d = c.view(2, 12)     # raise error because of the uncontinuous data.
+d = c.contiguous().view(2, 12)
+print(b)
+'''
+tensor([[[[ 0,  1,  2,  3],
+          [ 4,  5,  6,  7]],
+
+         [[ 8,  9, 10, 11],
+          [12, 13, 14, 15]],
+
+         [[16, 17, 18, 19],
+          [20, 21, 22, 23]]]])
+'''
+print(c)
+'''
+tensor([[[[ 0,  1,  2,  3],
+          [12, 13, 14, 15]],
+
+         [[ 4,  5,  6,  7],
+          [16, 17, 18, 19]],
+
+         [[ 8,  9, 10, 11],
+          [20, 21, 22, 23]]]])
+'''
+print(id(b) == id(c))           # False
+print(id(b.data) == id(c.data)) # True
+
+b[0, 0, :, :] = 100
+print(a, b) # 'a' will also change its data.
+</code></pre>
+<h3 id="torchreshape">torch.reshape()</h3>
+<p><code>torch.reshape()</code>通过拷贝并使用原tensor的基础数据(而<strong>非共享内存地址</strong>)以返回一个具有新shape的新tensor；可使用<code>torch.reshape()</code>或<code>torch.Tensor.reshape()</code>方法调用。此函数不依赖tensor在内存的连续性，当内存连续时，该函数与<code>torch.view()</code>函数等价，当内存不连续时，会自动复制后再改变形状，相当于<code>contiguous().view()</code>。此函数于Pytorch0.4时加入，解决了之前只有<code>view</code>函数时的部分遗留问题。<br>
+可参照下例辅助理解：</p>
+<pre><code class="language-Python">import torch
+a = torch.zeros(3, 2)
+b = a.reshape(6)
+c = a.t().reshape(6)
+a.fill_(1)
+print(b)    # tensor([1., 1., 1., 1., 1., 1.])
+print(c)    # tensor([0., 0., 0., 0., 0., 0.])
+</code></pre>
+<h3 id="pytorch与tensorflow对比">Pytorch与TensorFlow对比</h3>
+<p>对Pytorch中view函数和reshape函数的执行方式深入分析：在此过程中内存中数据分布并不发生改变，仅仅是数据读取方式发生了改变，更像是开创了一个特定shape的数组后单纯地将内存中数据逐个填入。<br>
+对比一下Pytorch和TensorFlow在更改tensor形状时的要求：假设我们有一个6*8大小的矩阵，希望将其转换成2*8*3的形状，TensorFlow会要求先将其拆成2*3*8再转成2*8*3；而Pytorch中可以直接转换而不报错，但这样的结果显然与我们想要的相去甚远，如果要正确转换格式，还是要先调换维度，再reshape/view。<br>
+一言以蔽之，Pytorch中改变矩阵shape的门槛更低，但也正是因此，更容易出错，对coder提出了更高的要求。<br>
+参照下例：</p>
+<pre><code class="language-Python">import torch
+
+a = torch.zeros(6,5)
+for i in range(6):
+    a[i,:] = i
+print(a)
+&quot;&quot;&quot;
+tensor([[0., 0., 0., 0., 0.],
+        [1., 1., 1., 1., 1.],
+        [2., 2., 2., 2., 2.],
+        [3., 3., 3., 3., 3.],
+        [4., 4., 4., 4., 4.],
+        [5., 5., 5., 5., 5.]])
+&quot;&quot;&quot;
+
+b = a.view(2,5,3)
+c = a.reshape(2,5,3)
+print(b, c)
+&quot;&quot;&quot;
+'b' is same as 'c', which is as below:
+tensor([[[0., 0., 0.],
+         [0., 0., 1.],
+         [1., 1., 1.],
+         [1., 2., 2.],
+         [2., 2., 2.]],
+
+        [[3., 3., 3.],
+         [3., 3., 4.],
+         [4., 4., 4.],
+         [4., 5., 5.],
+         [5., 5., 5.]]])
+&quot;&quot;&quot;
+d = a.reshape(2,3,5).transpose(1,2)
+print(d)
+&quot;&quot;&quot;
+tensor([[[0., 1., 2.],
+         [0., 1., 2.],
+         [0., 1., 2.],
+         [0., 1., 2.],
+         [0., 1., 2.]],
+
+        [[3., 4., 5.],
+         [3., 4., 5.],
+         [3., 4., 5.],
+         [3., 4., 5.],
+         [3., 4., 5.]]])
+&quot;&quot;&quot;
+
+</code></pre>
+<h3 id="总结">总结</h3>
+<p>如果需要新tensor，使用<code>copy()</code>；如果需要共享内存，使用<code>view()</code>；无脑<code>reshape()</code>不可取。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu杂记]]></title>
+        <id>https://FuNian788.github.io/post/ubuntu-misc/</id>
+        <link href="https://FuNian788.github.io/post/ubuntu-misc/">
+        </link>
+        <updated>2020-09-17T03:22:24.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#ubuntu%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%AD%90%E7%9B%AE%E5%BD%95%E5%AF%BB%E6%89%BE%E6%96%87%E4%BB%B6">Ubuntu在当前目录及子目录寻找文件</a></li>
+<li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="ubuntu在当前目录及子目录寻找文件">Ubuntu在当前目录及子目录寻找文件</h3>
+<p>以检索所有xml文件为例：</p>
+<pre><code class="language-Shell">sudo find | grep -i .*[.]xml
+</code></pre>
+<p>在检索指令grep中， <code>-i</code>表示忽略大小写， <code>.*</code> 两个组合表示匹配任意字符，<code>[.]</code>表示xml前强制匹配<code>.</code>。</p>
+<h3 id="ubuntu查看文件夹内文件数量">Ubuntu查看文件夹内文件数量</h3>
+<p>以下所称“文件”是目录、链接、设备文件等的总称。<br>
+查看当前目录下文件数量(<strong>不包含</strong>子目录中的文件)，也就是<code>ls</code>指令后弹出的文件数量：</p>
+<pre><code class="language-Shell">ls -l | grep &quot;-&quot; | wc -l
+</code></pre>
+<p>查看当前目录下文件数量(<strong>包含</strong>子目录中的文件)：</p>
+<pre><code class="language-Shell">ls -lR | grep &quot;-&quot; | wc -l
+</code></pre>
+<p>查看当前目录内的目录数量(<strong>不包含</strong>子目录中的目录)：</p>
+<pre><code class="language-Shell">ls -l | grep &quot;^d&quot; | wc -l
+</code></pre>
+<p>查看当前目录内的目录数量(<strong>包含</strong>子目录中的目录)：</p>
+<pre><code class="language-Shell">ls -lR | grep &quot;^d&quot; | wc -l
+</code></pre>
+<p>查看以'GUGU'开头的目录下全部文件的数量：</p>
+<pre><code class="language-Shell">ls -lR GUGU*/ | grep &quot;-&quot; | wc -l
+</code></pre>
+<p>其中，<code>ls -l</code>表示以长列表输出指定目录下的信息，<code>grep</code>是一种文本搜索工具，<code>&quot;-&quot;</code>代表文件，<code>&quot;d&quot;</code>代表目录，<code>wc -l</code>表示统计输出信息的行数。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pytorch杂记]]></title>
+        <id>https://FuNian788.github.io/post/pytorch-misc/</id>
+        <link href="https://FuNian788.github.io/post/pytorch-misc/">
+        </link>
+        <updated>2020-09-17T03:20:28.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
+<li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
+<li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
+<li><a href="#nnmodules%E5%92%8Cnnchildren%E7%9A%84%E5%8C%BA%E5%88%AB">nn.modules和nn.children的区别</a></li>
+<li><a href="#pytorch%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">Pytorch内存管理</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%BC%A0%E9%87%8F%E6%93%8D%E4%BD%9C">常用张量操作</a></li>
+<li><a href="#torchtensor%E5%92%8Ctorchtensor%E7%9A%84%E5%8C%BA%E5%88%AB">torch.tensor和torch.Tensor()的区别</a></li>
+<li><a href="#modeleval%E6%B6%89%E5%8F%8A%E7%9A%84bn%E5%8F%8Adropout%E5%86%85%E5%AE%B9">model.eval()涉及的BN及Dropout内容</a></li>
+<li><a href="#%E5%A4%9Agpu%E7%9A%84%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6">多GPU的处理机制</a></li>
+<li><a href="#torchnnparameter">torch.nn.Parameter()</a></li>
+<li><a href="#pytorch-conv1d">Pytorch Conv1d</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87mask%E5%B0%86%E4%B8%8D%E5%90%8C%E6%A0%B7%E6%9C%AC%E4%BC%A0%E7%BB%99%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">通过mask将不同样本传给不同的损失函数</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E5%99%A8%E7%9B%B8%E5%85%B3">优化器相关</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="torchnnmodule主要功能dshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</h3>
+<p>nn.Module()是最常用的模块了，与nn.functional只做运算不同，它还会保存权重等信息。</p>
+<p>parameters(memo=None): 返回一个 包含模型所有参数 的迭代器。一般用作optimizer参数<br>
+children(): 返回当前模型 子模块的迭代器。<br>
+name_children(): 返回 包含 模型当前子模块 的迭代器，yield 模块名字和模块本身。<br>
+modules(): 返回一个包含 当前模型 所有模块的迭代器。<br>
+named_modules(): 返回包含网络中所有模块的迭代器, yielding 模块名和模块本身。</p>
+<p>注册功能：</p>
+<p>register_parameter(name, param):向module添加 parameter,可以通过name获取<br>
+register_forward_hook(hook)：在module上注册一个forward hook。 每次调用<br>
+forward()计算输出的时候，这个hook就会被调用。</p>
+<p>register_backward_hook(hook)：在module上注册一个bachward hook。每次计算<br>
+module的inputs的梯度的时候，这个hook会被调用</p>
+<p>register_buffer(name, tensor)：给module添加一个persistent buffer，通常用<br>
+来保存一个不需要看成模型参数的状态</p>
+<h3 id="pytorch使用scatter_函数将label变成one-hot编码">Pytorch使用scatter_函数将label变成one hot编码</h3>
+<p>在制作数据集时，常需要将index标签转换为one hot编码形式，较好的实现方式是通过scatter_函数。<br>
+scatter_函数的核心思想是，用给定数据input，基于维度dim和索引index去填充目标矩阵(dim轴上的数值由index确定)：<br>
+<code>tensor.scatter_(dim, index, src, reduce=None)</code><br>
+举一个最常见的示例：</p>
+<pre><code>&gt;&gt;&gt; x = torch.rand(2, 5)
+&gt;&gt;&gt; x
+ 0.4319  0.6500  0.4080  0.8760  0.2355
+ 0.2609  0.4711  0.8486  0.8573  0.1029
+[torch.FloatTensor of size 2x5]
+&gt;&gt;&gt; torch.zeros(3, 5).scatter_(0, torch.LongTensor([[0, 1, 2, 0, 0], [2, 0, 0, 1, 2]]), x)
+ 0.4319  0.4711  0.8486  0.8760  0.2355
+ 0.0000  0.6500  0.0000  0.8573  0.0000
+ 0.2609  0.0000  0.4080  0.0000  0.1029
+</code></pre>
+<p>使用2x5的矩阵去填充3x5的目标矩阵，当dim=0时，使用index填充0维度，则可将index转换成<br>
+<code>[[(0,0),(1,1),(2,2),(0,3),(0,4)], [(2,0),(0,1),(0,2),(1,3),(2,4)]]</code>，再将源矩阵中的对应值填充到新矩阵index'的位置。<br>
+举例，将N*1的label转换成one hot编码格式，假设N=10，label类别共3类(以1,2,3标记)：</p>
+<pre><code class="language-Python">N = 10
+label = torch.randint(1, 4, (N, 1))
+one_hot_label = (label - 1).long()
+one_hot_label = torch.zeros(len(label), N).scatter_(1, one_hot_label, 1)
+</code></pre>
+<h3 id="dataloader中collate_fn的使用">DataLoader中collate_fn的使用</h3>
+<p>Pytorch的DataLoader可选collate_fn参数，从而对每次读取的batch数据进行处理。<br>
+当batch选项关闭时，<code>collate_fn</code>函数会在读取每个独立的数据时均被调用，且默认的功能只是将Numpy数组转换成Pytorch tensor；<br>
+当batch选项开启时，<code>collate_fn</code>函数会在读取整个batch的数据时被调用，即将独立的数据组合至batch级别，且此过程中默认保留原有数据结构、将Numpy数组转换成Pytorch tensor。举例，设置torch.utils.data.Dataset在__getitem__方法中基于index读取一张图片和一个label，默认的<code>collate_fn</code>会使torch.utils.data.DataLoader返回一个包含batch_size个元组的列表，每个元组内含有一张图片和一个label，类似的列表会由迭代器不断返回，共len(data)/batch_size个(暂不考虑取整)，以代码的形式可视化，返回值为<code>[(image, label) for _ in range(batch_size)]</code>。<br>
+有特殊需求时才会改写<code>collate_fn</code>函数，例如在非第一维度外的维度进行concate、对不同长度的序列进行padding等。</p>
+<h3 id="nnmodules和nnchildren的区别">nn.modules和nn.children的区别</h3>
+<p>nn.children()会返回模型的子元素，可用如<code>list(model.children())</code>方法查看(等价于用<code>model.named_children()</code>迭代器进行遍历)，其中子元素既可能是单独的一层如Linear，也可能是Sequential；<br>
+nn.modules()会递归地返回所有的子元素，可用如<code>list(model.modules())</code>方法查看(等价于用<code>model.named_modules()</code>迭代器进行遍历)，其中Sequential内包含的子元素也会被迭代地返回。</p>
+<h3 id="pytorch内存管理">Pytorch内存管理</h3>
+<p>查看tensor内存状态：<code>tensor.storage()</code><br>
+查看tensor间是否共享内存：<code>id(tensor1.storage()) == id(tensor2.storage())</code><br>
+查看tensor元首素相对于storage地址的偏移量：<code>tensor.storage_offset()</code><br>
+查看tensor内存空间是否连续：<code>tensor.is_contiguous()</code><br>
+查看tensor内部的步长信息：<code>tensor.stride()</code><br>
+Pytorch中的tensor分为头信息区(tensor)和存储区(storage)，头信息区主要保存tensor的形状、步长、数据类型等信息，真正的数据则以一维连续数组的形式保存在存储区。事实上，绝大多数操作并不修改tensor的实际数据(即存储区的内容)，而是修改tensor的头信息，这样操作既节约内存，处理速度也更快，例如使用索引截取部分tensor后新tensor的内存指向不会发生变化，只会改变对应的地址偏移量，而使用<code>tensor.contiguous()</code>方法会将数据复制到新的内存中，不再共享原有地址。</p>
+<h3 id="常用张量操作">常用张量操作</h3>
+<p><code>torch.cat(tensors, dim=0, out=None)</code>可对数据在指定维度进行拼接，新数据在该维度上通道数是原数据通道数之和，且此过程要求原数据在非指定维度的其他维度具有相同的shape。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.ones(2,3)
+b = torch.ones(4,3) * 2
+c = torch.ones(1, 3) * 3
+print(torch.cat((a, b), 0)) # shape: 7 * 3
+
+c = torch.ones(2, 4, 3)
+d = torch.ones(2, 4, 2) * 2
+print(torch.cat((c, d), 2)) # shape: 2 * 4 * 5
+</code></pre>
+<p><code>torch.stack(tensors, dim=0, out=None)</code>是将多个矩阵在新的维度上进行堆叠(会增加新的维度)，一般要求被堆叠矩阵的shape保持相同。其中dim参数的取值范围为0至原有通道数的左闭右闭集合。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.ones(2,3)
+b = torch.ones(2,3) * 2
+c = torch.ones(2,3) * 3
+print(torch.stack((a, b, c), dim=2))
+</code></pre>
+<p><code>torch.transpose(input, dim0, dim1)</code>返回将input维度dim0和dim1调换后的新tensor，能且仅能调换两个维度。该操作仅改变了数据的读取方式，并不改变内存存储，且output与input共享内存。既可以以<code>torch.transpose</code>形式调用，也可以以<code>torch.Tensor.transpose</code>形式调用。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.randn(2,3,4)
+b = torch.transpose(a, 2, 1)
+print(b.shape)  # b.shape: 2 * 4 * 3
+
+b[0, :, :] = 0
+print(a, b)     # 'a' will also change its data.
+</code></pre>
+<p><code>torch.Tensor.permute(*dims)</code>返回将input维度重新排列后的新tensor，必须传入所有维度的索引且能进行多个维度的调换。仅可以以<code>torch.Tensor.permute</code>形式调用。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.randn(2, 3, 5)
+b = a.permute(2, 0, 1)
+print(b, b.shape)   # b.shape: 5 * 2 * 3
+</code></pre>
+<h3 id="torchtensor和torchtensor的区别">torch.tensor和torch.Tensor()的区别</h3>
+<p>torch.tensor()是python函数，会对数据部分做拷贝(而非引用)，根据原始数据类型生成对应torch.LongTensor、torch.FloatTensor和torch.DoubleTensor等。<br>
+torch.Tensor()是python类，也是torch.FloatTensor()的简称，使用此会生成FloatTensor。<br>
+torch.tensor()内的输入即value，torch.Tensor()内的输入即shape，参考下例：</p>
+<pre><code class="language-python">a = torch.tensor(2)     # tensor(2)
+b = torch.tensor([2])   # tensor([2])
+c = torch.Tensor(2)     # tensor([0., 0.])
+d = torch.Tensor([2])   # tensor([2.])
+</code></pre>
+<p>其实这两者的关系很像numpy中的numpy.array和numpy.ndarray，前者是函数，后者是类对象，可通过前者创建后者。</p>
+<h3 id="modeleval涉及的bn及dropout内容">model.eval()涉及的BN及Dropout内容</h3>
+<p>如果模型中存在BN(Batch Normalization)和Dropout，需要在训练时添加model.train()，测试时添加model.eval()。<br>
+训练时，BN层采用当前batch数据的均值和方差，进行Dropout以更新部网络分参数；<br>
+测试时，BN层采用全部训练数据的均值和方差，不进行Dropout，使用所有网络参数。</p>
+<h3 id="多gpu的处理机制">多GPU的处理机制</h3>
+<p>Pytorch下多GPU的处理机制为：<br>
+（1）在各个GPU上初始化模型；<br>
+（2）前向传播时，把batch数据分配到各个GPU上进行计算；<br>
+（3）将输出结果在主GPU上汇总，计算loss并反向传播，更新主GPU上模型的权值；<br>
+（4）将主GPU上的模型复制到其它GPU上。</p>
+<h3 id="torchnnparameter">torch.nn.Parameter()</h3>
+<p><code>torch.nn.Parameter()</code>可以将一个不可训练的Tensor转换成可训练的Parameter(此时requires_grad默认为True)，并将该Parameter绑定到module中，变成模型参数(<code>model.parameters()</code>)的一部分，从而可以进行参数优化。但注意，Parameter也是tensor，符合一切tensor特性。<br>
+<code>torch.tensor(a, requires_grad=True)</code>则不尽相同，其只能将参数变成可训练的，但并未将其绑定到module的Parameters列表中。<br>
+具体例程如下所示：</p>
+<pre><code class="language-Python">import math
+import numpy as np
+
+import torch
+import torch.nn as nn
+from torch.optim import Adam
+
+class NN_Network(nn.Module):
+    def __init__(self,in_dim,hid,out_dim):
+        super(NN_Network, self).__init__()
+        self.linear1 = nn.Linear(in_dim,hid)
+        self.linear2 = nn.Linear(hid,out_dim)
+        self.linear1.weight = torch.nn.Parameter(torch.zeros(in_dim,hid))
+        self.linear1.bias = torch.nn.Parameter(torch.ones(hid))
+        self.linear2.weight = torch.nn.Parameter(torch.zeros(hid,out_dim))
+        self.linear2.bias = torch.nn.Parameter(torch.ones(out_dim))
+        self.test1 = torch.nn.Parameter(torch.zeros(10))
+        self.test2 = torch.tensor([0. for i in range(10)], requires_grad=True)
+
+    def forward(self, input_array):
+        h = self.linear1(input_array)
+        y_pred = self.linear2(h)
+        return y_pred
+
+in_d = 5
+hidn = 2
+out_d = 3
+net = NN_Network(in_d, hidn, out_d)
+
+for param in net.parameters():
+    print(type(param.data), param.size())
+# print(list(net.parameters()))
+# ------------------------------------------
+# &lt;class 'torch.Tensor'&gt; torch.Size([10])
+# &lt;class 'torch.Tensor'&gt; torch.Size([5, 2])
+# &lt;class 'torch.Tensor'&gt; torch.Size([2])
+# &lt;class 'torch.Tensor'&gt; torch.Size([2, 3])
+# &lt;class 'torch.Tensor'&gt; torch.Size([3])
+</code></pre>
+<h3 id="pytorch-conv1d">Pytorch Conv1d</h3>
+<p>详细文档参考<a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html?highlight=conv1d#torch.nn.Conv1d">官方文档</a>。<br>
+在分析之前先回回顾Conv2d。在Conv2d中，当stride=2，kernel=2时，输入<code>batch_size*C_in*100*100</code>的图片，输出特征大小为<code>batch_size*C_out*50*50</code>，在长宽两个尺度上均有尺度的缩小。<br>
+而一维卷积不尽相同，只在特征尺度进行卷积。若输入特征大小为<code>batch_size*C_in*length_in</code>，则输出特征大小为<code>batch_size*C_out*length_out</code>，在此过程中仅对length这单一尺度进行stride、kernel_size和padding等方面的计算。<br>
+举例如下：</p>
+<pre><code class="language-Python">m = nn.Conv1d(in_channels=16,out_channels=33, kernel_size=3, stride=2)
+inputs = torch.randn(20, 16, 50)
+outputs = m(inputs)
+# outputs.shape: torch.Size([20, 33, 24])
+</code></pre>
+<h3 id="通过mask将不同样本传给不同的损失函数">通过mask将不同样本传给不同的损失函数</h3>
+<p>如果不同样本需要传给不同的损失函数(例如batch内包含正负样本，希望正样本通过loss1和loss2，负样本通过loss2)，不推荐在model的__forward__函数或loss函数中使用if判断样本状态(TF的静态图肯定无法支持，不确定Pytorch的动态图是否支持，就算支持定点反向传播，就算避免了可微上的问题，实际的运算速度也会很慢)，<strong>建议直接使用1-0 mask对样本进行遮盖</strong>，mask可通过数值一致实现零梯度，避免了对应样本的反向传播，也可以蹭上框架中矩阵优化的东风。<br>
+加mask方式如下：</p>
+<pre><code class="language-Python">output = model(input)
+mask = np.ones_like(gt_label)
+mask[negative_sample] = 0
+# mask.shape == output.shape == gt_label.shape
+loss = loss_func(output * mask, gt_label * mask)
+</code></pre>
+<h3 id="优化器相关">优化器相关</h3>
+<p>Pytorch中optim模块的优化器：</p>
+<ol>
+<li>可使用weight_decay参数设置L2 loss。</li>
+<li>可在模型参数位置传入列表以对多个模型的参数进行优化。<br>
+<code>optimizer = optim.Adam([model_coarse.parameters(), model_fine.parameters()], lr=opt.learning_rate, weight_decay=opt.weight_decay_l2)</code></li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Deep Learning杂记]]></title>
+        <id>https://FuNian788.github.io/post/deep-learning-misc/</id>
+        <link href="https://FuNian788.github.io/post/deep-learning-misc/">
+        </link>
+        <updated>2020-09-17T03:19:27.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BD%92%E4%B8%80%E5%8C%96">数据归一化</a></li>
+<li><a href="#bn%E5%92%8C%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%BF%80%E6%B4%BB%E5%B1%82%E7%9A%84%E5%89%8D%E5%90%8E%E9%A1%BA%E5%BA%8F">BN和非线性激活层的前后顺序</a></li>
+<li><a href="#precision-recall">precision &amp; recall</a></li>
+<li><a href="#aran-map">AR@AN &amp; mAP</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E6%8B%9F%E5%90%88%E8%90%BD%E5%9C%B0model%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E6%A1%88%E4%BE%8B">如何拟合落地model时遇到的特殊案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="数据归一化">数据归一化</h3>
+<p>数据归一化的核心形式：<strong>减去均值，除以标准差，施以线性映射</strong>。不同归一化方法的主要区别在于操作的feature map维度不同。归一化方法的示意图如下所示：BN是对每个通道内归一化；GN是对每个样本的几个通道进行归一化；LN和IN是GN的变种，LN是对每个样本内所有通道归一化，IN是对每个样本的每个通道内归一化。<br>
+<img src="https://FuNian788.github.io/post-images/1603075146545.jpg" alt="归一化示意图" loading="lazy"><br>
+单纯使数据具有0均值和单位方差是不够的，这种规范化甚至可能会降低层的表达能力，例如使用Sigmoid激活函数时，受限于数据的范围，激活函数只有近似线性的部分被使用；同时底层神经元的努力不应被简单粗暴地通过归一化方式调整，为此添加两个线性参数(平移、缩放)来维持表达能力(将原数据x增强为ax+b形式)。<br>
+更多有关归一化的知识可参照Juliuszh的博客<a href="https://zhuanlan.zhihu.com/p/33173246">详解深度学习中的Normalization，BN/LN/WN</a>，讲的非常之好！</p>
+<h3 id="bn和非线性激活层的前后顺序">BN和非线性激活层的前后顺序</h3>
+<p>先说结论，实测时将BN层放在ReLU层的后面的结果通常较好(尽管作者在论文中将ReLU放在BN层的后边)。<br>
+虽然没有明确的解释，但我们可以从玄学角度进行一定的思考：<br>
+(1)如tanh和sigmoid函数，相较于x的变化，y的变化比较小，容易出现梯度衰减的问题，此时在非线性激活前进行BN，可在一定程度上缓解梯度衰减；但ReLU的函数图像和前二者相去甚远，先ReLU后BN可能会有更好的平滑作用；<br>
+(2)对于后续的层，BN和ReLU的组合主要完成归一化操作。考虑到BN中两个可学习参数，先ReLU后BN的网络参数更满足0均值和单位方差，而先BN后ReLU可能会破坏这种数据归一格式。</p>
+<h3 id="precision-recall">precision &amp; recall</h3>
+<p>precision = TP / (TP+FP)<br>
+recall = TP / (TP+FN)<br>
+FP是错判成正样本的样本(实际为负样本)，precision准确率代表模型输出中实际正样本的比例；<br>
+FN是错判成负样本的样本(实际为正样本)，recall召回率代表正样本被模型检出的比例。</p>
+<h3 id="aran-map">AR@AN &amp; mAP</h3>
+<p>AR@AN即Average Recall vs. Average Number of Proposals per Video，由于TAP任务只需要提出候选框而不需要进一步分类，故可用此指标衡量找的框是否够全。详细信息及代码可参照：<a href="http://activity-net.org/challenges/2019/tasks/anet_proposals.html">activity-net页面</a>。<br>
+mAP即mean average precision，AP是在某一类别中PR曲线与坐标轴围成的面积，mAP是在所有种类中的均值。</p>
+<h3 id="如何拟合落地model时遇到的特殊案例">如何拟合落地model时遇到的特殊案例</h3>
+<ol>
+<li>trick/先验经验/人为设计特征</li>
+<li>使用大量同类数据来进一步训练（金钱开销大）</li>
+<li>虚拟引擎复现特定环境以产生数据（金钱时间开销大、实现困难）</li>
+</ol>
+]]></content>
+    </entry>
+</feed>

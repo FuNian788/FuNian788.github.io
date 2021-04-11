@@ -1,0 +1,735 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Python杂记 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Python杂记 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+
+
+scipy模块插值使用方法fdgfgdgfd
+Python中队列的使用方法
+Python2和Python3除法
+Python3中列表、元组、字典和集合
+Python字符串
+Python导入方式
+Python3迭代器(iterato..." />
+  <meta property="og:title" content="Python杂记 - Zexian Li">
+  <meta property="og:description" content="
+
+
+
+
+scipy模块插值使用方法fdgfgdgfd
+Python中队列的使用方法
+Python2和Python3除法
+Python3中列表、元组、字典和集合
+Python字符串
+Python导入方式
+Python3迭代器(iterato..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/python-misc/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Python杂记 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+
+
+scipy模块插值使用方法fdgfgdgfd
+Python中队列的使用方法
+Python2和Python3除法
+Python3中列表、元组、字典和集合
+Python字符串
+Python导入方式
+Python3迭代器(iterato...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/python-misc/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Python杂记
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 13 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
+<li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
+<li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
+<li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>
+<li><a href="#python%E5%AD%97%E7%AC%A6%E4%B8%B2">Python字符串</a></li>
+<li><a href="#python%E5%AF%BC%E5%85%A5%E6%96%B9%E5%BC%8F">Python导入方式</a></li>
+<li><a href="#python3%E8%BF%AD%E4%BB%A3%E5%99%A8iterator%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8generator">Python3迭代器(iterator)和生成器(generator)</a></li>
+<li><a href="#python-zip%E5%87%BD%E6%95%B0">Python zip函数</a></li>
+<li><a href="#python3-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7">Python3 异常捕获</a></li>
+<li><a href="#python%E6%8E%92%E5%BA%8F">Python排序</a></li>
+<li><a href="#python-http%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">Python http局域网传输文件</a></li>
+<li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
+<li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
+<li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="scipy模块插值使用方法fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</h3>
+<p><code>scipy.interpolate.interp1d</code>函数可实现一维尺度的插值，函数输入如下所示：<code>scipy.interpolate.interp1d(x, y, kind='linear', axis=- 1, copy=True, bounds_error=None, fill_value=nan, assume_sorted=False)</code><br>
+输入x为1-D矩阵，输入y为N-D矩阵，</p>
+<pre><code class="language-Python">    Arguements:
+        feature (tensor[C=opt.feature_dimension=2048][T=temporal_length]): proposed proposal's clipped-feature.
+        num_sample (int[1]): number of sample points.
+
+    Return Arguements:
+        feature_spfp (tensor[C=opt.feature_dimension=2048][T=num_sample]): interpolation feature after SPFP.
+    &quot;&quot;&quot;
+
+    feature_dimension, temporal_length = feature.shape
+    assert feature_dimension == 2048
+
+    # For each channel, learn from x: range(T) and y: feature value(shape:[T]).
+    # Then use linear interpolation to fit sample points and get its possibel value.
+    spfp = scipy.interpolate.interp1d(range(temporal_length), feature, axis=1)
+    feature_spfp = np.zeros((feature_dimension, num_sample), dtype=np.float32)
+    sample_indexs = [float(i + np.random.random()) / num_sample * (temporal_length - 1) for i in range(num_sample)]
+
+    for i, sample_index in enumerate(sample_indexs):
+        feature_spfp[:,i] = spfp(sample_index)   
+
+    return feature_spfp
+</code></pre>
+<h3 id="python中队列的使用方法">Python中队列的使用方法</h3>
+<ol>
+<li>使用queue</li>
+</ol>
+<pre><code class="language-Python">from queue import Queue
+q = Queue() 
+q.put(node) # in
+q.get()     # out
+</code></pre>
+<ol start="2">
+<li>使用deque</li>
+</ol>
+<pre><code class="language-Python">import collections
+q = collections.deque() 
+q.append()   # in
+q.popleft()  # out
+</code></pre>
+<h3 id="python2和python3除法">Python2和Python3除法</h3>
+<p>Python2中<code>/</code>除法时，两个int相除为整除法，返回向下取整的整数值；参数中若有float变量则进行正常的float除法，返回真float值。Python3中<code>/</code>除法全返回float真值。</p>
+<pre><code class="language-Python">#             Python2     Python3 
+print(3/2)      # 1         1.5
+print(-3/2)     # -2        -1.5
+print(3/2.0)    # 1.5       1.5
+print(-3.0/2)   # -1.5      -1.5
+</code></pre>
+<p>Python2和Python3中<code>//</code>除法都寓意整除，均为：两个int相除时返回向下取整的整数值，参数中若有float变量则返回向下取整的整数的float形。</p>
+<pre><code class="language-Python">#             Python2     Python3 
+print(3//2)      # 1         1
+print(-3//2)     # -2        -2
+print(3//2.0)    # 1.0       1.0
+print(-3.0//2)   # -2.0      -2.0
+</code></pre>
+<h3 id="python3中列表-元组-字典和集合">Python3中列表、元组、字典和集合</h3>
+<ol>
+<li>列表(list)：使用<code>[]</code>或list创建，支持增删查改、索引等操作。<br>
+常用操作如下表所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">list.append(obj)</td>
+<td style="text-align:left">在列表末尾添加单个对象</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">list.extend(seq)</td>
+<td style="text-align:left">在列表末尾添加另一个序列内部的所有内容</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">list.insert(index, obj)</td>
+<td style="text-align:left">将对象插入列表特定位置</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">list.pop([index=-1])</td>
+<td style="text-align:left">移除列表中的一个元素(默认最后一个)，并返回该元素的值</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">list.remove(obj)</td>
+<td style="text-align:left">移除列表中某值的第一个匹配项</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">list.index(value)</td>
+<td style="text-align:left">列表中第一个匹配某值的索引位置</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">list.count(obj)</td>
+<td style="text-align:left">统计某个元素在列表中出现的次数</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">list.sort(key=None, reverse=False)</td>
+<td style="text-align:left">列表排序</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">list.reverse()</td>
+<td style="text-align:left">反向列表中元素</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">list.copy()</td>
+<td style="text-align:left">复制列表</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">list.clear()</td>
+<td style="text-align:left">清空列表</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>元组(tuple)：使用<code>()</code>或tuple创建，支持增删查、索引等操作。功能均近似于列表，甚至常用操作函数也与列表相同，区别仅在于不可改变元组内部的值。</li>
+<li>字典(dict)：使用<code>{}</code>或dict创建键值对，支持增删查改等操作。需注意键只可出现一次，若出现多次仅记住最后一次输入；键不可变，故键值需采用数字、字符串和元组，不可使用列表作为键。<br>
+常用操作如下表所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">dict.clear()</td>
+<td style="text-align:left">清空字典</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">dict.items()</td>
+<td style="text-align:left">返回可遍历的(键，值)元组数组</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">dict.keys()</td>
+<td style="text-align:left">返回可遍历的键数组(而非列表)</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">dict.values()</td>
+<td style="text-align:left">返回可遍历的值数组(而非列表)</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">dict.update(dict2)</td>
+<td style="text-align:left">将dict2的键值对添加到现有dict中</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">dict.get(key, default=None)</td>
+<td style="text-align:left">返回键对应的值，若不存在则返回default</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">dict.setdefault(key, default=None)</td>
+<td style="text-align:left">返回键对应的值，若不存在则添加为default</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">dict.fromleys(keys[, value])</td>
+<td style="text-align:left">以keys作为键创建字典，所有键均赋值为value</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">dict.pop(key[, default])</td>
+<td style="text-align:left">删除键key对应的键值对并将值返回，若不存在则需给定default值并返回default值</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">dict.popitem()</td>
+<td style="text-align:left">删除并返回最后一对键值对</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">del dict[key]</td>
+<td style="text-align:left">删除键key对应的键值对</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>集合(set)：使用<code>{}</code>或set创建，支持增删操作。集合为不重复元素无序集，内部元素需为不可变数据类型(例如数字、字符串、元组等，不支持列表)。<br>
+常用操作如下所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">set1 - set2 / set1.difference(set2)</td>
+<td style="text-align:left">返回set1包含而set2不包含的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">set1.difference_update(set2,...)</td>
+<td style="text-align:left">将set1变为set1包含而set2不包含的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">set1 | set2 / set1.union(set2,...)</td>
+<td style="text-align:left">返回并集</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">set1 &amp; set2 / set1.intersection(set2,...)</td>
+<td style="text-align:left">返回交集</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">set1.intersection_update(set2,...)</td>
+<td style="text-align:left">将set1变为交集</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">set1 ^ set2 / set1.symmetric_difference(set2)</td>
+<td style="text-align:left">只单独存在set1或set2内的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">set1.symmetric_difference_update(set2)</td>
+<td style="text-align:left">将set1变为只单独存在set1或set2内的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">set.add(x)</td>
+<td style="text-align:left">添加元素</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">set.update(x)</td>
+<td style="text-align:left">添加若干个序列内部所有的内容(可为列表、元组、字典等，字典时添加键)</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">set.remove(x)</td>
+<td style="text-align:left">移除元素，若不存在则报错</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">set.discard(x)</td>
+<td style="text-align:left">移除元素，若不存在不报错</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">set.clear()</td>
+<td style="text-align:left">清空集合</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center">set1.isdisjoint(set2)</td>
+<td style="text-align:left">返回两个集合是否含有相同元素</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">set1.issubset(set2)</td>
+<td style="text-align:left">返回set1为set2的子集</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">set1.issuperset(set2)</td>
+<td style="text-align:left">返回set2为set1的子集</td>
+</tr>
+</tbody>
+</table>
+<p>以上部分内容参考runoob.com。</p>
+<h3 id="python字符串">Python字符串</h3>
+<p>Python2中默认的编码方式是ASCII；Python3中默认的编码方式是Unicode字符集+UTF-8编码规则。Python2中还有Unicode字符串和非Unicode字符串混用的情况，例如用<code>unicode()</code>将对象转换成Unicode字符串，用<code>str()</code>将对象转换成非Unicode字符串；而Python3只有Unicode字符串，只剩下<code>str()</code>函数实现所有的功能。<br>
+Python2中字节字符串是str，文本字符串是Unicode；Python3中字节字符串是bytes，文本字符串是str。<br>
+字符串都是以Unicode字符进行存储的。</p>
+<h3 id="python导入方式">Python导入方式</h3>
+<p>Python2在导入时，先在当前目录搜索，再在Python搜索路径中搜索(sys.path)；Python3会直接在Python的搜索路径中搜索，所以有些情况下需使用<code>from . import xx</code>进行重名包的导入。</p>
+<h3 id="python3迭代器iterator和生成器generator">Python3迭代器(iterator)和生成器(generator)</h3>
+<p>迭代(iterable)是访问集合元素的一种方式，迭代器(iterator)是一个可以记住遍历位置的对象。迭代器对象从集合的第一个元素开始访问，每次访问一个元素，在所有的元素均被访问后结束。迭代器只能往前不会后退。<br>
+迭代器都是可迭代的，但不是所有可迭代的对象都是迭代器。<br>
+可用<code>isinstance(something, Iterable)</code>语句来判断具体对象是否为可迭代的，能作用于for循环的对象都是可迭代的，我们常见的列表list、元组tuple、集合set、字典dict、字符串都是可迭代的，一些自定义类也是可迭代的。<br>
+可用<code>isinstance(something, Iterator)</code>语句来判断具体对象是否为迭代器，能作用于<code>next()</code>函数的对象都是迭代器，上述提到的列表list、元组tuple、集合set、字典dict、字符串均不是迭代器，可在自定义类中实现<code>__iter__()</code>与<code>__next__()</code>方法来创建迭代器。<br>
+我们常用<code>iter()</code>方法从可迭代对象构建迭代器，使用<code>next()</code>或常规for语句使迭代器遍历下一个元素。迭代器是一个惰性的数据流，我们并不知道迭代器的长度，只在调用next函数时才去计算并返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<pre><code class="language-Python">a = {1, 2, 3, 4}    
+iteration = iter(a)
+for i in range(len(a)):
+    print(next(iteration))
+for i in iteration:
+    print(i)
+</code></pre>
+<p>注：我们常对迭代器使用<code>tqdm(iterator)</code>方法来显示进度。<br>
+使用了yield的Python函数被称为生成器(generator)，生成器一定是一个迭代器。在生成器运行的过程中，每次遇到yield时函数会暂停并保存当前所有的运行信息，同时返回yield的值, 并在下一次执行next()方法时从当前位置继续运行。</p>
+<h3 id="python-zip函数">Python zip函数</h3>
+<pre><code class="language-Python">a = [1,2,3]
+b = (4,5,6)
+c = [7,8,9]
+d = list(zip(a, b, c))
+print(d)    # [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+</code></pre>
+<h3 id="python3-异常捕获">Python3 异常捕获</h3>
+<ol>
+<li>抛出自定义异常<br>
+可用<code>raise BaseException</code>或<code>raise BaseException(&quot;GUGU&quot;)</code>形式抛出自定义异常。</li>
+<li>捕获异常<br>
+捕获异常的方式可如下所示：</li>
+</ol>
+<pre><code class="language-Python">try:
+    import mymodule
+except:
+# except ImportError:
+# except ImportError as e:
+# except (ImportError, RuntimeError) as e:
+    print(&quot;An Error.&quot;)
+</code></pre>
+<h3 id="python排序">Python排序</h3>
+<p>Python中可通过<code>sorted()</code>函数对任何可迭代对象进行排序，函数返回一个新的排序后数据；具体对于列表这种数据结构，可使用<code>list.sort()</code>方法对原列表进行in-place排序，此方法返回None以防止混淆。<br>
+可通过形参key来制定在列表元素上进行调用的函数，可通过reverse参数制定是否进行降序排序。<br>
+具体使用可参照下例，对同学的成绩进行降序排列，优先看得分，随后看等级：</p>
+<pre><code class="language-Python">student_tuples = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10), ('kate', 'A', 12)]
+print(sorted(student_tuples, key=lambda student: (student[2], -ord(student[1])), reverse=True))
+</code></pre>
+<h3 id="python-http局域网传输文件">Python http局域网传输文件</h3>
+<p>A电脑在准备传输文件的路径下使用<code>python -m http.server</code>创建web sever，B电脑用浏览器打开A电脑的ip地址加上:8000，例如<code>127.0.0.1:8000</code>，即可点击并下载相应文件。</p>
+<h3 id="python-super函数">Python super函数</h3>
+<p>，用于解决多重继承问题。<br>
+在类的继承中，如果重定义某个方法，该方法会覆盖父类的同名方法，但有时我们希望能同时实现父类的功能，<code>super()</code>函数就是用于调用父类功能的一个方法，常用于解决多重继承问题(eg多重继承时，希望祖父的<code>__init__</code>方法只被执行一次)。</p>
+<pre><code class="language-Python">class A(object):   
+    def add(self, x):
+        print(x + 1)
+
+class B(A):
+    def add(self, x):
+        super(B, self).add(x)   # Python 2
+        super().add()           # Python 3
+</code></pre>
+<p>更深入地，在多重继承时，Python遵循类的方法解析顺序(Method Resolution Order，MRO)列表进行解析，详细内容可参照<a href="https://blog.csdn.net/wo198711203217/article/details/84097274">博客</a>。<br>
+在Pytorch定义模型时常常继承<code>torch.nn.Module</code>，如下：</p>
+<pre><code class="language-Python">class MyModel(nn.Module):
+    def __init__(self, in_features):
+        super(MyModel, self).__init__()
+        self.in_features = in_features
+</code></pre>
+<h3 id="numpypytorch产生随机数">numpy/Pytorch产生随机数</h3>
+<p>numpy中随机数功能都在np.random模块下，torch中随机数功能都在torch模块下。</p>
+<p>numpy.random.rand(d0, d1, …, dn)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
+numpy.random.random((d0, d1, …, dn))返回[0, 1)中均匀分布的样本值，函数接收参数元组；<br>
+torch.rand(*size, out=None)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
+numpy.random.randn(d0, d1, …, dn)是从标准正态分布中返回一个或多个样本值；<br>
+torch.randn(*size, out=None)是从标准正态分布中返回一个或多个样本值；<br>
+np.random.randint(low, high, size)从[low, high)中返回特定格式的整数值；<br>
+torch.randint(low, high, size)从[low, high)中返回特定格式的整数值。</p>
+<pre><code class="language-Python">rand_np = np.random.rand(2, 3)
+random_np = np.random.random((2, 3))
+rand_torch = torch.rand(2, 3)
+randn_np = np.random.randn(2, 3)
+randn_torch = torch.randn(2, 3)
+randint_np = np.random.randint(low=0, high=3, size=(2, 3))
+randint_torch = torch.randint(low=0, high=3, size=(2, 3))
+</code></pre>
+<h3 id="numpy的轴">numpy的轴</h3>
+<p>以此作例：</p>
+<pre><code class="language-Python">import numpy as np
+
+a = np.ones((3,4))* 2
+print(a.sum(axis=0))    # [6. 6. 6. 6.]
+print(a.sum(axis=1))    # [8. 8. 8.]
+print(np.count_nonzero(a, axis=0))  # [3 3 3 3]
+print(np.count_nonzero(a, axis=1))  # [4 4 4]
+print(np.count_nonzero(a.sum(axis=0)))  # 4
+</code></pre>
+<p>当<code>a.sum(axis=0)</code>时，程序执行的是<code>sum(a[:][j])</code>；<br>
+当<code>a.sum(axis=1)</code>时，程序执行的是<code>sum(a[i][:])</code>。</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
+<li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
+<li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
+<li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>
+<li><a href="#python%E5%AD%97%E7%AC%A6%E4%B8%B2">Python字符串</a></li>
+<li><a href="#python%E5%AF%BC%E5%85%A5%E6%96%B9%E5%BC%8F">Python导入方式</a></li>
+<li><a href="#python3%E8%BF%AD%E4%BB%A3%E5%99%A8iterator%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8generator">Python3迭代器(iterator)和生成器(generator)</a></li>
+<li><a href="#python-zip%E5%87%BD%E6%95%B0">Python zip函数</a></li>
+<li><a href="#python3-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7">Python3 异常捕获</a></li>
+<li><a href="#python%E6%8E%92%E5%BA%8F">Python排序</a></li>
+<li><a href="#python-http%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">Python http局域网传输文件</a></li>
+<li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
+<li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
+<li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

@@ -1,0 +1,513 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Pytorch杂记 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Pytorch杂记 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+
+
+torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
+Pytorch使用scatter_函数将label变成one hot编码
+DataLoader中collate_fn的使用
+nn.modules和n..." />
+  <meta property="og:title" content="Pytorch杂记 - Zexian Li">
+  <meta property="og:description" content="
+
+
+
+
+torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
+Pytorch使用scatter_函数将label变成one hot编码
+DataLoader中collate_fn的使用
+nn.modules和n..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/pytorch-misc/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Pytorch杂记 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+
+
+torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
+Pytorch使用scatter_函数将label变成one hot编码
+DataLoader中collate_fn的使用
+nn.modules和n...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/pytorch-misc/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Pytorch杂记
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 12 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
+<li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
+<li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
+<li><a href="#nnmodules%E5%92%8Cnnchildren%E7%9A%84%E5%8C%BA%E5%88%AB">nn.modules和nn.children的区别</a></li>
+<li><a href="#pytorch%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">Pytorch内存管理</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%BC%A0%E9%87%8F%E6%93%8D%E4%BD%9C">常用张量操作</a></li>
+<li><a href="#torchtensor%E5%92%8Ctorchtensor%E7%9A%84%E5%8C%BA%E5%88%AB">torch.tensor和torch.Tensor()的区别</a></li>
+<li><a href="#modeleval%E6%B6%89%E5%8F%8A%E7%9A%84bn%E5%8F%8Adropout%E5%86%85%E5%AE%B9">model.eval()涉及的BN及Dropout内容</a></li>
+<li><a href="#%E5%A4%9Agpu%E7%9A%84%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6">多GPU的处理机制</a></li>
+<li><a href="#torchnnparameter">torch.nn.Parameter()</a></li>
+<li><a href="#pytorch-conv1d">Pytorch Conv1d</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87mask%E5%B0%86%E4%B8%8D%E5%90%8C%E6%A0%B7%E6%9C%AC%E4%BC%A0%E7%BB%99%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">通过mask将不同样本传给不同的损失函数</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E5%99%A8%E7%9B%B8%E5%85%B3">优化器相关</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="torchnnmodule主要功能dshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</h3>
+<p>nn.Module()是最常用的模块了，与nn.functional只做运算不同，它还会保存权重等信息。</p>
+<p>parameters(memo=None): 返回一个 包含模型所有参数 的迭代器。一般用作optimizer参数<br>
+children(): 返回当前模型 子模块的迭代器。<br>
+name_children(): 返回 包含 模型当前子模块 的迭代器，yield 模块名字和模块本身。<br>
+modules(): 返回一个包含 当前模型 所有模块的迭代器。<br>
+named_modules(): 返回包含网络中所有模块的迭代器, yielding 模块名和模块本身。</p>
+<p>注册功能：</p>
+<p>register_parameter(name, param):向module添加 parameter,可以通过name获取<br>
+register_forward_hook(hook)：在module上注册一个forward hook。 每次调用<br>
+forward()计算输出的时候，这个hook就会被调用。</p>
+<p>register_backward_hook(hook)：在module上注册一个bachward hook。每次计算<br>
+module的inputs的梯度的时候，这个hook会被调用</p>
+<p>register_buffer(name, tensor)：给module添加一个persistent buffer，通常用<br>
+来保存一个不需要看成模型参数的状态</p>
+<h3 id="pytorch使用scatter_函数将label变成one-hot编码">Pytorch使用scatter_函数将label变成one hot编码</h3>
+<p>在制作数据集时，常需要将index标签转换为one hot编码形式，较好的实现方式是通过scatter_函数。<br>
+scatter_函数的核心思想是，用给定数据input，基于维度dim和索引index去填充目标矩阵(dim轴上的数值由index确定)：<br>
+<code>tensor.scatter_(dim, index, src, reduce=None)</code><br>
+举一个最常见的示例：</p>
+<pre><code>&gt;&gt;&gt; x = torch.rand(2, 5)
+&gt;&gt;&gt; x
+ 0.4319  0.6500  0.4080  0.8760  0.2355
+ 0.2609  0.4711  0.8486  0.8573  0.1029
+[torch.FloatTensor of size 2x5]
+&gt;&gt;&gt; torch.zeros(3, 5).scatter_(0, torch.LongTensor([[0, 1, 2, 0, 0], [2, 0, 0, 1, 2]]), x)
+ 0.4319  0.4711  0.8486  0.8760  0.2355
+ 0.0000  0.6500  0.0000  0.8573  0.0000
+ 0.2609  0.0000  0.4080  0.0000  0.1029
+</code></pre>
+<p>使用2x5的矩阵去填充3x5的目标矩阵，当dim=0时，使用index填充0维度，则可将index转换成<br>
+<code>[[(0,0),(1,1),(2,2),(0,3),(0,4)], [(2,0),(0,1),(0,2),(1,3),(2,4)]]</code>，再将源矩阵中的对应值填充到新矩阵index'的位置。<br>
+举例，将N*1的label转换成one hot编码格式，假设N=10，label类别共3类(以1,2,3标记)：</p>
+<pre><code class="language-Python">N = 10
+label = torch.randint(1, 4, (N, 1))
+one_hot_label = (label - 1).long()
+one_hot_label = torch.zeros(len(label), N).scatter_(1, one_hot_label, 1)
+</code></pre>
+<h3 id="dataloader中collate_fn的使用">DataLoader中collate_fn的使用</h3>
+<p>Pytorch的DataLoader可选collate_fn参数，从而对每次读取的batch数据进行处理。<br>
+当batch选项关闭时，<code>collate_fn</code>函数会在读取每个独立的数据时均被调用，且默认的功能只是将Numpy数组转换成Pytorch tensor；<br>
+当batch选项开启时，<code>collate_fn</code>函数会在读取整个batch的数据时被调用，即将独立的数据组合至batch级别，且此过程中默认保留原有数据结构、将Numpy数组转换成Pytorch tensor。举例，设置torch.utils.data.Dataset在__getitem__方法中基于index读取一张图片和一个label，默认的<code>collate_fn</code>会使torch.utils.data.DataLoader返回一个包含batch_size个元组的列表，每个元组内含有一张图片和一个label，类似的列表会由迭代器不断返回，共len(data)/batch_size个(暂不考虑取整)，以代码的形式可视化，返回值为<code>[(image, label) for _ in range(batch_size)]</code>。<br>
+有特殊需求时才会改写<code>collate_fn</code>函数，例如在非第一维度外的维度进行concate、对不同长度的序列进行padding等。</p>
+<h3 id="nnmodules和nnchildren的区别">nn.modules和nn.children的区别</h3>
+<p>nn.children()会返回模型的子元素，可用如<code>list(model.children())</code>方法查看(等价于用<code>model.named_children()</code>迭代器进行遍历)，其中子元素既可能是单独的一层如Linear，也可能是Sequential；<br>
+nn.modules()会递归地返回所有的子元素，可用如<code>list(model.modules())</code>方法查看(等价于用<code>model.named_modules()</code>迭代器进行遍历)，其中Sequential内包含的子元素也会被迭代地返回。</p>
+<h3 id="pytorch内存管理">Pytorch内存管理</h3>
+<p>查看tensor内存状态：<code>tensor.storage()</code><br>
+查看tensor间是否共享内存：<code>id(tensor1.storage()) == id(tensor2.storage())</code><br>
+查看tensor元首素相对于storage地址的偏移量：<code>tensor.storage_offset()</code><br>
+查看tensor内存空间是否连续：<code>tensor.is_contiguous()</code><br>
+查看tensor内部的步长信息：<code>tensor.stride()</code><br>
+Pytorch中的tensor分为头信息区(tensor)和存储区(storage)，头信息区主要保存tensor的形状、步长、数据类型等信息，真正的数据则以一维连续数组的形式保存在存储区。事实上，绝大多数操作并不修改tensor的实际数据(即存储区的内容)，而是修改tensor的头信息，这样操作既节约内存，处理速度也更快，例如使用索引截取部分tensor后新tensor的内存指向不会发生变化，只会改变对应的地址偏移量，而使用<code>tensor.contiguous()</code>方法会将数据复制到新的内存中，不再共享原有地址。</p>
+<h3 id="常用张量操作">常用张量操作</h3>
+<p><code>torch.cat(tensors, dim=0, out=None)</code>可对数据在指定维度进行拼接，新数据在该维度上通道数是原数据通道数之和，且此过程要求原数据在非指定维度的其他维度具有相同的shape。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.ones(2,3)
+b = torch.ones(4,3) * 2
+c = torch.ones(1, 3) * 3
+print(torch.cat((a, b), 0)) # shape: 7 * 3
+
+c = torch.ones(2, 4, 3)
+d = torch.ones(2, 4, 2) * 2
+print(torch.cat((c, d), 2)) # shape: 2 * 4 * 5
+</code></pre>
+<p><code>torch.stack(tensors, dim=0, out=None)</code>是将多个矩阵在新的维度上进行堆叠(会增加新的维度)，一般要求被堆叠矩阵的shape保持相同。其中dim参数的取值范围为0至原有通道数的左闭右闭集合。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.ones(2,3)
+b = torch.ones(2,3) * 2
+c = torch.ones(2,3) * 3
+print(torch.stack((a, b, c), dim=2))
+</code></pre>
+<p><code>torch.transpose(input, dim0, dim1)</code>返回将input维度dim0和dim1调换后的新tensor，能且仅能调换两个维度。该操作仅改变了数据的读取方式，并不改变内存存储，且output与input共享内存。既可以以<code>torch.transpose</code>形式调用，也可以以<code>torch.Tensor.transpose</code>形式调用。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.randn(2,3,4)
+b = torch.transpose(a, 2, 1)
+print(b.shape)  # b.shape: 2 * 4 * 3
+
+b[0, :, :] = 0
+print(a, b)     # 'a' will also change its data.
+</code></pre>
+<p><code>torch.Tensor.permute(*dims)</code>返回将input维度重新排列后的新tensor，必须传入所有维度的索引且能进行多个维度的调换。仅可以以<code>torch.Tensor.permute</code>形式调用。</p>
+<pre><code class="language-Python">import torch
+
+a = torch.randn(2, 3, 5)
+b = a.permute(2, 0, 1)
+print(b, b.shape)   # b.shape: 5 * 2 * 3
+</code></pre>
+<h3 id="torchtensor和torchtensor的区别">torch.tensor和torch.Tensor()的区别</h3>
+<p>torch.tensor()是python函数，会对数据部分做拷贝(而非引用)，根据原始数据类型生成对应torch.LongTensor、torch.FloatTensor和torch.DoubleTensor等。<br>
+torch.Tensor()是python类，也是torch.FloatTensor()的简称，使用此会生成FloatTensor。<br>
+torch.tensor()内的输入即value，torch.Tensor()内的输入即shape，参考下例：</p>
+<pre><code class="language-python">a = torch.tensor(2)     # tensor(2)
+b = torch.tensor([2])   # tensor([2])
+c = torch.Tensor(2)     # tensor([0., 0.])
+d = torch.Tensor([2])   # tensor([2.])
+</code></pre>
+<p>其实这两者的关系很像numpy中的numpy.array和numpy.ndarray，前者是函数，后者是类对象，可通过前者创建后者。</p>
+<h3 id="modeleval涉及的bn及dropout内容">model.eval()涉及的BN及Dropout内容</h3>
+<p>如果模型中存在BN(Batch Normalization)和Dropout，需要在训练时添加model.train()，测试时添加model.eval()。<br>
+训练时，BN层采用当前batch数据的均值和方差，进行Dropout以更新部网络分参数；<br>
+测试时，BN层采用全部训练数据的均值和方差，不进行Dropout，使用所有网络参数。</p>
+<h3 id="多gpu的处理机制">多GPU的处理机制</h3>
+<p>Pytorch下多GPU的处理机制为：<br>
+（1）在各个GPU上初始化模型；<br>
+（2）前向传播时，把batch数据分配到各个GPU上进行计算；<br>
+（3）将输出结果在主GPU上汇总，计算loss并反向传播，更新主GPU上模型的权值；<br>
+（4）将主GPU上的模型复制到其它GPU上。</p>
+<h3 id="torchnnparameter">torch.nn.Parameter()</h3>
+<p><code>torch.nn.Parameter()</code>可以将一个不可训练的Tensor转换成可训练的Parameter(此时requires_grad默认为True)，并将该Parameter绑定到module中，变成模型参数(<code>model.parameters()</code>)的一部分，从而可以进行参数优化。但注意，Parameter也是tensor，符合一切tensor特性。<br>
+<code>torch.tensor(a, requires_grad=True)</code>则不尽相同，其只能将参数变成可训练的，但并未将其绑定到module的Parameters列表中。<br>
+具体例程如下所示：</p>
+<pre><code class="language-Python">import math
+import numpy as np
+
+import torch
+import torch.nn as nn
+from torch.optim import Adam
+
+class NN_Network(nn.Module):
+    def __init__(self,in_dim,hid,out_dim):
+        super(NN_Network, self).__init__()
+        self.linear1 = nn.Linear(in_dim,hid)
+        self.linear2 = nn.Linear(hid,out_dim)
+        self.linear1.weight = torch.nn.Parameter(torch.zeros(in_dim,hid))
+        self.linear1.bias = torch.nn.Parameter(torch.ones(hid))
+        self.linear2.weight = torch.nn.Parameter(torch.zeros(hid,out_dim))
+        self.linear2.bias = torch.nn.Parameter(torch.ones(out_dim))
+        self.test1 = torch.nn.Parameter(torch.zeros(10))
+        self.test2 = torch.tensor([0. for i in range(10)], requires_grad=True)
+
+    def forward(self, input_array):
+        h = self.linear1(input_array)
+        y_pred = self.linear2(h)
+        return y_pred
+
+in_d = 5
+hidn = 2
+out_d = 3
+net = NN_Network(in_d, hidn, out_d)
+
+for param in net.parameters():
+    print(type(param.data), param.size())
+# print(list(net.parameters()))
+# ------------------------------------------
+# &lt;class 'torch.Tensor'&gt; torch.Size([10])
+# &lt;class 'torch.Tensor'&gt; torch.Size([5, 2])
+# &lt;class 'torch.Tensor'&gt; torch.Size([2])
+# &lt;class 'torch.Tensor'&gt; torch.Size([2, 3])
+# &lt;class 'torch.Tensor'&gt; torch.Size([3])
+</code></pre>
+<h3 id="pytorch-conv1d">Pytorch Conv1d</h3>
+<p>详细文档参考<a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html?highlight=conv1d#torch.nn.Conv1d">官方文档</a>。<br>
+在分析之前先回回顾Conv2d。在Conv2d中，当stride=2，kernel=2时，输入<code>batch_size*C_in*100*100</code>的图片，输出特征大小为<code>batch_size*C_out*50*50</code>，在长宽两个尺度上均有尺度的缩小。<br>
+而一维卷积不尽相同，只在特征尺度进行卷积。若输入特征大小为<code>batch_size*C_in*length_in</code>，则输出特征大小为<code>batch_size*C_out*length_out</code>，在此过程中仅对length这单一尺度进行stride、kernel_size和padding等方面的计算。<br>
+举例如下：</p>
+<pre><code class="language-Python">m = nn.Conv1d(in_channels=16,out_channels=33, kernel_size=3, stride=2)
+inputs = torch.randn(20, 16, 50)
+outputs = m(inputs)
+# outputs.shape: torch.Size([20, 33, 24])
+</code></pre>
+<h3 id="通过mask将不同样本传给不同的损失函数">通过mask将不同样本传给不同的损失函数</h3>
+<p>如果不同样本需要传给不同的损失函数(例如batch内包含正负样本，希望正样本通过loss1和loss2，负样本通过loss2)，不推荐在model的__forward__函数或loss函数中使用if判断样本状态(TF的静态图肯定无法支持，不确定Pytorch的动态图是否支持，就算支持定点反向传播，就算避免了可微上的问题，实际的运算速度也会很慢)，<strong>建议直接使用1-0 mask对样本进行遮盖</strong>，mask可通过数值一致实现零梯度，避免了对应样本的反向传播，也可以蹭上框架中矩阵优化的东风。<br>
+加mask方式如下：</p>
+<pre><code class="language-Python">output = model(input)
+mask = np.ones_like(gt_label)
+mask[negative_sample] = 0
+# mask.shape == output.shape == gt_label.shape
+loss = loss_func(output * mask, gt_label * mask)
+</code></pre>
+<h3 id="优化器相关">优化器相关</h3>
+<p>Pytorch中optim模块的优化器：</p>
+<ol>
+<li>可使用weight_decay参数设置L2 loss。</li>
+<li>可在模型参数位置传入列表以对多个模型的参数进行优化。<br>
+<code>optimizer = optim.Adam([model_coarse.parameters(), model_fine.parameters()], lr=opt.learning_rate, weight_decay=opt.weight_decay_l2)</code></li>
+</ol>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
+<li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
+<li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
+<li><a href="#nnmodules%E5%92%8Cnnchildren%E7%9A%84%E5%8C%BA%E5%88%AB">nn.modules和nn.children的区别</a></li>
+<li><a href="#pytorch%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">Pytorch内存管理</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%BC%A0%E9%87%8F%E6%93%8D%E4%BD%9C">常用张量操作</a></li>
+<li><a href="#torchtensor%E5%92%8Ctorchtensor%E7%9A%84%E5%8C%BA%E5%88%AB">torch.tensor和torch.Tensor()的区别</a></li>
+<li><a href="#modeleval%E6%B6%89%E5%8F%8A%E7%9A%84bn%E5%8F%8Adropout%E5%86%85%E5%AE%B9">model.eval()涉及的BN及Dropout内容</a></li>
+<li><a href="#%E5%A4%9Agpu%E7%9A%84%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6">多GPU的处理机制</a></li>
+<li><a href="#torchnnparameter">torch.nn.Parameter()</a></li>
+<li><a href="#pytorch-conv1d">Pytorch Conv1d</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87mask%E5%B0%86%E4%B8%8D%E5%90%8C%E6%A0%B7%E6%9C%AC%E4%BC%A0%E7%BB%99%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">通过mask将不同样本传给不同的损失函数</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E5%99%A8%E7%9B%B8%E5%85%B3">优化器相关</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

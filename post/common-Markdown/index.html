@@ -1,0 +1,570 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>常用Markdown语法 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="常用Markdown语法 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+1.文字排版
+2.区块
+3.强调显示
+4.代码显示
+5.分隔线
+6.列表
+7.链接
+8.添加图片
+9.编写注释
+10.编写目录
+11.删除线
+12.注脚
+13.页面内跳转
+14.表格
+15.公式编辑
+
+
+
+
+1.文字排版
+在文字之前加..." />
+  <meta property="og:title" content="常用Markdown语法 - Zexian Li">
+  <meta property="og:description" content="
+
+
+1.文字排版
+2.区块
+3.强调显示
+4.代码显示
+5.分隔线
+6.列表
+7.链接
+8.添加图片
+9.编写注释
+10.编写目录
+11.删除线
+12.注脚
+13.页面内跳转
+14.表格
+15.公式编辑
+
+
+
+
+1.文字排版
+在文字之前加..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/common-Markdown/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="常用Markdown语法 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+1.文字排版
+2.区块
+3.强调显示
+4.代码显示
+5.分隔线
+6.列表
+7.链接
+8.添加图片
+9.编写注释
+10.编写目录
+11.删除线
+12.注脚
+13.页面内跳转
+14.表格
+15.公式编辑
+
+
+
+
+1.文字排版
+在文字之前加...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/common-Markdown/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          常用Markdown语法
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2018-07-04 · 6 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/yICEyjWP9u/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Git
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1%E6%96%87%E5%AD%97%E6%8E%92%E7%89%88">1.文字排版</a></li>
+<li><a href="#2%E5%8C%BA%E5%9D%97">2.区块</a></li>
+<li><a href="#3%E5%BC%BA%E8%B0%83%E6%98%BE%E7%A4%BA">3.强调显示</a></li>
+<li><a href="#4%E4%BB%A3%E7%A0%81%E6%98%BE%E7%A4%BA">4.代码显示</a></li>
+<li><a href="#5%E5%88%86%E9%9A%94%E7%BA%BF">5.分隔线</a></li>
+<li><a href="#6%E5%88%97%E8%A1%A8">6.列表</a></li>
+<li><a href="#7%E9%93%BE%E6%8E%A5">7.链接</a></li>
+<li><a href="#8%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87">8.添加图片</a></li>
+<li><a href="#9%E7%BC%96%E5%86%99%E6%B3%A8%E9%87%8A">9.编写注释</a></li>
+<li><a href="#10%E7%BC%96%E5%86%99%E7%9B%AE%E5%BD%95">10.编写目录</a></li>
+<li><a href="#11%E5%88%A0%E9%99%A4%E7%BA%BF">11.删除线</a></li>
+<li><a href="#12%E6%B3%A8%E8%84%9A">12.注脚</a></li>
+<li><a href="#13%E9%A1%B5%E9%9D%A2%E5%86%85%E8%B7%B3%E8%BD%AC">13.页面内跳转</a></li>
+<li><a href="#14%E8%A1%A8%E6%A0%BC">14.表格</a></li>
+<li><a href="#15%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91">15.公式编辑</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="1文字排版">1.文字排版</h2>
+<p>在文字之前加上 # / ## / ### / #### 表明一级至四级标题.#和文字之间需留有空格.<br>
+例如：# 二级标题<br>
+换行时.需要在行末键入至少两个空格再按回车.</p>
+<h2 id="2区块">2.区块</h2>
+<p>在文字当行开头加上 &gt; 符号.即为区块显示格式. &gt; 和文字之间需留有空格.<br>
+例如：&gt; 示例文字 区块格式显示<br>
+效果如下：</p>
+<blockquote>
+<pre><code>示例文字 区块格式显示
+</code></pre>
+</blockquote>
+<p>二级引用和三级引用可以在行开头加上 &gt;&gt; / &gt;&gt;&gt; 来实现，需要注意的是，从较低级引用(eg2)回退到较高级引用(eg1)时需以空行加以区分。</p>
+<h2 id="3强调显示">3.强调显示</h2>
+<p>以*或_包裹的形式，将字段转成斜体以完成强调.<br>
+例如：*a*   _b_<br>
+效果如下：<br>
+<em>a</em>   <em>b</em><br>
+以**或__包裹的形式，将字段转成粗体以完成强调.<br>
+例如：**a**   __b__<br>
+效果如下：<br>
+<strong>a</strong>   <strong>b</strong><br>
+注：在编写文档的时候利用了反斜杠&quot;\&quot;从而显示相应的*和_符号.其余特殊符号同理.</p>
+<h2 id="4代码显示">4.代码显示</h2>
+<p>行文中短暂的函数/代码可以用反引号(`)将其名字包起来.<br>
+例如：为了输出结果，我们使用`print`函数.<br>
+效果如下：为了输出结果，我们使用<code>print</code>函数.<br>
+为了显示代码区块，可以用三个反引号(```)包裹一段代码来完成显示。(可指定代码语言以实现对应高亮)<br>
+例如：<br>
+'''Python<br>
+import numpy as np<br>
+a = [i for i in range(10)]<br>
+a = np.array(a)<br>
+'''<br>
+效果如下：</p>
+<pre><code class="language-Python">import numpy as np
+a = [i for i in range(10)]
+a = np.array(a)
+</code></pre>
+<p>注：有些Markdown支持使用'Tab'或者四个空格完成代码区块的定义.</p>
+<h2 id="5分隔线">5.分隔线</h2>
+<p>利用三个以上的* - _(星号/减号/下划线)建立分隔线.<br>
+例如：***<br>
+效果如下：</p>
+<hr>
+<h2 id="6列表">6.列表</h2>
+<p>无序列表需要利用星号/加号/减号做列表标记.符号后与文字中加一空格.<br>
+例如：<br>
+* first item<br>
+- second item<br>
++ third item<br>
+效果如下：</p>
+<ul>
+<li>first item</li>
+</ul>
+<ul>
+<li>second item</li>
+</ul>
+<ul>
+<li>third item<br>
+有序列表在行开头输入数字序号 + '. '即可实现(注意'.'后有一个空格)<br>
+例如：</li>
+</ul>
+<blockquote>
+<ol>
+<li>first item</li>
+<li>second item</li>
+</ol>
+</blockquote>
+<p>效果如下：</p>
+<ol>
+<li>first item</li>
+<li>second item</li>
+</ol>
+<h2 id="7链接">7.链接</h2>
+<p><span id = "1">链接</span>可以通过行内链接和参考式链接两种方式实现，其效果相同，但行内链接需要实时填写链接内容，参考式链接可以最后集中输入链接内容，各有利弊，顺势取舍。<br>
+(1)行内链接<br>
+链接的显示格式为:[显示文字](https_address).<br>
+例如：欢迎来到我的[个人博客](https://FuNian788.github.io/).<br>
+效果如下:<br>
+欢迎来到我的<a href="https://FuNian788.github.io/">个人博客</a>.<br>
+(2)参考式链接<br>
+链接的显示格式为:[显示文字][链接序号]，在后文(至少隔一个空行处)以如下格式补充链接:[链接序号]:(https_address).<br>
+例如：<br>
+欢迎来到我的[个人博客][1]</p>
+<p>[1]:https://FuNian788.github.io/<br>
+效果如下：<br>
+欢迎来到我的<a href="https://FuNian788.github.io/">个人博客</a></p>
+<h2 id="8添加图片">8.添加图片</h2>
+<p>图片插入的格式为: ![图片描述](图片链接)<br>
+以README.md关联图片的图片地址为例(此处需要将地址中的blob改成raw)：<br>
+<code>https://github.com/用户名/仓库名/raw/分支名/图片文件夹名/1.jpg</code><br>
+实际测试时发现不行 地址可如下更改：地址中的blob不变 在图片链接最后加上?raw=true<br>
+<code>https://github.com/FuNian788/Git-Usage/blob/master/img/1.jpg?raw=true</code><br>
+为了更改图片的尺寸 可以如下设置<br>
+<code>&gt;&lt;div align=center&gt;&lt;img width=&quot;200&quot; height=&quot;200&quot; src=&quot;https://github.com/FuNian788/Deecamp32/raw/master/img/CloseAreaDetect/source.jpg&quot;/&gt;&lt;/div&gt;</code></p>
+<h2 id="9编写注释">9.编写注释</h2>
+<p>如果想在Markdown正文中保留一部分内容仅供编写者查看，可以使用以下几种方式：<br>
+感谢CandyBullet的<a href="http://www.imooc.com/article/23400">博文</a>提供思路。<br>
+(1)基于隐藏html标签实现</p>
+<pre><code class="language-html">&lt;div style='display: none'&gt;
+注释内容1
+注释内容2
+&lt;/div&gt;
+</code></pre>
+<p>(2)基于html注释实现(单/多行注释均可)</p>
+<pre><code class="language-html">&lt;!--注释--&gt;
+</code></pre>
+<pre><code class="language-html">&lt;!--
+注释1
+注释2
+--&gt;
+</code></pre>
+<p>(3)基于Markdown解析原理实现</p>
+<pre><code class="language-Markdown">[comment]: &lt;&gt; (注释)
+[comment]: &lt;&gt; (注释)
+[comment]: &lt;&gt; (注释)
+[//]: &lt;&gt; (注释)
+[//]: # (注释)
+[^_^]: # (注释)
+</code></pre>
+<h2 id="10编写目录">10.编写目录</h2>
+<p>现在绝大多数博客类网站均支持按照标题级别一键生成目录。<br>
+目录生成的格式为：</p>
+<pre><code>@[TOC]
+</code></pre>
+<p>效果如本文开头所示。</p>
+<h2 id="11删除线">11.删除线</h2>
+<p>删除线需利用~~包围要删除的内容.<br>
+例如：<br>
+~~删除文字~~<br>
+效果如下：<br>
+<s>删除文字</s></p>
+<h2 id="12注脚">12.注脚</h2>
+<p>注脚需利用[^footer]格式表示，效果类似论文中的文献引用.<br>
+例如：<br>
+注脚测试[^1].<br>
+[^1]: success!<br>
+效果如下：<br>
+注脚测试<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</p>
+<h2 id="13页面内跳转">13.页面内跳转</h2>
+<p>页面内跳转需使用html代码设置锚以实现.<br>
+以跳转到第7条(链接)为例：<br>
+(已经在7条编写时内嵌)&lt;span id = &quot;1&quot;&gt;链接&lt;/span&gt;<br>
+(在想要跳转的地方输入)[跳转至'链接'](#1)<br>
+效果如下：<br>
+<a href="#1">跳转至'链接'</a></p>
+<h2 id="14表格">14.表格</h2>
+<p>使用横线'-'、竖线'|'和冒号':'构建表格.<br>
+元素间以'|'分割，在第二行以如下四种方式定义表格分布方式：<br>
+--:为右对齐，:--为左对齐，:--:为居中对齐，--为默认居中对齐(以上四种中横线的数目没有要求)。<br>
+表格编写时对空格数目无要求，可自定义空格数量以便于检查。<br>
+例如：<br>
+| 排名 |    姓名    |    得分    |    备注          |<br>
+|  :--   |    :---:     |    ---:     |    ---             |<br>
+|   1    |    A        |    100     |    full mask   |<br>
+|   2    |    B        |    99       |                     |<br>
+效果如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">排名</th>
+<th style="text-align:center">姓名</th>
+<th style="text-align:right">得分</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:center">A</td>
+<td style="text-align:right">100</td>
+<td>full mask</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:center">B</td>
+<td style="text-align:right">99</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="15公式编辑">15.公式编辑</h2>
+<p>内容过于繁杂，可参照如下<a href="https://www.jianshu.com/p/25f0139637b7">博客</a>.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>success! <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1%E6%96%87%E5%AD%97%E6%8E%92%E7%89%88">1.文字排版</a></li>
+<li><a href="#2%E5%8C%BA%E5%9D%97">2.区块</a></li>
+<li><a href="#3%E5%BC%BA%E8%B0%83%E6%98%BE%E7%A4%BA">3.强调显示</a></li>
+<li><a href="#4%E4%BB%A3%E7%A0%81%E6%98%BE%E7%A4%BA">4.代码显示</a></li>
+<li><a href="#5%E5%88%86%E9%9A%94%E7%BA%BF">5.分隔线</a></li>
+<li><a href="#6%E5%88%97%E8%A1%A8">6.列表</a></li>
+<li><a href="#7%E9%93%BE%E6%8E%A5">7.链接</a></li>
+<li><a href="#8%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87">8.添加图片</a></li>
+<li><a href="#9%E7%BC%96%E5%86%99%E6%B3%A8%E9%87%8A">9.编写注释</a></li>
+<li><a href="#10%E7%BC%96%E5%86%99%E7%9B%AE%E5%BD%95">10.编写目录</a></li>
+<li><a href="#11%E5%88%A0%E9%99%A4%E7%BA%BF">11.删除线</a></li>
+<li><a href="#12%E6%B3%A8%E8%84%9A">12.注脚</a></li>
+<li><a href="#13%E9%A1%B5%E9%9D%A2%E5%86%85%E8%B7%B3%E8%BD%AC">13.页面内跳转</a></li>
+<li><a href="#14%E8%A1%A8%E6%A0%BC">14.表格</a></li>
+<li><a href="#15%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91">15.公式编辑</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

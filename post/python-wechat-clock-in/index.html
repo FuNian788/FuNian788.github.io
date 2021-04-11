@@ -1,0 +1,491 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Python实现微信小程序自动打卡 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Python实现微信小程序自动打卡 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="前边的话：本博客仅讨论技术实现，疫情防控需谨慎，如有异常请及时上报。
+
+
+
+
+
+Charles + iPhone抓包
+打卡代码
+定时启动
+
+
+
+
+
+
+Charles + iPhone抓包
+将iPhone和电脑连在同一wifi下，设置手机ht..." />
+  <meta property="og:title" content="Python实现微信小程序自动打卡 - Zexian Li">
+  <meta property="og:description" content="前边的话：本博客仅讨论技术实现，疫情防控需谨慎，如有异常请及时上报。
+
+
+
+
+
+Charles + iPhone抓包
+打卡代码
+定时启动
+
+
+
+
+
+
+Charles + iPhone抓包
+将iPhone和电脑连在同一wifi下，设置手机ht..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/python-wechat-clock-in/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Python实现微信小程序自动打卡 - Zexian Li">
+  <meta name="twitter:description" content="前边的话：本博客仅讨论技术实现，疫情防控需谨慎，如有异常请及时上报。
+
+
+
+
+
+Charles + iPhone抓包
+打卡代码
+定时启动
+
+
+
+
+
+
+Charles + iPhone抓包
+将iPhone和电脑连在同一wifi下，设置手机ht...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/python-wechat-clock-in/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Python实现微信小程序自动打卡
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-08-28 · 5 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/LxQDVsXuU1/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Python
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><strong>前边的话：本博客仅讨论技术实现，疫情防控需谨慎，如有异常请及时上报。</strong></p>
+<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#charles-iphone%E6%8A%93%E5%8C%85">Charles + iPhone抓包</a></li>
+<li><a href="#%E6%89%93%E5%8D%A1%E4%BB%A3%E7%A0%81">打卡代码</a></li>
+<li><a href="#%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8">定时启动</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="charles-iphone抓包">Charles + iPhone抓包</h3>
+<p>将iPhone和电脑连在同一wifi下，设置手机http代理，安装SSL证书，安装并信任描述文件。<br>
+点击手机端打卡界面，在Charles上得到手机端的HTTP请求列表；在手机端填写打卡页面并提交，在对应HTTP使用Charles的compose功能获取手机发送的json文件。<br>
+(具体细节可参考<a href="https://blog.csdn.net/y277an/article/details/103573163">y2777an的博客</a>)</p>
+<h3 id="打卡代码">打卡代码</h3>
+<p>代码思路为，先登录北航sso并验证(<code>login()函数</code>)，获取上次提交的信息并进行修改(<code>get_info()函数</code>)，随后向服务器提交json文件并验证(post()函数)。<code>bark()函数</code>基于ios APP bark，实现了打卡失败时向iPhone自动发送提醒的功能。代码添加了日志功能。<br>
+具体代码如下所示：</p>
+<pre><code class="language-Python"># -*- coding: utf-8 -*-
+# /usr/bin/python
+
+import requests
+import json
+import time
+import sys
+import urllib.request
+
+login_url = &quot;https://app.buaa.edu.cn/uc/wap/login?redirect=https%3A%2F%2Fapp.buaa.edu.cn%2Fncov%2Fwap%2Fdefault%2Findex%3Ffrom%3Dhistory&quot;
+login_check_url = &quot;https://app.buaa.edu.cn/uc/wap/login/check&quot;
+base_url = &quot;https://app.buaa.edu.cn/xisuncov/wap/open-report/index&quot;
+save_url = &quot;https://app.buaa.edu.cn/xisuncov/wap/open-report/save&quot;
+
+
+class ClockIn(object):
+
+    def __init__(self, username, password, bark_id):
+
+        self.username = username
+        self.password = password
+        self.bark_id = bark_id
+        self.log_path = './log.txt'
+        self.sess = requests.Session()
+
+
+    def login(self):
+
+        &quot;&quot;&quot; Login to BUAA platform.&quot;&quot;&quot;
+
+        res = self.sess.get(login_url)
+        if res.status_code != 200:
+            error_1 = &quot;{} failed to login platform，fail status code is {}.&quot;.format(self.username, res.status_code)
+            self.bark(error_1)
+            #print(error_1)
+            raise Exception(error_1)
+
+        data = {'username': self.username, 'password': self.password, }
+
+        responce = self.sess.post(url=login_check_url, data=data)
+        responce_decode = json.loads(responce.content.decode())
+
+        if responce_decode['e'] != 0:
+            error_2 = &quot;{} failed in the login process and the reason is {}.&quot;.format(self.username, responce_decode['m'])
+            self.bark(error_2)
+            #print(error_2)
+            raise Exception(error_2)
+
+        return responce_decode
+
+
+    def bark(self, message):
+
+        &quot;&quot;&quot; Send message to iPhone if fails in clock-in, then log. &quot;&quot;&quot;
+
+        url = 'https://api.day.app/' + self.bark_id + '/ClockInFalse/' + self.username
+        p = urllib.request.urlopen(url)
+
+        with open(self.log_path, 'a') as f:
+            f.write(self.get_date() + '\n')
+            f.write(message + '\n')
+
+
+    def get_info(self, html=None):
+
+        &quot;&quot;&quot;Get hitcard information, which is the old info with updated new time.&quot;&quot;&quot;
+
+        if not html:
+            res = self.sess.get(base_url)
+            if res.status_code != 200:
+                error_3 = &quot;{} get information failed, status code = {}&quot;.format(self.username, res.status_code)
+                self.bark(error_3)
+                #print(error_3)
+                raise Exception(error_3)
+            html = res.content.decode()
+            raw_json = json.loads(html)
+        
+        return_dict = {}
+        for data in ('sfzx', 'tw', 'area', 'city', 'province', 'address', 'geo_api_info', 'sfcyglq', 'sfyzz', 'qtqk', 'askforleave'):
+            return_dict.update({data: raw_json['d']['info'][data]})
+        self.info = return_dict
+        return return_dict
+
+
+    def post(self):
+
+        &quot;&quot;&quot; Post the hitcard information.&quot;&quot;&quot;
+
+        res = self.sess.post(save_url, data=self.info)
+        if res.status_code != 200:
+            error_4 = &quot;{} post information failed, status code = {}.&quot;.format(self.username, res.status_code)
+            self.bark(error_4)
+            #print(error_4)
+            raise Exception(error_4)
+        return json.loads(res.text)
+
+
+    def main(self):
+
+        self.login()
+        time.sleep(0.5)
+        self.get_info()
+        time.sleep(0.5)
+        ret = self.post()
+        return ret
+
+
+def clock_in_one_person(username, password, bark_id):
+
+    op = ClockIn(username, password, bark_id)
+    try:
+        ret = op.main()
+        if ret['e'] != 0:
+            error_5 = &quot;fail in the end and the reason is {}.&quot;.format(ret['m'])
+            #print(error_5)
+            op.bark(error_5)
+    except Exception as e:
+        op.bark(e)
+    finally:
+        return 0
+
+
+if __name__ == &quot;__main__&quot;:
+
+    # username = sys.argv[1]
+    # password = sys.argv[2]
+    # bark_id = sys.argv[3]
+
+    username = &quot;your username&quot;
+    password = &quot;your password&quot;
+    bark_id = &quot;your bark id&quot;
+
+    clock_in_one_person(username, password, bark_id)
+</code></pre>
+<h3 id="定时启动">定时启动</h3>
+<p>我们选用cron+shell脚本的方式来实现打卡程序的定时启动。<br>
+使用<code>crontab -e</code>指令创建一个以当前用户运行的新cron任务，每个cron任务的格式如下：<br>
+<code>&lt;分钟&gt; &lt;小时&gt; &lt;日&gt; &lt;月&gt; &lt;星期&gt; &lt;命令or脚本路径&gt;</code><br>
+cron任务中的操作符有<code>*</code>，<code>/</code>，<code>-</code>和<code>,</code>。<code>*</code>代表取值范围内的所有数字，<code>/</code>代表每过多少个数字，<code>-</code>表示从起始到终止，<code>,</code>表示散列数字。例如，每隔两天的上午8点到11点的第3和第15分钟执行任务可以写成<code>3,15 8-11 */2 * * command</code>。<br>
+依此方式进行配置，最后使用<code>crontab -l</code>查看已经存在的任务。</p>
+<p>至此，实现了微信小程序的自动打卡🥂</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#charles-iphone%E6%8A%93%E5%8C%85">Charles + iPhone抓包</a></li>
+<li><a href="#%E6%89%93%E5%8D%A1%E4%BB%A3%E7%A0%81">打卡代码</a></li>
+<li><a href="#%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8">定时启动</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>
