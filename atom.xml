@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://FuNian788.github.io</id>
     <title>Zexian Li</title>
-    <updated>2021-04-11T12:24:30.159Z</updated>
+    <updated>2021-04-11T14:26:00.278Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://FuNian788.github.io"/>
     <link rel="self" href="https://FuNian788.github.io/atom.xml"/>
@@ -11,166 +11,9 @@
     <icon>https://FuNian788.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zexian Li</rights>
     <entry>
-        <title type="html"><![CDATA[11]]></title>
-        <id>https://FuNian788.github.io/post/11/</id>
-        <link href="https://FuNian788.github.io/post/11/">
-        </link>
-        <updated>2021-04-11T12:20:24.000Z</updated>
-        <content type="html"><![CDATA[<p>111</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[动作识别(action recognition)论文总结]]></title>
-        <id>https://FuNian788.github.io/post/action-recognition/</id>
-        <link href="https://FuNian788.github.io/post/action-recognition/">
-        </link>
-        <updated>2020-12-15T02:30:22.000Z</updated>
-        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89">任务定义</a></li>
-<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
-<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
-<li><a href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF">实现思路</a>
-<ul>
-<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
-</ul>
-</li>
-<li><a href="#%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB">论文阅读</a>
-<ul>
-<li><a href="#1-2016-eccvtsn-temporal-segment-networks-for-action-recognition-in-videos">(1) (2016 ECCV)TSN: Temporal Segment Networks for Action Recognition in Videos</a></li>
-<li><a href="#2-2019-iccvtsm-temporal-shift-module-for-efficient-video-understanding">(2) (2019 ICCV)TSM: Temporal Shift Module for Efficient Video Understanding</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</p>
-<h2 id="任务定义">任务定义</h2>
-<p>在较小计算代价情况下实现较高准确率。视频理解</p>
-<h2 id="常用数据集">常用数据集</h2>
-<h2 id="应用场景">应用场景</h2>
-<h2 id="实现思路">实现思路</h2>
-<h3 id="指标比对">指标比对</h3>
-<p>以UCF101-24和JHMDB数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">ID</th>
-<th style="text-align:center">paper</th>
-<th style="text-align:center">JHMDB Frame mAP</th>
-<th style="text-align:center">JHMDB Video mAP</th>
-<th style="text-align:center">UCF Frame mAP</th>
-<th style="text-align:center">UCF Video mAP</th>
-<th style="text-align:center">附注</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-<h2 id="论文阅读">论文阅读</h2>
-<h3 id="1-2016-eccvtsn-temporal-segment-networks-for-action-recognition-in-videos">(1) <a href="https://arxiv.org/abs/1705.02953">(2016 ECCV)TSN: Temporal Segment Networks for Action Recognition in Videos</a></h3>
-<p>首先看到作者就直接跪了，王利民、熊元骏、乔宇、林达华、汤晓鸥..来拜读一下大佬组的工作。</p>
-<ul>
-<li>针对痛点：</li>
-</ul>
-<ol>
-<li>现有动作识别方法常只关注短期动作(eg 至多10帧)，通过隔特定间隔采样的方法获取信息，既缺乏对长视频信息建模的能力，在处理长时段视频时又有过大的计算开销。</li>
-<li>现有动作识别方法仅能处理裁剪好的视频，未裁剪视频中的背景信息会极大损伤模型识别结果。</li>
-<li>现有数据集(eg UCF101，HMDB51)在大小和多样性方面存在限制，使模型容易过拟合；光流提取是计算瓶颈等。</li>
-</ol>
-<ul>
-<li>主要贡献：</li>
-</ul>
-<ol>
-<li>提出TSN模型，在舍弃冗余信息的基础上对任意长度长视频进行建模。</li>
-<li>提出分层聚合方法以在未裁剪视频上实现动作识别。(anchor-based)</li>
-</ol>
-<ul>
-<li>
-<p>实现流程：<br>
-TSN从整个视频中稀疏地采样一系列段片段，每个片段都给出基于自身对行为的初步判断，再组合这些判断得到视频级的预测结果。<br>
-<img src="https://FuNian788.github.io/post-images/ActionRecognition/TSN_1.png" alt="TSN实现流程图" loading="lazy"><br>
-现将整个视频分成K个区域(segment)；在每区域内随机采样一个短片段(snippet)，每个片段由多种模态(eg RGB、光流、RGB差异图等)表示，且每个片段均给出基于自身信息对行为类别的初步判断；随后使用区域一致函数(segment consensus function)将所有片段的类别得分综合，最后经过Softmax函数以得到视频层级的动作种类预测结果。<br>
-该方法的计算负载恒定，可处理任意长度视频(有RoI pooling的味道)；片段采样法在时序上贡献均匀，且采样片段可粗略地覆盖整个视频的信息。</p>
-</li>
-<li>
-<p>实现细节：</p>
-</li>
-</ul>
-<ol>
-<li>TSN网络</li>
-</ol>
-<p>TSN网络的动作识别结果如下式所示：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>S</mi><mi>N</mi><mo>(</mo><msub><mi>T</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>T</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mo separator="true">,</mo><msub><mi>T</mi><mi>K</mi></msub><mo>)</mo><mo>=</mo><mi>H</mi><mo>(</mo><mi>G</mi><mo>(</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mn>1</mn></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo separator="true">,</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mn>2</mn></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo separator="true">,</mo><mo>⋯</mo><mo separator="true">,</mo><mi>F</mi><mo>(</mo><msub><mi>T</mi><mi>K</mi></msub><mo separator="true">;</mo><mi>W</mi><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">TSN(T_1,T_2,⋯,T_K)=H(G(F(T_1;W),F(T_2;W),⋯,F(T_K;W))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathdefault">G</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<p>其中F代表卷积网络，W代表卷积网络内部参数(卷积网络参数共享)，G代表区域一致函数(segment consensus function)，H使用Softmax函数。<br>
-损失函数如下所示，其中C是动作种类总数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是第i类动作的标签，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>g</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">g_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>是G的第j维度结果</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>y</mi><mo separator="true">,</mo><mi>G</mi><mo>)</mo><mo>=</mo><mo>−</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>C</mi></munderover><msub><mi>y</mi><mi>i</mi></msub><mo>(</mo><msub><mi>g</mi><mi>i</mi></msub><mo>−</mo><mi>log</mi><mo>⁡</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>C</mi></munderover><mi>exp</mi><mo>⁡</mo><msub><mi>g</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">L(y,G) = -\sum_{i=1}^{C} y_i(g_i - \log\sum_{i=1}^{C}\exp g_j)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.106005em;vertical-align:-1.277669em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:3.106005em;vertical-align:-1.277669em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>在区域一致函数的选用上，在最大池化(在某一动作种类的不同片段上)、均值池化(在某一动作种类的不同片段上)、top-K池化(在某一动作对应得分最高的K个片段上执行均值池化)、线性网络组合、注意力得分组合(相较线性网络更利用了视频的信息)。</p>
-<ol start="2">
-<li>训练trick</li>
-</ol>
-<p>跨模态初始化：空间网络以RGB图像作为输入，故使用ImageNet上的预训练模型；然而对于光流等其他时序模态数据，采用跨模态初始化方法，即先将其输入线性放缩至与RGB输入类似，然后用RGB模型第一个卷积层的各通道均值权重来处理光流场的输入，时序模型后续层的权重则直接copy RGB模型的权重。该策略对时序网络降低过拟合方面有较好效果。</p>
-<p>正则化技术：为防止过拟合，冻结除第一个BN层外所有BN层的均值和方差参数；同时，由于光流和RGB的分布不同，第一个BN层会有不同的分布，第一个BN层需各自估计。此策略为部分BN(partial BN)。在网络最后的池化层后加一个额外的dropout层，以进一步降低过拟合的影响。</p>
-<p>数据增强：传统双流采用随机裁剪和水平翻转方法来增加训练样本，本文添加角裁剪（corner cropping）和尺度抖动（scale-jittering）。角裁剪即仅从图片边角或中心提取区域，避免默认关注中心；尺度抖动即固定输入图像大小，裁剪区域大小随机选择，最后将裁剪区域resize以用于网络训练。</p>
-<h3 id="2-2019-iccvtsm-temporal-shift-module-for-efficient-video-understanding">(2) <a href="https://arxiv.org/abs/1811.08383">(2019 ICCV)TSM: Temporal Shift Module for Efficient Video Understanding</a></h3>
-<ul>
-<li>针对痛点：</li>
-</ul>
-<ol>
-<li>对于视频理解任务，2D卷积backbone时计算量小，但不能获取时序关系；3D卷积backbone效果很好，但计算量过大。</li>
-</ol>
-<ul>
-<li>主要贡献：</li>
-</ul>
-<ol>
-<li>提出基于时序转移(temporal shift)的高效视频建模方法，在无额外计算开销的同时有较强的时空建模能力。在和2D卷积使用等量计算过程和参数量的情况下实现了3D卷积级的时空建模能力。</li>
-<li>提出(partial shift)和(residual shift)以实现高效的模型设计。</li>
-</ol>
-<ul>
-<li>实现流程：<br>
-MOC实现流程图如下所示：<br>
-<img src="https://FuNian788.github.io/post-images/STAD/MOC_2.png" alt="MOC实现流程图" loading="lazy"><br>
-（左侧feature提取部分，一次输入K张图片，R表示空间尺度下采样，默认为4，B为卷积后通道数，默认为64；右侧feature下的数字代表N、H、W、C，卷积层下的数字代表输入通道、输出通道、卷积核高度、卷积核宽度)。<br>
-模型先将图片输入2D特征提取backbone DLA-34(来自CenterNet，在ImageNet/COCO上预训练)，然后将任务分成三个步骤：</li>
-</ul>
-<ol>
-<li>Center分支：仅在关键帧处尝试找到动作实例中心点的可能位置，并进行动作分类；</li>
-<li>Movement分支：通过估计当前帧运动实例中心所在位置与管路中心的offset，实现连续帧内动作中心点的运动估计(将连续帧动作实例中心的移动转化为单点的运行轨迹)；</li>
-<li>Box分支：在每帧图像的回归中心处预测当前帧动作bbox的尺寸。<br>
-以上三分支可以从短视频片段从提取动作管道，在连结方法的基础上可以实现从长的未裁剪视频进行动作检测。<br>
-MOC三阶段示意图如下所示：<br>
-<img src="https://FuNian788.github.io/post-images/STAD/MOC_1.png" alt="MOC三阶段示意图" loading="lazy"></li>
-</ol>
-<ul>
-<li>实现细节：</li>
-</ul>
-<ol>
-<li>Center分支：构建大小为W'*H'*C，数值为0至1的热力图，表征关键帧处第C类动作中心在各个空间位置发生的几率。具体地，使用高斯核函数扩张动作中心点GT所在范围；使用focal loss来解决正负样本分布不均衡的问题；筛选策略为：在每一动作类别内，若一点处取值大于等于其八近邻，则将其作为候选；对于一段短视频，仅选取得分最高的N=100个视频进行后续操作。</li>
-<li>Movement分支：对K帧连续图像，将其作为整体输入3D卷积层，再输出W'*H'*(k*2)的特征图，等同于为每帧输出W'*H'*2的offset数值，表征每一个中心点处的移动方向；通过Center分支和Movement分支即可得到特定动作中心点的运动轨迹；仅GT所涵盖的中心点处的移动参与反向传播，具体损失函数使用L1。</li>
-<li>Box分支：实验表明class-agnostic bbox的产生与时序信息无关，故仅采用当前帧的信息输入Box分支，每一帧输出W'*H'*2的数值，表征每一个中心点处的候选框大小；具体损失函数使用L1。</li>
-<li>连结策略：对于任连续的K帧图片，选取动作通道(tubelets)并保留top10作为候选(candidate)；<br>
-初始化：对于首帧，每个候选通道开启一个link，对于其他帧，每个与现有link无交集的候选开启一个新link。<br>
-连结：一个候选需至少满足三个条件中的一个方可添加到现有link中：1候选并未被其他link选取，2link和候选的交集大于阈值，3候选具有最高的得分。在非首帧时，我们基于link得分的降序将当前帧的候选与现有link相连结(link的得分即使管道所有得分的均值)。<br>
-结束：当一个link在连续K帧没被扩展时，将link结束。</li>
-<li>补充：以上几分支的损失函数进行均衡；采用尺度变换、位置表换、图像转换等视频数据增强方法；可实现实时动作检测，通过用内存保存前K-1帧的特征来实现；连结策略中的一点是会舍弃过低置信度和过短的动作管道。</li>
-</ol>
-<ul>
-<li>改进/Challenge/idea/Que：</li>
-</ul>
-<ol>
-<li>Center分支：仅在核心帧进行动作实例的中心点检测及动作分类，是不是不够好？应该在每一帧都看才对呀</li>
-<li>是不是不够anchor free，一次只能输入一部分frame</li>
-<li>Movement分支为什么不是针对类别的？</li>
-<li>Box分支为啥没类别？</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[常用损失函数合集(Pytorch)]]></title>
-        <id>https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/</id>
-        <link href="https://FuNian788.github.io/post/chang-yong-sun-shi-han-shu-he-ji-pytorch/">
+        <id>https://FuNian788.github.io/post/Pytorch-loss/</id>
+        <link href="https://FuNian788.github.io/post/Pytorch-loss/">
         </link>
         <updated>2020-12-11T07:41:26.000Z</updated>
         <content type="html"><![CDATA[<p>训model嘛，损失函数总是要得。这里简单归纳一下常见的损失函数及其在Pytorch中的使用方法，以便查阅👨‍💻。<br>
@@ -248,53 +91,6 @@ print(&quot;Loss from CrossEntropyLoss is {}.&quot;.format(loss3))
 # 1.4459
 </code></pre>
 <h3 id="2-二分类交叉熵损失函数">2. 二分类交叉熵损失函数</h3>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[牛客网读取数据输入(Python3)]]></title>
-        <id>https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/</id>
-        <link href="https://FuNian788.github.io/post/niu-ke-wang-du-qu-shu-ju-shu-ru-python/">
-        </link>
-        <updated>2020-12-09T13:03:09.000Z</updated>
-        <content type="html"><![CDATA[<p>之前都是Leetcode刷题，感受了一下牛客网ACM模式的刷题环境，emmm，简单记录一下吧🦄<br>
-举个例子，执行a+b算法，输入3组数据，内容如下(第一行代表数据组数，后几行为数据)：</p>
-<pre><code class="language-shell">3
-1 2
-3 4
-5 6
-</code></pre>
-<p>数据读取方式如下，最终将结果以<code>print</code>形式输出：</p>
-<pre><code class="language-Python">import sys
-
-n = int(sys.stdin.readline())
-for i in range(n):
-    line = sys.stdin.readline().strip()
-    data = list(map(int, line.split()))
-    a, b = data
-    print(a + b)
-</code></pre>
-<p>以下补充一种数据读取方法，但没使用过，仅做记录：</p>
-<pre><code class="language-Python">import sys
-try:
-    while True:
-        line = sys.stdin.readline().strip()
-        if line == '':
-            break
-        lines = line.split()
-        print int(lines[0]) + int(lines[1])
-except:
-    pass
-
-##############
-while True:
-    try:
-        number = input()
-        if(number == &quot;&quot;):
-            break
-        list1.append(number)
-    except EOFError:
-        break
-</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -536,8 +332,8 @@ YOWO仅输入当前时刻之前的短时频段(8/16帧)以保证实时性，但�
     </entry>
     <entry>
         <title type="html"><![CDATA[Pytorch Debug小记]]></title>
-        <id>https://FuNian788.github.io/post/pytorch-debug-xiao-ji/</id>
-        <link href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/">
+        <id>https://FuNian788.github.io/post/pytorch-debug/</id>
+        <link href="https://FuNian788.github.io/post/pytorch-debug/">
         </link>
         <updated>2020-10-21T04:44:40.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
@@ -710,6 +506,8 @@ tensor([[[0., 1., 2.],
 <ul>
 <li><a href="#ubuntu%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%AD%90%E7%9B%AE%E5%BD%95%E5%AF%BB%E6%89%BE%E6%96%87%E4%BB%B6">Ubuntu在当前目录及子目录寻找文件</a></li>
 <li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
+<li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
 </ul>
 </li>
 </ul>
@@ -739,6 +537,25 @@ tensor([[[0., 1., 2.],
 <pre><code class="language-Shell">ls -lR GUGU*/ | grep &quot;-&quot; | wc -l
 </code></pre>
 <p>其中，<code>ls -l</code>表示以长列表输出指定目录下的信息，<code>grep</code>是一种文本搜索工具，<code>&quot;-&quot;</code>代表文件，<code>&quot;d&quot;</code>代表目录，<code>wc -l</code>表示统计输出信息的行数。</p>
+<h3 id="查看进程">查看进程</h3>
+<p>我们常使用用ps查看进程，具体方法有如下两种：</p>
+<pre><code>ps -ef
+</code></pre>
+<pre><code>ps -aux
+</code></pre>
+<p>注意，当进程较多时，我们可以对进程名进行搜索以快速定位：<br>
+以进程test.py为例，具体方法有如下两种：</p>
+<pre><code>ps -ef | grep test
+</code></pre>
+<pre><code>pgrep test
+</code></pre>
+<h3 id="杀死进程">杀死进程</h3>
+<p>在查看进程得到进程的编号(PID)后，我们可以使用如下指令杀死进程：</p>
+<pre><code>kill -s 9 PID-number
+</code></pre>
+<p>其中9表示强制结束进程。但有时会报错，可以用如下指令杀死进程：</p>
+<pre><code>kill -9 PID-number
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -999,6 +816,527 @@ mAP即mean average precision，AP是在某一类别中PR曲线与坐标轴围成
 <li>使用大量同类数据来进一步训练（金钱开销大）</li>
 <li>虚拟引擎复现特定环境以产生数据（金钱时间开销大、实现困难）</li>
 </ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python杂记]]></title>
+        <id>https://FuNian788.github.io/post/python-misc/</id>
+        <link href="https://FuNian788.github.io/post/python-misc/">
+        </link>
+        <updated>2020-09-17T03:18:28.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
+<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
+<li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
+<li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
+<li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>
+<li><a href="#python%E5%AD%97%E7%AC%A6%E4%B8%B2">Python字符串</a></li>
+<li><a href="#python%E5%AF%BC%E5%85%A5%E6%96%B9%E5%BC%8F">Python导入方式</a></li>
+<li><a href="#python3%E8%BF%AD%E4%BB%A3%E5%99%A8iterator%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8generator">Python3迭代器(iterator)和生成器(generator)</a></li>
+<li><a href="#python-zip%E5%87%BD%E6%95%B0">Python zip函数</a></li>
+<li><a href="#python3-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7">Python3 异常捕获</a></li>
+<li><a href="#python%E6%8E%92%E5%BA%8F">Python排序</a></li>
+<li><a href="#python-http%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">Python http局域网传输文件</a></li>
+<li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
+<li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
+<li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="遍历字典">遍历字典</h3>
+<p>for key in dict.keys()<br>
+for value in dict.values()<br>
+for key, value in dict.items()</p>
+<h3 id="scipy模块插值使用方法fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</h3>
+<p><code>scipy.interpolate.interp1d</code>函数可实现一维尺度的插值，函数输入如下所示：<code>scipy.interpolate.interp1d(x, y, kind='linear', axis=- 1, copy=True, bounds_error=None, fill_value=nan, assume_sorted=False)</code><br>
+输入x为1-D矩阵，输入y为N-D矩阵，</p>
+<pre><code class="language-Python">    Arguements:
+        feature (tensor[C=opt.feature_dimension=2048][T=temporal_length]): proposed proposal's clipped-feature.
+        num_sample (int[1]): number of sample points.
+
+    Return Arguements:
+        feature_spfp (tensor[C=opt.feature_dimension=2048][T=num_sample]): interpolation feature after SPFP.
+    &quot;&quot;&quot;
+
+    feature_dimension, temporal_length = feature.shape
+    assert feature_dimension == 2048
+
+    # For each channel, learn from x: range(T) and y: feature value(shape:[T]).
+    # Then use linear interpolation to fit sample points and get its possibel value.
+    spfp = scipy.interpolate.interp1d(range(temporal_length), feature, axis=1)
+    feature_spfp = np.zeros((feature_dimension, num_sample), dtype=np.float32)
+    sample_indexs = [float(i + np.random.random()) / num_sample * (temporal_length - 1) for i in range(num_sample)]
+
+    for i, sample_index in enumerate(sample_indexs):
+        feature_spfp[:,i] = spfp(sample_index)   
+
+    return feature_spfp
+</code></pre>
+<h3 id="python中队列的使用方法">Python中队列的使用方法</h3>
+<ol>
+<li>使用queue</li>
+</ol>
+<pre><code class="language-Python">from queue import Queue
+q = Queue() 
+q.put(node) # in
+q.get()     # out
+</code></pre>
+<ol start="2">
+<li>使用deque</li>
+</ol>
+<pre><code class="language-Python">import collections
+q = collections.deque() 
+q.append()   # in
+q.popleft()  # out
+</code></pre>
+<h3 id="python2和python3除法">Python2和Python3除法</h3>
+<p>Python2中<code>/</code>除法时，两个int相除为整除法，返回向下取整的整数值；参数中若有float变量则进行正常的float除法，返回真float值。Python3中<code>/</code>除法全返回float真值。</p>
+<pre><code class="language-Python">#             Python2     Python3 
+print(3/2)      # 1         1.5
+print(-3/2)     # -2        -1.5
+print(3/2.0)    # 1.5       1.5
+print(-3.0/2)   # -1.5      -1.5
+</code></pre>
+<p>Python2和Python3中<code>//</code>除法都寓意整除，均为：两个int相除时返回向下取整的整数值，参数中若有float变量则返回向下取整的整数的float形。</p>
+<pre><code class="language-Python">#             Python2     Python3 
+print(3//2)      # 1         1
+print(-3//2)     # -2        -2
+print(3//2.0)    # 1.0       1.0
+print(-3.0//2)   # -2.0      -2.0
+</code></pre>
+<h3 id="python3中列表-元组-字典和集合">Python3中列表、元组、字典和集合</h3>
+<ol>
+<li>列表(list)：使用<code>[]</code>或list创建，支持增删查改、索引等操作。<br>
+常用操作如下表所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">list.append(obj)</td>
+<td style="text-align:left">在列表末尾添加单个对象</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">list.extend(seq)</td>
+<td style="text-align:left">在列表末尾添加另一个序列内部的所有内容</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">list.insert(index, obj)</td>
+<td style="text-align:left">将对象插入列表特定位置</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">list.pop([index=-1])</td>
+<td style="text-align:left">移除列表中的一个元素(默认最后一个)，并返回该元素的值</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">list.remove(obj)</td>
+<td style="text-align:left">移除列表中某值的第一个匹配项</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">list.index(value)</td>
+<td style="text-align:left">列表中第一个匹配某值的索引位置</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">list.count(obj)</td>
+<td style="text-align:left">统计某个元素在列表中出现的次数</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">list.sort(key=None, reverse=False)</td>
+<td style="text-align:left">列表排序</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">list.reverse()</td>
+<td style="text-align:left">反向列表中元素</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">list.copy()</td>
+<td style="text-align:left">复制列表</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">list.clear()</td>
+<td style="text-align:left">清空列表</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>元组(tuple)：使用<code>()</code>或tuple创建，支持增删查、索引等操作。功能均近似于列表，甚至常用操作函数也与列表相同，区别仅在于不可改变元组内部的值。</li>
+<li>字典(dict)：使用<code>{}</code>或dict创建键值对，支持增删查改等操作。需注意键只可出现一次，若出现多次仅记住最后一次输入；键不可变，故键值需采用数字、字符串和元组，不可使用列表作为键。<br>
+常用操作如下表所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">dict.clear()</td>
+<td style="text-align:left">清空字典</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">dict.items()</td>
+<td style="text-align:left">返回可遍历的(键，值)元组数组</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">dict.keys()</td>
+<td style="text-align:left">返回可遍历的键数组(而非列表)</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">dict.values()</td>
+<td style="text-align:left">返回可遍历的值数组(而非列表)</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">dict.update(dict2)</td>
+<td style="text-align:left">将dict2的键值对添加到现有dict中</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">dict.get(key, default=None)</td>
+<td style="text-align:left">返回键对应的值，若不存在则返回default</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">dict.setdefault(key, default=None)</td>
+<td style="text-align:left">返回键对应的值，若不存在则添加为default</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">dict.fromleys(keys[, value])</td>
+<td style="text-align:left">以keys作为键创建字典，所有键均赋值为value</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">dict.pop(key[, default])</td>
+<td style="text-align:left">删除键key对应的键值对并将值返回，若不存在则需给定default值并返回default值</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">dict.popitem()</td>
+<td style="text-align:left">删除并返回最后一对键值对</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">del dict[key]</td>
+<td style="text-align:left">删除键key对应的键值对</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>集合(set)：使用<code>{}</code>或set创建，支持增删操作。集合为不重复元素无序集，内部元素需为不可变数据类型(例如数字、字符串、元组等，不支持列表)。<br>
+常用操作如下所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:left">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">set1 - set2 / set1.difference(set2)</td>
+<td style="text-align:left">返回set1包含而set2不包含的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">set1.difference_update(set2,...)</td>
+<td style="text-align:left">将set1变为set1包含而set2不包含的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">set1 | set2 / set1.union(set2,...)</td>
+<td style="text-align:left">返回并集</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">set1 &amp; set2 / set1.intersection(set2,...)</td>
+<td style="text-align:left">返回交集</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">set1.intersection_update(set2,...)</td>
+<td style="text-align:left">将set1变为交集</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">set1 ^ set2 / set1.symmetric_difference(set2)</td>
+<td style="text-align:left">只单独存在set1或set2内的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">set1.symmetric_difference_update(set2)</td>
+<td style="text-align:left">将set1变为只单独存在set1或set2内的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">set.add(x)</td>
+<td style="text-align:left">添加元素</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">set.update(x)</td>
+<td style="text-align:left">添加若干个序列内部所有的内容(可为列表、元组、字典等，字典时添加键)</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">set.remove(x)</td>
+<td style="text-align:left">移除元素，若不存在则报错</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">set.discard(x)</td>
+<td style="text-align:left">移除元素，若不存在不报错</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">set.clear()</td>
+<td style="text-align:left">清空集合</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center">set1.isdisjoint(set2)</td>
+<td style="text-align:left">返回两个集合是否含有相同元素</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">set1.issubset(set2)</td>
+<td style="text-align:left">返回set1为set2的子集</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">set1.issuperset(set2)</td>
+<td style="text-align:left">返回set2为set1的子集</td>
+</tr>
+</tbody>
+</table>
+<p>以上部分内容参考runoob.com。</p>
+<h3 id="python字符串">Python字符串</h3>
+<p>Python2中默认的编码方式是ASCII；Python3中默认的编码方式是Unicode字符集+UTF-8编码规则。Python2中还有Unicode字符串和非Unicode字符串混用的情况，例如用<code>unicode()</code>将对象转换成Unicode字符串，用<code>str()</code>将对象转换成非Unicode字符串；而Python3只有Unicode字符串，只剩下<code>str()</code>函数实现所有的功能。<br>
+Python2中字节字符串是str，文本字符串是Unicode；Python3中字节字符串是bytes，文本字符串是str。<br>
+字符串都是以Unicode字符进行存储的。</p>
+<h3 id="python导入方式">Python导入方式</h3>
+<p>Python2在导入时，先在当前目录搜索，再在Python搜索路径中搜索(sys.path)；Python3会直接在Python的搜索路径中搜索，所以有些情况下需使用<code>from . import xx</code>进行重名包的导入。</p>
+<h3 id="python3迭代器iterator和生成器generator">Python3迭代器(iterator)和生成器(generator)</h3>
+<p>迭代(iterable)是访问集合元素的一种方式，迭代器(iterator)是一个可以记住遍历位置的对象。迭代器对象从集合的第一个元素开始访问，每次访问一个元素，在所有的元素均被访问后结束。迭代器只能往前不会后退。<br>
+迭代器都是可迭代的，但不是所有可迭代的对象都是迭代器。<br>
+可用<code>isinstance(something, Iterable)</code>语句来判断具体对象是否为可迭代的，能作用于for循环的对象都是可迭代的，我们常见的列表list、元组tuple、集合set、字典dict、字符串都是可迭代的，一些自定义类也是可迭代的。<br>
+可用<code>isinstance(something, Iterator)</code>语句来判断具体对象是否为迭代器，能作用于<code>next()</code>函数的对象都是迭代器，上述提到的列表list、元组tuple、集合set、字典dict、字符串均不是迭代器，可在自定义类中实现<code>__iter__()</code>与<code>__next__()</code>方法来创建迭代器。<br>
+我们常用<code>iter()</code>方法从可迭代对象构建迭代器，使用<code>next()</code>或常规for语句使迭代器遍历下一个元素。迭代器是一个惰性的数据流，我们并不知道迭代器的长度，只在调用next函数时才去计算并返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<pre><code class="language-Python">a = {1, 2, 3, 4}    
+iteration = iter(a)
+for i in range(len(a)):
+    print(next(iteration))
+for i in iteration:
+    print(i)
+</code></pre>
+<p>注：我们常对迭代器使用<code>tqdm(iterator)</code>方法来显示进度。<br>
+使用了yield的Python函数被称为生成器(generator)，生成器一定是一个迭代器。在生成器运行的过程中，每次遇到yield时函数会暂停并保存当前所有的运行信息，同时返回yield的值, 并在下一次执行next()方法时从当前位置继续运行。</p>
+<h3 id="python-zip函数">Python zip函数</h3>
+<pre><code class="language-Python">a = [1,2,3]
+b = (4,5,6)
+c = [7,8,9]
+d = list(zip(a, b, c))
+print(d)    # [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+</code></pre>
+<h3 id="python3-异常捕获">Python3 异常捕获</h3>
+<ol>
+<li>抛出自定义异常<br>
+可用<code>raise BaseException</code>或<code>raise BaseException(&quot;GUGU&quot;)</code>形式抛出自定义异常。</li>
+<li>捕获异常<br>
+捕获异常的方式可如下所示：</li>
+</ol>
+<pre><code class="language-Python">try:
+    import mymodule
+except:
+# except ImportError:
+# except ImportError as e:
+# except (ImportError, RuntimeError) as e:
+    print(&quot;An Error.&quot;)
+</code></pre>
+<h3 id="python排序">Python排序</h3>
+<p>Python中可通过<code>sorted()</code>函数对任何可迭代对象进行排序，函数返回一个新的排序后数据；具体对于列表这种数据结构，可使用<code>list.sort()</code>方法对原列表进行in-place排序，此方法返回None以防止混淆。<br>
+可通过形参key来制定在列表元素上进行调用的函数，可通过reverse参数制定是否进行降序排序。<br>
+具体使用可参照下例，对同学的成绩进行降序排列，优先看得分，随后看等级：</p>
+<pre><code class="language-Python">student_tuples = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10), ('kate', 'A', 12)]
+print(sorted(student_tuples, key=lambda student: (student[2], -ord(student[1])), reverse=True))
+</code></pre>
+<h3 id="python-http局域网传输文件">Python http局域网传输文件</h3>
+<p>A电脑在准备传输文件的路径下使用<code>python -m http.server</code>创建web sever，B电脑用浏览器打开A电脑的ip地址加上:8000，例如<code>127.0.0.1:8000</code>，即可点击并下载相应文件。</p>
+<h3 id="python-super函数">Python super函数</h3>
+<p>，用于解决多重继承问题。<br>
+在类的继承中，如果重定义某个方法，该方法会覆盖父类的同名方法，但有时我们希望能同时实现父类的功能，<code>super()</code>函数就是用于调用父类功能的一个方法，常用于解决多重继承问题(eg多重继承时，希望祖父的<code>__init__</code>方法只被执行一次)。</p>
+<pre><code class="language-Python">class A(object):   
+    def add(self, x):
+        print(x + 1)
+
+class B(A):
+    def add(self, x):
+        super(B, self).add(x)   # Python 2
+        super().add()           # Python 3
+</code></pre>
+<p>更深入地，在多重继承时，Python遵循类的方法解析顺序(Method Resolution Order，MRO)列表进行解析，详细内容可参照<a href="https://blog.csdn.net/wo198711203217/article/details/84097274">博客</a>。<br>
+在Pytorch定义模型时常常继承<code>torch.nn.Module</code>，如下：</p>
+<pre><code class="language-Python">class MyModel(nn.Module):
+    def __init__(self, in_features):
+        super(MyModel, self).__init__()
+        self.in_features = in_features
+</code></pre>
+<h3 id="numpypytorch产生随机数">numpy/Pytorch产生随机数</h3>
+<p>numpy中随机数功能都在np.random模块下，torch中随机数功能都在torch模块下。</p>
+<p>numpy.random.rand(d0, d1, …, dn)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
+numpy.random.random((d0, d1, …, dn))返回[0, 1)中均匀分布的样本值，函数接收参数元组；<br>
+torch.rand(*size, out=None)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
+numpy.random.randn(d0, d1, …, dn)是从标准正态分布中返回一个或多个样本值；<br>
+torch.randn(*size, out=None)是从标准正态分布中返回一个或多个样本值；<br>
+np.random.randint(low, high, size)从[low, high)中返回特定格式的整数值；<br>
+torch.randint(low, high, size)从[low, high)中返回特定格式的整数值。</p>
+<pre><code class="language-Python">rand_np = np.random.rand(2, 3)
+random_np = np.random.random((2, 3))
+rand_torch = torch.rand(2, 3)
+randn_np = np.random.randn(2, 3)
+randn_torch = torch.randn(2, 3)
+randint_np = np.random.randint(low=0, high=3, size=(2, 3))
+randint_torch = torch.randint(low=0, high=3, size=(2, 3))
+</code></pre>
+<h3 id="numpy的轴">numpy的轴</h3>
+<p>以此作例：</p>
+<pre><code class="language-Python">import numpy as np
+
+a = np.ones((3,4))* 2
+print(a.sum(axis=0))    # [6. 6. 6. 6.]
+print(a.sum(axis=1))    # [8. 8. 8.]
+print(np.count_nonzero(a, axis=0))  # [3 3 3 3]
+print(np.count_nonzero(a, axis=1))  # [4 4 4]
+print(np.count_nonzero(a.sum(axis=0)))  # 4
+</code></pre>
+<p>当<code>a.sum(axis=0)</code>时，程序执行的是<code>sum(a[:][j])</code>；<br>
+当<code>a.sum(axis=1)</code>时，程序执行的是<code>sum(a[i][:])</code>。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VScode中Python包的导入]]></title>
+        <id>https://FuNian788.github.io/post/vscode-zhong-python-bao-de-dao-ru/</id>
+        <link href="https://FuNian788.github.io/post/vscode-zhong-python-bao-de-dao-ru/">
+        </link>
+        <updated>2020-09-11T01:58:45.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%BB%BB%E5%8A%A1">任务</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF">解决思路</a></li>
+<li><a href="#bug%E5%A4%8D%E7%8E%B0">bug复现</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">解决方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+在VScode跨文件夹导入包时遇到了一些奇妙问题，mark一下(据传Pycharm没有这些问题，但颜党表示VScode永香)。</p>
+<h3 id="任务">任务</h3>
+<p>目录如下所示：</p>
+<pre><code>-- test
+-- -- a
+-- -- -- b.py
+-- -- c
+-- -- -- d.py
+</code></pre>
+<p>任务：需要在<code>d.py</code>中调用<code>b.py</code>中名为<code>hello</code>的类。</p>
+<h3 id="解决思路">解决思路</h3>
+<p>基本思路就是通过<code>sys.path.append()</code>语句添加路径，以便检索对应的包，最后却被命令行的路径问题搞了心态。</p>
+<h3 id="bug复现">bug复现</h3>
+<p>重点在于<strong>命令行所处的状态</strong>。终端的显示正常是这样的：<br>
+<code>PS C:\Users\lizex\Desktop\test&gt;</code><br>
+而此时若我们直接点击右上角的绿色按钮，会执行下述命令：<br>
+<code>PS C:\Users\lizex\Desktop\test&gt; &amp; D:/Python3/python.exe c:/Users/lizex/Desktop/test/b/d.py</code><br>
+此时运行下述代码，就会报错<code>ModuleNotFoundError: No module named 'a'</code>：</p>
+<pre><code class="language-Python">import sys
+sys.path.append('..')
+print(sys.path)
+&quot;&quot;&quot; 
+sys.path
+['c:\\Users\\lizex\\Desktop\\test\\b', 'D:\\Python3\\python37.zip', 
+'D:\\Python3\\DLLs', 'D:\\Python3\\lib', 'D:\\Python3', 
+'D:\\Python3\\lib\\site-packages', '..']
+&quot;&quot;&quot;
+import a.c
+</code></pre>
+<p>分析可知，VScode的地址解析会将当前执行文件的路径加入sys路径，而鉴于是在<code>C:\Users\lizex\Desktop\test</code>下添加了<code>..</code>路径，实际上sys最后加入的路径是<code>C:\Users\lizex\Desktop</code>，此时执行<code>import a.c</code>就自然报错。</p>
+<h3 id="解决方法">解决方法</h3>
+<p>在分析清楚问题之后，解决就很容易，可通过将命令行地址改成<code>C:\Users\lizex\Desktop\test\b</code>后执行<code>sys.path.append('..')</code>来解决，也可不改变地址，直接<code>sys.path.append('.')</code>来解决。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VScode sftp同步代码]]></title>
+        <id>https://FuNian788.github.io/post/vscode-sftp/</id>
+        <link href="https://FuNian788.github.io/post/vscode-sftp/">
+        </link>
+        <updated>2020-09-09T11:56:22.000Z</updated>
+        <content type="html"><![CDATA[<p>VScode的sftp插件可以将本地代码自动保存到服务器上，体验棒棒，简要记录。</p>
+<h3 id="1-下载vscode并安装sftp插件">1. 下载VScode并安装sftp插件</h3>
+<h3 id="2-配置">2. 配置</h3>
+<p>使用快捷键CTRL+SHIFT+P 打开命令行，选择<code>SFTP: Config</code>打开用户设置，即会在项目根目录下生成.vscode文件夹，修改其中的sftp.json文件。<br>
+记录我的json文件如下所示：</p>
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;My Server&quot;,
+    &quot;host&quot;: &quot;xxx.xxx.xxx.xxx&quot;,
+    &quot;protocol&quot;: &quot;sftp&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;xxx&quot;,
+    &quot;password&quot;: &quot;xxx&quot;,
+    &quot;remotePath&quot;: &quot;xxx&quot;,
+    &quot;uploadOnSave&quot;: true,
+    &quot;downloadOnOpen&quot;:false,
+    &quot;ignore&quot;: [
+        &quot;**/.vscode/**&quot;,
+        &quot;**/.git/**&quot;,
+        &quot;**/.DS_Store&quot;
+    ],
+    &quot;watcher&quot;: {
+        &quot;files&quot;: &quot;*&quot;,
+        &quot;autoUpload&quot;: false,
+        &quot;autoDelete&quot;: false
+    }
+}
+</code></pre>
+<h3 id="3-使用">3. 使用</h3>
+<p>每次保存(CTRL+S)都会将文件同步到服务器上；当需要对全部工程文件进行同步时，可以在VScode的文件夹处单击右键进行具体选择。</p>
 ]]></content>
     </entry>
 </feed>

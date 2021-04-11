@@ -15,18 +15,30 @@
     
 
   <meta name="description" content="迫于打工，开刷算法！
-本博客旨在对算法的核心思想进行归纳和总结，从而指导具体的实际问题求解。本博客不进行具体算法题目的剖析，请注意，这不是演习🎺同时感谢labuladong的算法讲解，可以到作者的Gitbook访问相关文章。
+本博客旨在归纳算法题的核心思想并总结对应的模板，从而指导具体的实际问题求解🎺同时感谢labuladong的算法讲解Gitbook访问相关文章。
 
 
 
-1.动..." />
+0. 数据读取
+1.动态规划
+
+题型归纳
+套路总结
+解题思路
+Le..." />
   <meta property="og:title" content="算法核心思想总结 - Zexian Li">
   <meta property="og:description" content="迫于打工，开刷算法！
-本博客旨在对算法的核心思想进行归纳和总结，从而指导具体的实际问题求解。本博客不进行具体算法题目的剖析，请注意，这不是演习🎺同时感谢labuladong的算法讲解，可以到作者的Gitbook访问相关文章。
+本博客旨在归纳算法题的核心思想并总结对应的模板，从而指导具体的实际问题求解🎺同时感谢labuladong的算法讲解Gitbook访问相关文章。
 
 
 
-1.动..." />
+0. 数据读取
+1.动态规划
+
+题型归纳
+套路总结
+解题思路
+Le..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/algorithm/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -34,11 +46,17 @@
   <meta property="og:image:width" content="1200">
   <meta name="twitter:title" content="算法核心思想总结 - Zexian Li">
   <meta name="twitter:description" content="迫于打工，开刷算法！
-本博客旨在对算法的核心思想进行归纳和总结，从而指导具体的实际问题求解。本博客不进行具体算法题目的剖析，请注意，这不是演习🎺同时感谢labuladong的算法讲解，可以到作者的Gitbook访问相关文章。
+本博客旨在归纳算法题的核心思想并总结对应的模板，从而指导具体的实际问题求解🎺同时感谢labuladong的算法讲解Gitbook访问相关文章。
 
 
 
-1.动...">
+0. 数据读取
+1.动态规划
+
+题型归纳
+套路总结
+解题思路
+Le...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/algorithm/">
 
@@ -66,7 +84,7 @@
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 25 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 26 min read</div>
           
             <a href="https://FuNian788.github.io/tag/gDed1cRTSg/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
@@ -76,10 +94,11 @@
         </div>
         <div class="markdown mb-8" v-pre>
           <p>迫于打工，开刷算法！<br>
-本博客旨在对算法的核心思想进行归纳和总结，从而指导具体的实际问题求解。本博客不进行具体算法题目的剖析，请注意，这不是演习🎺同时感谢labuladong的算法讲解，可以到作者的<a href="https://labuladong.gitbook.io/algo">Gitbook</a>访问相关文章。<br>
+本博客旨在归纳算法题的核心思想并总结对应的模板，从而指导具体的实际问题求解🎺同时感谢labuladong的算法讲解<a href="https://labuladong.gitbook.io/algo">Gitbook</a>访问相关文章。<br>
 <ul class="markdownIt-TOC">
 <li>
 <ul>
+<li><a href="#0-%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96"><s>0. 数据读取</s></a></li>
 <li><a href="#1%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">1.动态规划</a>
 <ul>
 <li><a href="#%E9%A2%98%E5%9E%8B%E5%BD%92%E7%BA%B3">题型归纳</a></li>
@@ -104,6 +123,7 @@
 <li><a href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">二分搜索</a></li>
 </ul>
 </li>
+<li><a href="#5-%E4%BD%8D%E8%BF%90%E7%AE%97">5. 位运算</a></li>
 <li><a href="#nleetcode%E5%88%B7%E9%A2%98%E5%BF%83%E5%BE%97">n.Leetcode刷题心得</a>
 <ul>
 <li><a href="#%E6%99%AE%E9%81%8D%E8%A7%84%E5%BE%8B">普遍规律</a></li>
@@ -113,6 +133,24 @@
 </li>
 </ul>
 </p>
+<h2 id="0-数据读取"><s>0. 数据读取</s></h2>
+<p>简单记录一下ACM模式下Python3的数据读取方法。<br>
+举个例子，输入n组数据来实现两数之和，输入如下(第一行代表数据组数n，后n行为数据)：</p>
+<pre><code class="language-shell">3
+1 2
+3 4
+5 6
+</code></pre>
+<p>数据读取方式如下，最后将结果以<code>print</code>形式输出：</p>
+<pre><code class="language-Python">import sys
+
+n = int(sys.stdin.readline())
+for i in range(n):
+    line = sys.stdin.readline().strip()
+    data = list(map(int, line.split()))
+    a, b = data
+    print(a + b)
+</code></pre>
 <h2 id="1动态规划">1.动态规划</h2>
 <p>动态规划问题的一般形式就是求最值，求解动态规划问题的核心是穷举。</p>
 <p>动态规划的三要素是重叠子问题、最优子结构、状态转移方程：</p>
@@ -530,6 +568,64 @@ while(low &lt; high):
         high = mid # search in [low, mid)
 return low
 </code></pre>
+<h2 id="5-位运算">5. 位运算</h2>
+<p>先熟悉一下Python3的常用运算符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">用例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">除法</td>
+<td style="text-align:center">12 / 5 = 2.4</td>
+</tr>
+<tr>
+<td style="text-align:center">//</td>
+<td style="text-align:center">向下取整除</td>
+<td style="text-align:center">5 // 2 = 2; -10 // 3 = -4</td>
+</tr>
+<tr>
+<td style="text-align:center">%</td>
+<td style="text-align:center">取模(返回除法余数)</td>
+<td style="text-align:center">10 % 3 = 1; 10 % -3 = -2</td>
+</tr>
+<tr>
+<td style="text-align:center">&amp;</td>
+<td style="text-align:center">按位与</td>
+<td style="text-align:center">60(0011 1100) &amp; 13(0000 1101) = 12(0000 1100)</td>
+</tr>
+<tr>
+<td style="text-align:center">|</td>
+<td style="text-align:center">按位或</td>
+<td style="text-align:center">60(0011 1100) | 13(0000 1101) = 61(0011 1101)</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">按位异或</td>
+<td style="text-align:center">60(0011 1100) ^ 13(0000 1101) = 49(0011 0001)</td>
+</tr>
+<tr>
+<td style="text-align:center">~</td>
+<td style="text-align:center">按位取反</td>
+<td style="text-align:center">~60(0011 1100) = -61(1100 0011)</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;&lt;</td>
+<td style="text-align:center">左移若干位(高位丢弃，低位补0)</td>
+<td style="text-align:center">60(0011 1100) &lt;&lt; 2 = 240(1111 0000)</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;&gt;</td>
+<td style="text-align:center">右移若干位(高位补0，低位丢弃)</td>
+<td style="text-align:center">60(0011 1100) &gt;&gt; 2 = 15(0000 1111)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="nleetcode刷题心得">n.Leetcode刷题心得</h2>
 <h3 id="普遍规律">普遍规律</h3>
 <ol>
@@ -586,6 +682,7 @@ p55 扔鸡蛋-71
         <ul class="markdownIt-TOC">
 <li>
 <ul>
+<li><a href="#0-%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96"><s>0. 数据读取</s></a></li>
 <li><a href="#1%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">1.动态规划</a>
 <ul>
 <li><a href="#%E9%A2%98%E5%9E%8B%E5%BD%92%E7%BA%B3">题型归纳</a></li>
@@ -610,6 +707,7 @@ p55 扔鸡蛋-71
 <li><a href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">二分搜索</a></li>
 </ul>
 </li>
+<li><a href="#5-%E4%BD%8D%E8%BF%90%E7%AE%97">5. 位运算</a></li>
 <li><a href="#nleetcode%E5%88%B7%E9%A2%98%E5%BF%83%E5%BE%97">n.Leetcode刷题心得</a>
 <ul>
 <li><a href="#%E6%99%AE%E9%81%8D%E8%A7%84%E5%BE%8B">普遍规律</a></li>

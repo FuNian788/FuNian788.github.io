@@ -60,7 +60,36 @@
     
     <div class="flex-1 order-2 md:order-1">
       <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+        <a href="https://FuNian788.github.io/post/Pytorch-loss/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          常用损失函数合集(Pytorch)
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-12-11</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        训model嘛，损失函数总是要得。这里简单归纳一下常见的损失函数及其在Pytorch中的使用方法，以便查阅👨‍💻。
+
+
+
+
+
+1. 交叉熵损失函数
+
+nn.LogSoftmax()
+nn.NLLLoss()
+nn.CrossEntrop...
+      </div>
+      <a href="https://FuNian788.github.io/post/Pytorch-loss/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://FuNian788.github.io/post/pytorch-debug/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
           Pytorch Debug小记
         </a>
       </h2>
@@ -80,7 +109,7 @@ THCUNN/BCECriterion.cu:42: Assertion `input &gt;= 0. &amp;&amp; input &lt;= 1.` 
 
 THCUNN/BCECriterion.c...
       </div>
-      <a href="https://FuNian788.github.io/post/pytorch-debug-xiao-ji/" class="btn">
+      <a href="https://FuNian788.github.io/post/pytorch-debug/" class="btn">
         Read more
       </a>
     </div>
@@ -111,37 +140,16 @@ THCUNN/BCECriterion.c...
     
     <div class="flex-1 order-2 md:order-1">
       <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://FuNian788.github.io/post/pytorch-learning-note-2/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-           Pytorch学习笔记(2): 数据加载
+        <a href="https://FuNian788.github.io/post/pytorch-dataloader/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          一文看懂Pytorch数据加载方法
         </a>
       </h2>
       <div class="mb-4 text-xs text-gray-500">2020-03-19</div>
       <div class="mb-4 text-gray-500 dark:text-gray-300">
         Pytorch的数据加载主要依赖torch.utils.data.Dataset和torch.utils.data.DataLoader两个模块，可以完成如下格式的傻瓜式加载。
-train_data = MyModel()     # 'M...
+train_dataset = MyDataset(train...
       </div>
-      <a href="https://FuNian788.github.io/post/pytorch-learning-note-2/" class="btn">
-        Read more
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
-    
-    <div class="flex-1 order-2 md:order-1">
-      <h2 class="text-2xl font-semibold mb-4">
-        <a href="https://FuNian788.github.io/post/pytorch-learning-note-1/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
-          Pytorch学习笔记(1): 张量tensor
-        </a>
-      </h2>
-      <div class="mb-4 text-xs text-gray-500">2020-03-19</div>
-      <div class="mb-4 text-gray-500 dark:text-gray-300">
-        从今天起，我会陆续更新Pytorch学习笔记，以期系统性地帮助大家(和我自己)梳理相关的知识，欢迎分享和在评论区交流😎
-https://blog.csdn.net/zhe_csdn/article/details/93655053
-...
-      </div>
-      <a href="https://FuNian788.github.io/post/pytorch-learning-note-1/" class="btn">
+      <a href="https://FuNian788.github.io/post/pytorch-dataloader/" class="btn">
         Read more
       </a>
     </div>

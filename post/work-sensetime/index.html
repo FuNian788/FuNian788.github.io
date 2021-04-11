@@ -1,0 +1,481 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>打怪升级-ST - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="打怪升级-ST - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="从事ISP相关low-level算法的研发；针对现有ISP结构固定、参数难以调整的问题，基于结构搜索和单元模拟方法，首提出可针对特定任务或数据进行最优结构及参数最优化搜索的ISP架构ReconfigISP，相关工作CVPR2021在投；负责..." />
+  <meta property="og:title" content="打怪升级-ST - Zexian Li">
+  <meta property="og:description" content="从事ISP相关low-level算法的研发；针对现有ISP结构固定、参数难以调整的问题，基于结构搜索和单元模拟方法，首提出可针对特定任务或数据进行最优结构及参数最优化搜索的ISP架构ReconfigISP，相关工作CVPR2021在投；负责..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/work-sensetime/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="打怪升级-ST - Zexian Li">
+  <meta name="twitter:description" content="从事ISP相关low-level算法的研发；针对现有ISP结构固定、参数难以调整的问题，基于结构搜索和单元模拟方法，首提出可针对特定任务或数据进行最优结构及参数最优化搜索的ISP架构ReconfigISP，相关工作CVPR2021在投；负责...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/work-sensetime/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          打怪升级-ST
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-11-17 · 12 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/Kd_1VGULn/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              work
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>从事<a href="#1">ISP相关</a>low-level算法的研发；针对现有ISP结构固定、参数难以调整的问题，基于结构搜索和单元模拟方法，首提出可针对特定任务或数据进行最优结构及参数最优化搜索的ISP架构<a href="#2">ReconfigISP</a>，相关工作CVPR2021在投；负责senseImaging业务线中<a href="#3">普适性AI去噪方法研究</a>，在指定相机上取得良好效果。</p>
+<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#isp%E5%9F%BA%E6%9C%AC%E5%86%85%E5%AE%B9">ISP基本内容</a>
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86">基本知识：</a></li>
+</ul>
+</li>
+<li><a href="#cvpr-2021-reconfigisp-reconfigurable-image-signal-processor">(CVPR 2021) ReconfigISP: Reconfigurable Image Signal Processor</a>
+<ul>
+<li><a href="#%E9%92%88%E5%AF%B9%E7%97%9B%E7%82%B9">针对痛点：</a></li>
+<li><a href="#%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE">主要贡献：</a></li>
+<li><a href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B">整体流程：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82">实现细节：</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容：</a></li>
+<li><a href="#%E5%85%B7%E4%BD%93%E5%B7%A5%E4%BD%9C">具体工作：</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8E%BB%E5%99%AA%E6%A8%A1%E5%9E%8B">去噪模型</a>
+<ul>
+<li><a href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF">研究背景：</a></li>
+<li><a href="#%E5%99%AA%E5%A3%B0%E5%88%86%E6%9E%90">噪声分析：</a></li>
+<li><a href="#%E7%A0%94%E7%A9%B6%E7%9B%AE%E7%9A%84">研究目的：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B">实现流程：</a></li>
+<li><a href="#ai-demosaic%E6%A8%A1%E5%9E%8B">AI demosaic模型：</a></li>
+<li><a href="#%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95">评估方法：</a></li>
+<li><a href="#idea">idea：</a></li>
+<li><a href="#%E5%AE%9E%E9%99%85%E5%B7%A5%E4%BD%9C">实际工作：</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C">实验结果：</a></li>
+<li><a href="#%E6%95%88%E6%9E%9C%E4%B8%8D%E4%BD%B3%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90">效果不佳的原因分析：</a></li>
+<li><a href="#%E7%BB%86%E8%8A%82%E8%A1%A5%E5%85%85">细节补充：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<p><span id = "1"></span></p>
+<h2 id="isp基本内容">ISP基本内容</h2>
+<p>ISP流程图如下所示，senseImaging实现了从被摄物体到最终成像全流程的数字模拟，方便对各模块进行优化和调节。<br>
+<img src="https://FuNian788.github.io/post-images/work/st_1.png" alt="ISP流程图" loading="lazy"></p>
+<ol>
+<li>scene(lighting)(场景模拟)：包括reflectance(反射比)，light source等。</li>
+<li>lens(透镜成像模拟)：包括vignetting(光晕), diffraction(衍射)等。</li>
+<li>sensor(传感器模拟)：包括CFA，pixel，ADC，noise等。输出Bayer格式RAW图。</li>
+<li>ISP(image signal processor，图像信号处理)(后期成像模拟)：包括Demosaic，SNR(信噪比)，Gamma and Tone-mapping，White Balance，GDC等。</li>
+<li>display(显示模拟)。</li>
+</ol>
+<h3 id="基本知识">基本知识：</h3>
+<p>CFA(彩色滤光片阵列，color filter array)由R、G、B三种颜色的遮光罩构成，每种遮光罩只允许一种颜色通过。最常见的CFA为Bayer阵列(拜耳阵列)，例RGGB格式。<br>
+sensor(传感器)的每个像素点上均覆盖着CFA，故每个像素点只感应R、G、B三者中的一种颜色信息。sensor输出的数据为Bayer格式，即RAW数据。我们常见到的图片是对RAW格式图片经过ISP和压缩等操作后得到的。<br>
+RAW图上每个像素点只包含R/G/B中的一种颜色信息，在不降低图像整体分辨率的情况下，需要Demosaic通过插值算法将每个像素所代表的真实颜色计算出来。Demosaic是ISP的最主要功能之一。</p>
+<hr>
+<p><span id = "2"></span></p>
+<h2 id="cvpr-2021-reconfigisp-reconfigurable-image-signal-processor">(CVPR 2021) ReconfigISP: Reconfigurable Image Signal Processor</h2>
+<h3 id="针对痛点">针对痛点：</h3>
+<ol>
+<li>现有ISP方法，要么是流程固定的模块，要么是一个固定的深度神经网络，仅在特定任务/数据集上表现良好，在繁杂的相机、场景、任务面前缺乏普适性，需要人为调整参数/新数据集上finetune。</li>
+</ol>
+<h3 id="主要贡献">主要贡献：</h3>
+<ol>
+<li>首提出<strong>ISP结构搜索</strong>概念。提出可为特定任务(eg目标检测)、场景(eg光照)、计算开销(eg运行时间)量身定制ISP结构和参数的ReconfigISP，即在包含多个基础模块的模块池中搜索、选择并连结得到新的最优结构，在图像恢复和目标检测等任务上取得良好效果。</li>
+<li>选用NAS方法进行ISP结构搜索，为之训练proxy网络，提出proxy网络finetune机制。</li>
+<li>ReconfigISP网络结构中的每个模块在整个ISP pipeline中都有清晰的定位，可以辅助人工调参/理解任务。</li>
+<li>ReconfigISP网络仅需少量数据便可实现finetune。</li>
+</ol>
+<h3 id="整体流程">整体流程：</h3>
+<p><img src="https://FuNian788.github.io/post-images/work/cvpr_2.png" alt="流程" loading="lazy"><br>
+在获得所有proxy模块后，在特定任务上，使用Darts轮流进行结构搜索和模块参数调整；最后再在选定额结构上进行参数finetune以获得最佳结果。</p>
+<h3 id="实现细节">实现细节：</h3>
+<ol>
+<li>NAS</li>
+</ol>
+<p>使用NAS方法加快在模块池中的搜索速度，此时需保证每个基础模块均可微以参与BP，故使用通用数据集为所有不可微模块训练proxy网络(让proxy网络通过input图片和不同参数时output进行学习，以期在同样参数时输出尽可能一样)。具体地，使用SRCNN网络在SIDD数据集上进行proxy网络的训练。</p>
+<p>在NAS的每一步，尝试该处N个可用模块或skip，注意，不是所有模块都可用，例如对sRGB用的模块就不能对RAW图使用。网络在inference的第K步时，由<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="bold">X</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\mathbf{X}_{k-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.894441em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="bold">X</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{X}_{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>的过程如下所示：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="bold">X</mi><mi>k</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>α</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><msub><mi>f</mi><mi>j</mi></msub><mrow><mo fence="true">(</mo><msub><mi mathvariant="bold">X</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>p</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><mo separator="true">;</mo><msub><mi>w</mi><mi>j</mi></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathbf{X}_{k}=\sum_{j=1}^{N} \alpha_{k j} f_{j}\left(\mathbf{X}_{k-1}, p_{k j} ; w_{j}\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.2421130000000007em;vertical-align:-1.4137769999999998em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000006em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.4137769999999998em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">f_{j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示第j个proxy网络，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{k j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示该算法的超参数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">w_{j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示该proxy网络的网络参数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>α</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\alpha_{k j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示在第K步选择该网络的概率。<br>
+更进一步地，根据任务指标确定损失函数(eg ISP输出的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="bold">X</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{X}_{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>与GT的差距、目标检测的mAP等)，并轮流更新ISP网络结构(所有的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>α</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\alpha_{k j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>)和proxy网络超参数(所有的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{k j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>)。这是因为不同ISP结构下的最优参数可能不同，不能单纯只进行结构的搜索，还需考虑超参数，且鉴于任务复杂性，引入mata learning学习方法。</p>
+<p>舍弃效果过差的proxy网络模块以加快训练速度。具体地，当某一模块的得分小于该步得分最高模块的得分乘阈值时，将其舍弃。</p>
+<p>在特定任务上，为了保证proxy网络的性能，需使其见过该任务的数据分布，即将其在对应任务数据上进行finetune。具体地，每隔特定的时长，将各步输出图片存储到队列中，随后对队列随机采样，用采样图片对proxy网络进一步优化。优化方法为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>δ</mi><msub><mi>w</mi><mi>j</mi></msub></msub><mo>=</mo><msub><mi mathvariant="normal">∇</mi><msub><mi>w</mi><mi>j</mi></msub></msub><msub><mi>L</mi><mi>p</mi></msub><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi>j</mi></msub><mrow><mo fence="true">(</mo><msub><mi mathvariant="bold">X</mi><mi>m</mi></msub><mo separator="true">,</mo><msub><mover accent="true"><mi>p</mi><mo>~</mo></mover><mi>j</mi></msub><mo separator="true">;</mo><msub><mi>w</mi><mi>j</mi></msub><mo fence="true">)</mo></mrow><mo separator="true">,</mo><msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mi>j</mi></msub><mrow><mo fence="true">(</mo><msub><mi mathvariant="bold">X</mi><mi>m</mi></msub><mo separator="true">,</mo><msub><mover accent="true"><mi>p</mi><mo>~</mo></mover><mi>j</mi></msub><mo fence="true">)</mo></mrow><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\delta_{w_{j}}=\nabla_{w_{j}} L_{p}\left(f_{j}\left(\mathbf{X}_{m}, \tilde{p}_{j} ; w_{j}\right), \hat{f}_{j}\left(\mathbf{X}_{m}, \tilde{p}_{j}\right)\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04176em;vertical-align:-0.34731999999999996em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03785em;">δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.02691em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.34731999999999996em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.80002em;vertical-align:-0.65002em;"></span><span class="mord"><span class="mord">∇</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.02691em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.34731999999999996em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6678599999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">p</span></span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.16666em;">~</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9578799999999998em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span><span style="top:-3.26344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.08332999999999999em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6678599999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">p</span></span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.16666em;">~</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="bold">X</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{X}_{m}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">X</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>代表采样数据，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\hat{f}_{j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2439879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9578799999999998em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span><span style="top:-3.26344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.08332999999999999em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>代表原算法，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">f_{j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>代表该算法的proxy版本，且是在随机超参的情况下对proxy网络内部参数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">w_{j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>进行更新。</p>
+<p>在ISP结构确定后，finetune所有模块的参数以达到最佳效果，需要注意的是，此时只需要调整近百参数而非无数参数/大数据重训。</p>
+<p>以上流程可参照此算法流程图：<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_3.png" alt="算法流程" loading="lazy"></p>
+<ol start="2">
+<li>ISP模块池<br>
+ISP主要包括：Denoise(去除sensor/CMOS由于机电特性带来的噪声)，Demosaic(将RAW格式图转化为RGB格式)，Gamma and Tone Mapping(限制像素范围，关注过亮/暗部分)，white balancing(校正因光照和传感器敏感性造成的颜色偏差)。<br>
+具体地，模块内容有：<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_1.png" alt="模块内容" loading="lazy"></li>
+</ol>
+<h3 id="实验内容">实验内容：</h3>
+<ol>
+<li>图像恢复<br>
+选取SID数据集的Sony子集(Sony相机拍摄)和S7 ISP数据集(三星S7手机拍摄)的5%(少量数据即够)测试图像恢复任务。<br>
+SID数据集上的图像恢复任务是，输入暗光数据(曝光时长0.1s)，比较网络输出与同场景下长曝光图片(曝光时长10s)的差距。SSIM和PSNR指标如下所示，可看到我们的结果远远超过了相机默认流程：<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_4.png" alt="SID数据集" loading="lazy"><br>
+视觉效果是好的，性能的略微差距可能来自颜色和亮度的偏差。<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_5.png" alt="S7数据集" loading="lazy"><br>
+值得注意的是，和几百万参数相比，我们的ISP结构搜索仅需要数百的可调参数。</li>
+</ol>
+<p>ReconfigISP还可将耗时加入损失函数，以搜索运行更快的结构，运行百万像素的耗时具体结果如下：<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_6.png" alt="耗时" loading="lazy"></p>
+<ol start="2">
+<li>目标检测<br>
+使用OnePlus相机拍摄141张夜晚照片并标注人、车、公交，选用YOLOv3算法进行暗光条件下目标检测，进而通过YOLOv3返回的梯度进行ISP结构搜索。<br>
+有一些有趣的结果，例如去噪算法在RAW层面和RGB层面都得以使用，没有用到白平衡算法。尽管图像的人类观感一般，但效果好很多。<br>
+我们的ISP结构效果显著超越其他同类算法，结果如下：<br>
+<img src="https://FuNian788.github.io/post-images/work/cvpr_7.png" alt="目标检测结果" loading="lazy"><br>
+softwareISP方面，本来是matlab GUI界面，后直接拉出sdg接口直接运行。</li>
+</ol>
+<h3 id="具体工作">具体工作：</h3>
+<p>我的工作：训练proxy网络，图像恢复部分U-Net数据集的训练和测试，目标检测YOLO算法复现，数据集标注，softwareISP对比实验。<br>
+大哥的工作：结构搜索Darts(neural architecture search, NAS)<br>
+彭哥的工作：算法池的提供</p>
+<hr>
+<p><span id = "3"></span></p>
+<h2 id="去噪模型">去噪模型</h2>
+<h3 id="研究背景">研究背景：</h3>
+<p>高级相机的sensor机电特性较好，噪声较小；而手机相机的sensor受限于其机电特性，常有较大的高斯噪声和泊松噪声，对图像质量影响较大。</p>
+<h3 id="噪声分析">噪声分析：</h3>
+<p>噪声的添加方式可参考公式：y = x + G + P，其中，x为高级相机sensor输出的RAW格式图片，G为高斯分布噪声，P为泊松分布噪声，x为添加噪声后的有噪RAW格式图片。默认以上两种噪声独立同分布，且同一设备拍照生成图片时产生的噪声维持在同一状态，噪声强度和形式不发生剧变。<br>
+需要注意的是，y - x = G + P在可视化时规律较明显，但ISP(y) - ISP(x)在可视化时几乎无规律可言，这是因为ISP中的demosaic等过程是非线性的，会扰乱现有噪声添加规律，经过ISP模块后的结构性噪声已不可逆。<br>
+该噪声影响PSNR、SSIM等指标。</p>
+<h3 id="研究目的">研究目的：</h3>
+<p>针对特定手机相机，训练能有效消除sensor模块处噪声影响的AI去噪模型。</p>
+<h3 id="实现流程">实现流程：</h3>
+<figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/work/st_2.png" alt="实现思路" loading="lazy"></figure>
+<ol>
+<li>使用高级相机进行拍摄，将得到的RAW图作为近似无噪sensor的输出。</li>
+<li>采样手机相机的噪声参数，将模拟噪声加在RAW图上作为近似手机相机有噪sensor的输出。</li>
+<li>获取手机相机的具体参数参数以使用senseImaging模拟手机相机成像pipeline后续部分(ISP, display)，获取RGB格式的noise有噪数据集和GT无噪数据集。</li>
+<li>使用GT数据集和noise数据集训练精准去除所添加噪声的AI去噪模型(实际该模型是使用深度学习方法同时解决demosaic和denoise问题)。<br>
+注意，本模型使用RGB图训练，但可理解并消除RAW格式时添加的噪声。</li>
+</ol>
+<h3 id="ai-demosaic模型">AI demosaic模型：</h3>
+<p>基于ResDNet</p>
+<h3 id="评估方法">评估方法：</h3>
+<figure data-type="image" tabindex="2"><img src="https://FuNian788.github.io/post-images/work/st_3.png" alt="评估方法" loading="lazy"></figure>
+<ol>
+<li>使用手机相机拍摄图片，分别将其通过训好的AI去噪模型和BM3D算法(由于无法获取手机相机拍摄的GT，故和目前效果sota的去噪算法BM3D结果作对比)，比较两张图片的PSNR及SSIM指标，衡量AI去噪模型质量。<br>
+注：由于ResDNet是对RAW格式(10bit型)进行处理，BM3D是直接对RGB图(8bit型)进行处理，二者间的gap需要通过对图片所有像素值除4后进行可视化方可实现。</li>
+</ol>
+<h3 id="idea">idea：</h3>
+<ol>
+<li>拥有真正意义上pixel对应的1v1精准数据集</li>
+<li>有先验信息指导，可了解AI model训练情况并施以人为干预</li>
+<li>可使用少量手机相机图片测相机参数+senseImaging大批量生成图片的方法生成数据集，节约成本，且此流程在设备层面具有较好的泛化性和替代性。扩展地，可采用此方法有针对性地对<strong>特定设备、特定场景、特定模块、特定任务</strong>进行优化</li>
+</ol>
+<h3 id="实际工作">实际工作：</h3>
+<ol>
+<li>调试senseImaging，获取相机RAW图并针对OnePlus手机相机参数制作GT数据集和noise数据集</li>
+<li>基于ResDNet实现针对OnePlus相机sensor模块噪声的AI去噪模型</li>
+<li>使用OnePlus相机进行测试，分析及调优</li>
+</ol>
+<h3 id="实验结果">实验结果：</h3>
+<ol>
+<li>AI model的PSNR指标为9.2左右(较低，同期BM3D可达到30左右)，同时输出图片的亮度较低(考虑数据集分布)，色调略有偏差(考虑数据集分布，senseImaging准确性)。</li>
+<li>AI model输出图片的清晰度远优于BM3D。</li>
+</ol>
+<h3 id="效果不佳的原因分析">效果不佳的原因分析：</h3>
+<ol>
+<li>添加noise的方法不对</li>
+<li>AI model能力不佳</li>
+<li>senseImaging出现问题</li>
+</ol>
+<h3 id="细节补充">细节补充：</h3>
+<ol>
+<li>如何使用少量手机拍摄的图片获取手机相机参数<br>
+查阅镜头参数+通过senseImaging模块测量获取近似参数，可能会对参数进行微调，即随机方向调整参数看AI model的效果变化趋势以决定下一步调整方向(可参考强化学习方法进行改进)。</li>
+<li>噪声的产生方式<br>
+现阶段的噪声P和G是通过算法直接生成的，的确会存在测量不准、不同手机强度不定、算法不可导无法联调train等问题，今后可考虑AI算法模拟等。</li>
+<li>后续工作<br>
+可以聊贸易战停止与美国联系，故后续转去做论文。</li>
+</ol>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#isp%E5%9F%BA%E6%9C%AC%E5%86%85%E5%AE%B9">ISP基本内容</a>
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86">基本知识：</a></li>
+</ul>
+</li>
+<li><a href="#cvpr-2021-reconfigisp-reconfigurable-image-signal-processor">(CVPR 2021) ReconfigISP: Reconfigurable Image Signal Processor</a>
+<ul>
+<li><a href="#%E9%92%88%E5%AF%B9%E7%97%9B%E7%82%B9">针对痛点：</a></li>
+<li><a href="#%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE">主要贡献：</a></li>
+<li><a href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B">整体流程：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82">实现细节：</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容：</a></li>
+<li><a href="#%E5%85%B7%E4%BD%93%E5%B7%A5%E4%BD%9C">具体工作：</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8E%BB%E5%99%AA%E6%A8%A1%E5%9E%8B">去噪模型</a>
+<ul>
+<li><a href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF">研究背景：</a></li>
+<li><a href="#%E5%99%AA%E5%A3%B0%E5%88%86%E6%9E%90">噪声分析：</a></li>
+<li><a href="#%E7%A0%94%E7%A9%B6%E7%9B%AE%E7%9A%84">研究目的：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B">实现流程：</a></li>
+<li><a href="#ai-demosaic%E6%A8%A1%E5%9E%8B">AI demosaic模型：</a></li>
+<li><a href="#%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95">评估方法：</a></li>
+<li><a href="#idea">idea：</a></li>
+<li><a href="#%E5%AE%9E%E9%99%85%E5%B7%A5%E4%BD%9C">实际工作：</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C">实验结果：</a></li>
+<li><a href="#%E6%95%88%E6%9E%9C%E4%B8%8D%E4%BD%B3%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90">效果不佳的原因分析：</a></li>
+<li><a href="#%E7%BB%86%E8%8A%82%E8%A1%A5%E5%85%85">细节补充：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

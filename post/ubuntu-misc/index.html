@@ -21,6 +21,8 @@
 
 Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
+查看进程
+杀死进程
 
 
 
@@ -29,9 +31,7 @@ Ubuntu查看文件夹内文件数量
 
 Ubuntu在当前目录及子目录寻找文件
 以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml
-
-在检索指令gre..." />
+sudo find | grep -i .*[.]xml..." />
   <meta property="og:title" content="Ubuntu杂记 - Zexian Li">
   <meta property="og:description" content="
 
@@ -40,6 +40,8 @@ sudo find | grep -i .*[.]xml
 
 Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
+查看进程
+杀死进程
 
 
 
@@ -48,9 +50,7 @@ Ubuntu查看文件夹内文件数量
 
 Ubuntu在当前目录及子目录寻找文件
 以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml
-
-在检索指令gre..." />
+sudo find | grep -i .*[.]xml..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/ubuntu-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -64,6 +64,8 @@ sudo find | grep -i .*[.]xml
 
 Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
+查看进程
+杀死进程
 
 
 
@@ -72,9 +74,7 @@ Ubuntu查看文件夹内文件数量
 
 Ubuntu在当前目录及子目录寻找文件
 以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml
-
-在检索指令gre...">
+sudo find | grep -i .*[.]xml...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/ubuntu-misc/">
 
@@ -113,6 +113,8 @@ sudo find | grep -i .*[.]xml
 <ul>
 <li><a href="#ubuntu%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%AD%90%E7%9B%AE%E5%BD%95%E5%AF%BB%E6%89%BE%E6%96%87%E4%BB%B6">Ubuntu在当前目录及子目录寻找文件</a></li>
 <li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
+<li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
 </ul>
 </li>
 </ul>
@@ -142,6 +144,25 @@ sudo find | grep -i .*[.]xml
 <pre><code class="language-Shell">ls -lR GUGU*/ | grep &quot;-&quot; | wc -l
 </code></pre>
 <p>其中，<code>ls -l</code>表示以长列表输出指定目录下的信息，<code>grep</code>是一种文本搜索工具，<code>&quot;-&quot;</code>代表文件，<code>&quot;d&quot;</code>代表目录，<code>wc -l</code>表示统计输出信息的行数。</p>
+<h3 id="查看进程">查看进程</h3>
+<p>我们常使用用ps查看进程，具体方法有如下两种：</p>
+<pre><code>ps -ef
+</code></pre>
+<pre><code>ps -aux
+</code></pre>
+<p>注意，当进程较多时，我们可以对进程名进行搜索以快速定位：<br>
+以进程test.py为例，具体方法有如下两种：</p>
+<pre><code>ps -ef | grep test
+</code></pre>
+<pre><code>pgrep test
+</code></pre>
+<h3 id="杀死进程">杀死进程</h3>
+<p>在查看进程得到进程的编号(PID)后，我们可以使用如下指令杀死进程：</p>
+<pre><code>kill -s 9 PID-number
+</code></pre>
+<p>其中9表示强制结束进程。但有时会报错，可以用如下指令杀死进程：</p>
+<pre><code>kill -9 PID-number
+</code></pre>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -189,6 +210,8 @@ sudo find | grep -i .*[.]xml
 <ul>
 <li><a href="#ubuntu%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%AD%90%E7%9B%AE%E5%BD%95%E5%AF%BB%E6%89%BE%E6%96%87%E4%BB%B6">Ubuntu在当前目录及子目录寻找文件</a></li>
 <li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
+<li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
 </ul>
 </li>
 </ul>

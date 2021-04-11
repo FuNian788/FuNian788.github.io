@@ -15,42 +15,14 @@
     
 
   <meta name="description" content="在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。
-
-
-
-
-
-后台运行
-查看进程
-杀死进程
-
-
-
-
-
-
 后台运行
 如果我们想将程序挂在后台运行，留下清爽的终端界面，只需要在指令后加上&amp;amp;符号即可。
-例如我们想在后..." />
+例如我们想在后台使用python执行test.py文件，我们可以在..." />
   <meta property="og:title" content="Linux程序后台运行方法总结 - Zexian Li">
   <meta property="og:description" content="在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。
-
-
-
-
-
-后台运行
-查看进程
-杀死进程
-
-
-
-
-
-
 后台运行
 如果我们想将程序挂在后台运行，留下清爽的终端界面，只需要在指令后加上&amp;amp;符号即可。
-例如我们想在后..." />
+例如我们想在后台使用python执行test.py文件，我们可以在..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/linux-backstage/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -58,23 +30,9 @@
   <meta property="og:image:width" content="1200">
   <meta name="twitter:title" content="Linux程序后台运行方法总结 - Zexian Li">
   <meta name="twitter:description" content="在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。
-
-
-
-
-
-后台运行
-查看进程
-杀死进程
-
-
-
-
-
-
 后台运行
 如果我们想将程序挂在后台运行，留下清爽的终端界面，只需要在指令后加上&amp;amp;符号即可。
-例如我们想在后...">
+例如我们想在后台使用python执行test.py文件，我们可以在...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/linux-backstage/">
 
@@ -102,7 +60,7 @@
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 3 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 2 min read</div>
           
             <a href="https://FuNian788.github.io/tag/R1mhCZ9jPe/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
@@ -111,21 +69,7 @@
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p>在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。<br>
-<ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C">后台运行</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
-<li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</p>
+          <p>在服务器的使用过程中，我们常常需要后台执行程序防止断连/退出后程序中断。</p>
 <h3 id="后台运行">后台运行</h3>
 <p>如果我们想将程序挂在后台运行，留下清爽的终端界面，只需要在指令后加上&amp;符号即可。<br>
 例如我们想在后台使用python执行test.py文件，我们可以在终端输入：</p>
@@ -138,24 +82,11 @@
 <p>代码中<code>&gt;&gt;</code>表示追加，如替换成<code>&gt;</code>即为清空后添加；0代表stdin标准输入，1代表stdout标准输出，2代表stderr标准错误，在<code>1</code>前加<code>&amp;</code>符号是为了区分这里的<code>1</code>是标准输出而非文件名， 2&gt;&amp;1的含义是将标准错误重定向到标准输出，而标准输出早已由 &gt;&gt; log.txt定向到文本文档中保存。</p>
 </blockquote>
 <p>这条指令在后台运行程序的基础上，更将标准错误输出和标准输出都重定向写入log.txt日志文件中。但需要注意这时程序将无法从标准输入接收数据，同时，需要使用exit正常退出当前账户，才能保证终端关闭后程序仍正常运行。</p>
-<h3 id="查看进程">查看进程</h3>
-<p>我们常使用用ps查看进程，具体方法有如下两种：</p>
-<pre><code>ps -ef
-</code></pre>
-<pre><code>ps -aux
-</code></pre>
-<p>注意，当进程较多时，我们可以对进程名进行搜索以快速定位：<br>
-以进程test.py为例，具体方法有如下两种：</p>
-<pre><code>ps -ef | grep test
-</code></pre>
-<pre><code>pgrep test
-</code></pre>
-<h3 id="杀死进程">杀死进程</h3>
-<p>在查看进程得到进程的编号(PID)后，我们可以使用如下指令杀死进程：</p>
-<pre><code>kill -s 9 PID-number
-</code></pre>
-<p>其中9表示强制结束进程。但有时会报错，可以用如下指令杀死进程：</p>
-<pre><code>kill -9 PID-number
+<h3 id="tmux">tmux</h3>
+<p>tmux是一个常用的终端复用器。在tmux窗口内运行的程序，不会因为窗口的退出而停止运行，故这也是实现程序后台运行的一种方式。</p>
+<pre><code class="language-shell">tmux                # 开启新的tmux窗口
+tmux ls             # 获取现有所有窗口的编号
+tmux attach -t 0    # 接入特定窗口
 </code></pre>
 
         </div>
@@ -203,8 +134,7 @@
 <li>
 <ul>
 <li><a href="#%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C">后台运行</a></li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
-<li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
+<li><a href="#tmux">tmux</a></li>
 </ul>
 </li>
 </ul>

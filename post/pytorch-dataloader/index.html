@@ -4,37 +4,31 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>关于博主 - Zexian Li</title>
+<title>一文看懂Pytorch数据加载方法 - Zexian Li</title>
 <link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于博主 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="一文看懂Pytorch数据加载方法 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
 
     
 
-  <meta name="description" content="很高兴在这里遇到你
-博主是北航在读硕士，主要从事计算机视觉方向的研究。欢迎通过邮箱(lizexian0427@gmail.com)联系我，支持学术交流，创意分享，项目合作，开黑玩耍。
-这是我的Github主页😎
-..." />
-  <meta property="og:title" content="关于博主 - Zexian Li">
-  <meta property="og:description" content="很高兴在这里遇到你
-博主是北航在读硕士，主要从事计算机视觉方向的研究。欢迎通过邮箱(lizexian0427@gmail.com)联系我，支持学术交流，创意分享，项目合作，开黑玩耍。
-这是我的Github主页😎
-..." />
+  <meta name="description" content="Pytorch的数据加载主要依赖torch.utils.data.Dataset和torch.utils.data.DataLoader两个模块，可以完成如下格式的傻瓜式加载。
+train_dataset = MyDataset(train..." />
+  <meta property="og:title" content="一文看懂Pytorch数据加载方法 - Zexian Li">
+  <meta property="og:description" content="Pytorch的数据加载主要依赖torch.utils.data.Dataset和torch.utils.data.DataLoader两个模块，可以完成如下格式的傻瓜式加载。
+train_dataset = MyDataset(train..." />
   <meta property="og:type" content="articles">
-  <meta property="og:url" content="https://FuNian788.github.io/post/about/" />
+  <meta property="og:url" content="https://FuNian788.github.io/post/pytorch-dataloader/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="关于博主 - Zexian Li">
-  <meta name="twitter:description" content="很高兴在这里遇到你
-博主是北航在读硕士，主要从事计算机视觉方向的研究。欢迎通过邮箱(lizexian0427@gmail.com)联系我，支持学术交流，创意分享，项目合作，开黑玩耍。
-这是我的Github主页😎
-...">
+  <meta name="twitter:title" content="一文看懂Pytorch数据加载方法 - Zexian Li">
+  <meta name="twitter:description" content="Pytorch的数据加载主要依赖torch.utils.data.Dataset和torch.utils.data.DataLoader两个模块，可以完成如下格式的傻瓜式加载。
+train_dataset = MyDataset(train...">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://FuNian788.github.io/post/about/">
+  <link rel="canonical" href="https://FuNian788.github.io/post/pytorch-dataloader/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
@@ -56,17 +50,108 @@
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          关于博主
+          一文看懂Pytorch数据加载方法
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2019-01-25 · 1 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-03-19 · 4 min read</div>
+          
+            <a href="https://FuNian788.github.io/tag/N9HM4schGH/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Pytorch
+            </a>
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <h3 id="很高兴在这里遇到你">很高兴在这里遇到你</h3>
-<h3 id="博主是北航在读硕士主要从事计算机视觉方向的研究-欢迎通过邮箱lizexian0427gmailcom联系我支持学术交流创意分享项目合作开黑玩耍">博主是北航在读硕士，主要从事计算机视觉方向的研究。欢迎通过邮箱(lizexian0427@gmail.com)联系我，支持学术交流，创意分享，项目合作，<s>开黑玩耍</s>。</h3>
-<h3 id="这是我的github主页">这是我的<a href="https://github.com/FuNian788">Github主页</a>😎</h3>
+          <p>Pytorch的数据加载主要依赖<code>torch.utils.data.Dataset</code>和<code>torch.utils.data.DataLoader</code>两个模块，可以完成如下格式的傻瓜式加载。</p>
+<pre><code class="language-Python">train_dataset = MyDataset(train_data_path) # 'MyDataset' subclasses 'torch.utils.data.Dataset'
+train_loader = torch.utils.data.DataLoader(train_dataset)   
+</code></pre>
+<p>看起来的确很诱人，接下来我会参照源码和实战案例对整个数据加载的流程及细节进行讲解。</p>
+<h2 id="torchutilsdatadataset">torch.utils.data.Dataset</h2>
+<p>Pytorch中，任何基于索引读取数据(map-style: from keys to data samples)的类均需继承torch.utils.data.Dataset，该类为数据的读取定义了格式。我们可以通过<a href="https://pytorch.org/docs/stable/_modules/torch/utils/data/dataset.html#Dataset">torch.utils.data.Dataset源码</a>得到该类的具体结构：</p>
+<pre><code class="language-Python">class Dataset(object):
+    def __getitem__(self, index):
+        raise NotImplementedError
+    def __add__(self, other):
+        return ConcatDataset([self, other])
+</code></pre>
+<blockquote>
+<p>注：任何基于迭代器读取数据(iterable-style)的类需继承torch.utils.data.IterableDataset。本文暂仅介绍较为常用的torch.utils.data.Dataset。</p>
+</blockquote>
+<p>继承后的子类必须重写<code>__getitem__()</code>函数，以此通过给定索引获取对应数据；可以有选择性地重写<code>__len__()</code>函数以返回数据集的大小(若不重写，默认使用<code>torch.utils.data.DataLoader</code>实现该功能)。</p>
+<p>以目标检测(Object Detection)任务为例，我们常通过输入参数的index值去索引并返回对应的图像、候选框及类别标签。实战中常搭配<code>torch.utils.data.DataLoader</code>类完成批次(batch)数据的读取。</p>
+<h2 id="torchutilsdatadataloader">torch.utils.data.DataLoader</h2>
+<p>torch.utils.data.DataLoader是实际的数据采样器，以单/多进程迭代的方式在封装的Dataset上获取数据。具体地，迭代器DataLoader使用<code>next()</code>方法以不断获得数据。<br>
+需注意，DataLoader只读取tensor，故常需在Dataset中将源数据转化为tensor。常用模块如torchvision.transforms等。</p>
+<p>由<a href="https://pytorch.org/docs/stable/_modules/torch/utils/data/dataloader.html#DataLoader">torch.utils.data.DataLoader源码</a>可以得到该类的主要参数如下：</p>
+<pre><code class="language-Python">class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None,
+                 batch_sampler=None, num_workers=0, collate_fn=None,
+                 pin_memory=False, drop_last=False, timeout=0,
+                 worker_init_fn=None, multiprocessing_context=None)
+</code></pre>
+<h2 id="实战讲解">实战讲解</h2>
+<p>现以COCO数据集数据读取作为样例，完成最小型的数据加载实例。</p>
+<pre><code class="language-Python"># coding: utf-8
+# Author: Zexian Li
+
+import torch
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
+
+class COCO_Dataset(Dataset): 
+
+    def __init__(self, txt_path, transform=None):
+
+        # image path is recorded in a txt file that prepared in advance.
+        with open(txt_path, &quot;r&quot;) as f:
+            self.img_paths = f.readlines()
+        self.transform = transform
+    
+
+    def __getitem__(self, index):   
+         
+        image_path = self.img_paths[index]
+        image = Image.open(image_name)
+        if self.transform:
+            image = self.transform(image)
+        return image
+ 
+
+    def __len__(self): 
+
+        return len(self.img_paths)
+
+
+transform = transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])])
+
+
+if __name__ == &quot;__main__&quot;:
+
+    train_data = COCO_Dataset(txt_path='./image_path.txt', transform=transform)
+    print(type(train_data))     # &lt;class '__main__.COCO_Dataset'&gt;
+    print(type(train_data[0]))  # &lt;class 'torch.Tensor'&gt;
+
+    # Data visualization.
+    image_vis = transforms.ToPILImage()(train_data[0])
+    print(type(image_vis))  # &lt;class 'PIL.Image.Image'&gt;
+    image_vis.save('./image_vis.png')
+    
+    train_loader = DataLoader(dataset=train_data, batch_size=1, shuffle=True, num_workers=1)
+    
+    loader_iter = iter(train_loader)    
+    # len(loader_iter) == image_numbers / batch_size
+
+    # Save images through 'loader_iter'.
+    for i in range(len(loader_iter)):
+        image_save = data_iter.next()   
+        # type(image_save) &lt;class 'torch.Tensor'&gt;
+        # image_save.shape: torch.Size([1, 3, 483, 640])
+        image_save = transforms.ToPILImage()(image_save.squeeze_(0))
+        image_save.save('./save/' + str(i) + '.png')
+</code></pre>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -110,13 +195,9 @@
         <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#%E5%BE%88%E9%AB%98%E5%85%B4%E5%9C%A8%E8%BF%99%E9%87%8C%E9%81%87%E5%88%B0%E4%BD%A0">很高兴在这里遇到你</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E5%8C%97%E8%88%AA%E5%9C%A8%E8%AF%BB%E7%A1%95%E5%A3%AB%E4%B8%BB%E8%A6%81%E4%BB%8E%E4%BA%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%96%B9%E5%90%91%E7%9A%84%E7%A0%94%E7%A9%B6-%E6%AC%A2%E8%BF%8E%E9%80%9A%E8%BF%87%E9%82%AE%E7%AE%B1lizexian0427gmailcom%E8%81%94%E7%B3%BB%E6%88%91%E6%94%AF%E6%8C%81%E5%AD%A6%E6%9C%AF%E4%BA%A4%E6%B5%81%E5%88%9B%E6%84%8F%E5%88%86%E4%BA%AB%E9%A1%B9%E7%9B%AE%E5%90%88%E4%BD%9C%E5%BC%80%E9%BB%91%E7%8E%A9%E8%80%8D">博主是北航在读硕士，主要从事计算机视觉方向的研究。欢迎通过邮箱(lizexian0427@gmail.com)联系我，支持学术交流，创意分享，项目合作，<s>开黑玩耍</s>。</a></li>
-<li><a href="#%E8%BF%99%E6%98%AF%E6%88%91%E7%9A%84github%E4%B8%BB%E9%A1%B5">这是我的Github主页😎</a></li>
-</ul>
-</li>
+<li><a href="#torchutilsdatadataset">torch.utils.data.Dataset</a></li>
+<li><a href="#torchutilsdatadataloader">torch.utils.data.DataLoader</a></li>
+<li><a href="#%E5%AE%9E%E6%88%98%E8%AE%B2%E8%A7%A3">实战讲解</a></li>
 </ul>
 </li>
 </ul>

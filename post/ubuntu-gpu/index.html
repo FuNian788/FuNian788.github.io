@@ -94,7 +94,7 @@ os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
 <p>上述语句会将GPU3作为程序调用的第一块卡(主卡)，将GPU0作为程序调用的第二块卡。且需要注意的是，这语句需要在任何调用GPU的语句前使用。<br>
 或直接在命令行前加上指定显卡的语句<code>CUDA_VISIBLE_DEVICES=0,1 python main.py</code>。<br>
 5. 多卡训练<br>
-多卡训练的语句例如下所示：</p>
+Pytorch中多卡训练的语句例下所示：</p>
 <pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
 
 model = MyModel(opt)
@@ -103,7 +103,7 @@ model.cuda()
 </code></pre>
 <p>其中<code>nn.DataParallel</code>的<code>device_ids</code>参数只能写<code>[0,1]</code>，实测写<code>[1,0]</code>都会报错，或者直接去掉<code>device_ids</code>参数也可，因为Pytorch会自动纳入所有可用的显卡。实测最后的<code>model.cuda()</code>语句也需加上。<br>
 6. 单卡训练<br>
-单卡训练有很多种写法，这里本着最小改动原则记录一种个人用起来很舒适的方法。</p>
+单卡训练有很多种写法，这里本着最小改动原则记录Pytorch中一种个人用起来很舒适的方法。</p>
 <pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;1&quot;
 
 model = MyModel(opt)

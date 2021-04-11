@@ -1,0 +1,451 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>打怪升级-广电 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="打怪升级-广电 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+
+
+简历内容
+kinetics数据集
+预训练权重
+光流
+余弦振荡学习
+数据集
+BMN算法
+单帧图像二分类
+Docker镜像配置
+
+
+
+
+
+
+简历内容
+广电总局-网络视频动作检测
+针对网络视频数据，通过视频动作检测和单帧图像分类方法联合..." />
+  <meta property="og:title" content="打怪升级-广电 - Zexian Li">
+  <meta property="og:description" content="
+
+
+
+
+简历内容
+kinetics数据集
+预训练权重
+光流
+余弦振荡学习
+数据集
+BMN算法
+单帧图像二分类
+Docker镜像配置
+
+
+
+
+
+
+简历内容
+广电总局-网络视频动作检测
+针对网络视频数据，通过视频动作检测和单帧图像分类方法联合..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/work-gd/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="打怪升级-广电 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+
+
+简历内容
+kinetics数据集
+预训练权重
+光流
+余弦振荡学习
+数据集
+BMN算法
+单帧图像二分类
+Docker镜像配置
+
+
+
+
+
+
+简历内容
+广电总局-网络视频动作检测
+针对网络视频数据，通过视频动作检测和单帧图像分类方法联合...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/work-gd/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          打怪升级-广电
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-11-26 · 8 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E7%AE%80%E5%8E%86%E5%86%85%E5%AE%B9">简历内容</a></li>
+<li><a href="#kinetics%E6%95%B0%E6%8D%AE%E9%9B%86">kinetics数据集</a></li>
+<li><a href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%9D%83%E9%87%8D">预训练权重</a></li>
+<li><a href="#%E5%85%89%E6%B5%81">光流</a></li>
+<li><a href="#%E4%BD%99%E5%BC%A6%E6%8C%AF%E8%8D%A1%E5%AD%A6%E4%B9%A0">余弦振荡学习</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E9%9B%86">数据集</a></li>
+<li><a href="#bmn%E7%AE%97%E6%B3%95">BMN算法</a></li>
+<li><a href="#%E5%8D%95%E5%B8%A7%E5%9B%BE%E5%83%8F%E4%BA%8C%E5%88%86%E7%B1%BB">单帧图像二分类</a></li>
+<li><a href="#docker%E9%95%9C%E5%83%8F%E9%85%8D%E7%BD%AE">Docker镜像配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="简历内容">简历内容</h3>
+<p>广电总局-网络视频动作检测<br>
+针对网络视频数据，通过视频动作检测和单帧图像分类方法联合定位暴恐、色情等敏感动作；复现并开源SOTA动作检测算法BMN，利用Kinetics数据集预训练的I3D网络提取RGB和光流特征，使用余弦振荡学习策略优化训练效果，通过时序得分模块和候选框评估模块输出的得分序列和置信度值组合并筛选候选框，在离线测试集上达到95%以上准确率；基于ResNet50实现图像二分类，在满足实时性的同时实现90%以上准确率；协助完成CentOS服务器端的Docker镜像配置。</p>
+<h3 id="kinetics数据集">kinetics数据集</h3>
+<p>2016 CVPR的trimmed action recognition竞赛由deepmind提供Kinetics-400数据集，共400类，20多万的数据。后扩充到Kinetics-600数据集，共600类，50多万的数据。每段视频持续10秒左右，类别分为单人行为，人人行为和人物行为。<br>
+Benchmark验证了三种处理行为识别的模型：LSTM、双流和3D卷积。双流效果最佳。<br>
+<img src="https://FuNian788.github.io/post-images/work/gd_1.png" alt="行为识别" loading="lazy"><br>
+I3D模型的网络结构如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/work/gd_2.png" alt="I3D" loading="lazy"></p>
+<h3 id="预训练权重">预训练权重</h3>
+<p>将kinetics预训练的I3D网络在UCF-101数据集上进行动作识别任务的finetune，并采用随机裁剪、随机反转、颜色抖动等增广技巧(UCF-101数据集包括101类动作，共计9500段视频)。<br>
+I3D单流网络输入16帧RGB图像(16*224*224*3)/光流信息(16*224*224*2)，将其数值放缩到[-1,1]区间，将其空间大小采用双线性插值放缩到224*224，提取最后一个平均池化层1*1*4*1024的输出，在时间维度平均池化后，得到1024维的特征向量。将此单流I3D网络模型用于特征提取。RGB特征和光流特征串联相连，对于每个单元，得到表征该单元语义信息的2048维向量。</p>
+<h3 id="光流">光流</h3>
+<p>陈阳Page8 9<br>
+输入16帧</p>
+<h3 id="余弦振荡学习">余弦振荡学习</h3>
+<p>https://blog.csdn.net/weixin_35848967/article/details/108493217?utm_medium=distribute.pc_relevant.none-task-blog-title-2&amp;spm=1001.2101.3001.4242</p>
+<h3 id="数据集">数据集</h3>
+<p>目前只有暴恐、色情两类视频。共计500段视频，约3000个动作片段。时序从几秒至几十秒不等。顺便讲一下单帧分类的重要性：可以有效监测一闪而过的色情信息，还可以讲点细节，eg暴恐方面的单帧效果不如色情信息，可能是因为其特征不够明显。需要设计对应的阈值和时长。</p>
+<h3 id="bmn算法">BMN算法</h3>
+<ul>
+<li>针对痛点：<br>
+bottom-up方法能产生精准的边界，但较难得到精确的置信度。<br>
+作者对其之前的工作BSN(anchor free, bottom-up)做出改进：</li>
+</ul>
+<ol>
+<li>BSN中特征提取和置信度评估是针对每个候选框单独进行的，低效。</li>
+<li>BSN中提取的特征过于简单，不能包含足够多时域信息。</li>
+<li>BSN是多阶段网络而非端到端框架。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>提出Boundary-Matching机制，利用2d图表示连续且密集分布的候选框的得分。</li>
+<li>提出高效且端到端的候选框生成网络BMN(Boundary-Matching Network)。</li>
+</ol>
+<p>BMN在THUMOS-14和ActivityNet-1.3数据集上有较好的指标提升，且效率较高。在候选框生成任务上可达到sota级精度。</p>
+<ul>
+<li>实现流程：</li>
+</ul>
+<p>BMN网络同时生成边界概率序列(Boundary Probability Sequence)和边界匹配置信图(Bounding-Matching confidence map)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_1.jpg" alt="BM confidence map" loading="lazy"><br>
+注：在2d BM confidence map中，横轴坐标相同代表开始时间相同，纵轴坐标相同代表持续时长相同。且需要理解到：2d BM confidence map中的每一个点都代表一个proposal，这也是BM confidence map尺寸为D*T的原因(D为每个候选框最长持续时间，T为视频序列长度)。<strong>注意D的设置既节约计算量，又规范了视频段长度，更重要的是它防止了开始时刻和终止时刻的跨动作组合。</strong></p>
+<p>(1)利用Boundary Probability Sequence，从开始-结束边界对(start-end boundary pair)得到候选框，易知候选框可在开始时间(y)-持续时间(x)二维连续坐标系上连续表示，该坐标系在本文中即为2d BM confidence map。<br>
+(2)借鉴热力图思路，展示任一时刻下动作的置信度(可理解为用z轴表示置信度得分)，在上图中置信度高低用红色深浅表示。<br>
+(3)依据置信度在(1)中得到的候选框中进行筛选。</p>
+<ul>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>BMN网络内部实现过程有相对琐碎的维度变化，参照下图使用以便提高消化速率。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_2.jpg" alt="BMN网络流程" loading="lazy"><br>
+通过双流网络从长度为T'的视频中提取C*T维度的时间特征序列(temporal feature sequence)。其中C为双流网络fc层输出维度，T = T' / t，t为视频采样间隔。<br>
+通过BM层从temporal feature sequence中生成维度为C*N*D*T的BM特征图(BM feature map)，BM feature map后接TEM和PEM两个分支，分别得到时序边界概率序列(temporal boundary probability sequence)和BM置信度图(BM confidence map)。结合上述两者得到最终候选框。<br>
+很多细节详见图片内注释及标注。<br>
+注：候选框生成的任务并不考虑proposal的种类。</li>
+<li>BM层的采样过程中有一些细节？<br>
+采样时遇到非整数点怎么处理：如下图所示，对每一proposal提出采样蒙版权重(sampling mask weight)，维度为N*T(N是采样点个数，T是视频时长)，每一行表征某一采样点发生的时刻(采样时刻为整数时该点蒙版值为1，采样时刻非整数时以和为1的两个连续分数表示)。将sampling mask weight(N*T)和feature sequence(C*T)在T维度点乘可得到C*T维度的boundary-mataching feature(BM feature)。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/BMN_3.jpg" alt="BM layer点乘过程" loading="lazy"><br>
+那我们一共有多少个proposal呢，由2d BM confidence map点的个数可知共D*T个。则对所有的proposal同时进行处理，此时sampling mask weight的维度扩大到(N*T*D*T)，同理boundary-mataching feature的维度也扩大到(C*N*D*T)。由于sampling mask weight对可预先计算且形式简单，故其计算速度很快。</li>
+<li>训练GT数据是以D*T维度的tIoU(尺度同BM confidence map)。</li>
+<li>在结合temporal boundary probability sequence和BM confidence map得到最终候选框的过程中，设计阈值筛选候选框，进行分数模糊以扩大决策边界，采用soft-NMS删除冗余框。</li>
+</ol>
+<ul>
+<li>
+<p>效果评估：<br>
+THUMOS2014数据集IoU=0.5时，MAP为38.8%。</p>
+</li>
+<li>
+<p>实现缺陷：<br>
+需要将视频裁剪至最长长度为100 feature point，但对于长段动作的检测较为明显。</p>
+</li>
+</ul>
+<h3 id="单帧图像二分类">单帧图像二分类</h3>
+<p>从torchvision导入ResNet50网络，finetune得到动作二分类模型；设置得分和时长阈值获取候选框；<br>
+可有效监测单帧的色情图像。<br>
+<img src="https://FuNian788.github.io/post-images/WORK/res_1.png" alt="ResNet50网络结构" loading="lazy"><br>
+其中Conv Block网络结构如下所示，其输入和输出的维度不同，故不能连续串联；<br>
+<img src="https://FuNian788.github.io/post-images/WORK/res_2.png" alt="Conv Block网络结构" loading="lazy"><br>
+其中Identity Block网络结构如下所示，其输入和输出的维度相同，故连续串联。<br>
+<img src="https://FuNian788.github.io/post-images/WORK/res_3.png" alt="Identity Block网络结构" loading="lazy"><br>
+网络的全连接层最终输出仅一个，使用Sigmoid函数激活，损失函数为交叉熵损失函数。</p>
+<h3 id="docker镜像配置">Docker镜像配置</h3>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E7%AE%80%E5%8E%86%E5%86%85%E5%AE%B9">简历内容</a></li>
+<li><a href="#kinetics%E6%95%B0%E6%8D%AE%E9%9B%86">kinetics数据集</a></li>
+<li><a href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%9D%83%E9%87%8D">预训练权重</a></li>
+<li><a href="#%E5%85%89%E6%B5%81">光流</a></li>
+<li><a href="#%E4%BD%99%E5%BC%A6%E6%8C%AF%E8%8D%A1%E5%AD%A6%E4%B9%A0">余弦振荡学习</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E9%9B%86">数据集</a></li>
+<li><a href="#bmn%E7%AE%97%E6%B3%95">BMN算法</a></li>
+<li><a href="#%E5%8D%95%E5%B8%A7%E5%9B%BE%E5%83%8F%E4%BA%8C%E5%88%86%E7%B1%BB">单帧图像二分类</a></li>
+<li><a href="#docker%E9%95%9C%E5%83%8F%E9%85%8D%E7%BD%AE">Docker镜像配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>
