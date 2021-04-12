@@ -23,15 +23,13 @@ Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
 查看进程
 杀死进程
-
-
-
-
-
-
-Ubuntu在当前目录及子目录寻找文件
-以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml..." />
+清华源pip
+pandas读取csv表
+如何进docker内部调试
+.gitignore无法生效
+容器安装tmux
+查看文件行数
+Mac..." />
   <meta property="og:title" content="Ubuntu杂记 - Zexian Li">
   <meta property="og:description" content="
 
@@ -42,15 +40,13 @@ Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
 查看进程
 杀死进程
-
-
-
-
-
-
-Ubuntu在当前目录及子目录寻找文件
-以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml..." />
+清华源pip
+pandas读取csv表
+如何进docker内部调试
+.gitignore无法生效
+容器安装tmux
+查看文件行数
+Mac..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/ubuntu-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -66,15 +62,13 @@ Ubuntu在当前目录及子目录寻找文件
 Ubuntu查看文件夹内文件数量
 查看进程
 杀死进程
-
-
-
-
-
-
-Ubuntu在当前目录及子目录寻找文件
-以检索所有xml文件为例：
-sudo find | grep -i .*[.]xml...">
+清华源pip
+pandas读取csv表
+如何进docker内部调试
+.gitignore无法生效
+容器安装tmux
+查看文件行数
+Mac...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/ubuntu-misc/">
 
@@ -102,7 +96,7 @@ sudo find | grep -i .*[.]xml...">
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 2 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 6 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -115,6 +109,16 @@ sudo find | grep -i .*[.]xml...">
 <li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
 <li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
 <li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
+<li><a href="#%E6%B8%85%E5%8D%8E%E6%BA%90pip">清华源pip</a></li>
+<li><a href="#pandas%E8%AF%BB%E5%8F%96csv%E8%A1%A8">pandas读取csv表</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E8%BF%9Bdocker%E5%86%85%E9%83%A8%E8%B0%83%E8%AF%95">如何进docker内部调试</a></li>
+<li><a href="#gitignore%E6%97%A0%E6%B3%95%E7%94%9F%E6%95%88">.gitignore无法生效</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E5%AE%89%E8%A3%85tmux">容器安装tmux</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%A1%8C%E6%95%B0">查看文件行数</a></li>
+<li><a href="#mac%E5%B0%86pdf%E8%BD%AC%E6%8D%A2%E4%B8%BA%E8%A3%81%E5%89%AA%E8%BE%B9%E7%9A%84eps">Mac将pdf转换为裁剪边的eps</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">查看文件数量</a></li>
+<li><a href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E6%A3%80%E6%B5%8B">磁盘容量检测</a></li>
+<li><a href="#hadoop">Hadoop</a></li>
 </ul>
 </li>
 </ul>
@@ -125,7 +129,10 @@ sudo find | grep -i .*[.]xml...">
 <p>以检索所有xml文件为例：</p>
 <pre><code class="language-Shell">sudo find | grep -i .*[.]xml
 </code></pre>
-<p>在检索指令grep中， <code>-i</code>表示忽略大小写， <code>.*</code> 两个组合表示匹配任意字符，<code>[.]</code>表示xml前强制匹配<code>.</code>。</p>
+<p>在检索指令grep中， <code>-i</code>表示忽略大小写， <code>.*</code> 两个组合表示匹配任意字符，<code>[.]</code>表示xml前强制匹配<code>.</code>。<br>
+在特定路径查找特定名称的文件可如下例：</p>
+<pre><code class="language-Shell">find /opt/tiger -name 'xgb.mode*l' -print`
+</code></pre>
 <h3 id="ubuntu查看文件夹内文件数量">Ubuntu查看文件夹内文件数量</h3>
 <p>以下所称“文件”是目录、链接、设备文件等的总称。<br>
 查看当前目录下文件数量(<strong>不包含</strong>子目录中的文件)，也就是<code>ls</code>指令后弹出的文件数量：</p>
@@ -163,6 +170,70 @@ sudo find | grep -i .*[.]xml...">
 <p>其中9表示强制结束进程。但有时会报错，可以用如下指令杀死进程：</p>
 <pre><code>kill -9 PID-number
 </code></pre>
+<h3 id="清华源pip">清华源pip</h3>
+<p><code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package</code></p>
+<h3 id="pandas读取csv表">pandas读取csv表</h3>
+<p>主要要注意的：sep，header，</p>
+<p>指定表头的行数 默认为0 可以为其他值 没表头就写header=None 读特定的行<br>
+data = pd.read_csv('nn_data_additional.csv', sep=',', header=None, usercols=['a','b'])</p>
+<p>指定新表头<br>
+csvframe = pd.read_csv(&quot;testcsv_02.csv&quot;,names=['white','red','blue','green','animal'])</p>
+<p>读取某一行<br>
+print(df.iloc[0])<br>
+读取某一列<br>
+print(df.iloc[:, 10])<br>
+使用行的平均值 补充某列的缺失值</p>
+<p>把ave_time这列的缺失值进进行填充，填充的方法是按这一列的平均值进行填充<br>
+aveTime=df['ave_time'].mean()<br>
+df2=df.fillna(aveTime)<br>
+arrs=col.values 获取对应的值</p>
+<p>写表<br>
+frame = pd.DataFrame([[0,1,2,3],[4,5,6,7],[8,np.NaN,10,11],[12,13,14,15]], columns=['ball', 'pen', 'pencil', 'paper'])<br>
+print(frame)<br>
+index 写不写左侧的索引 header 写不写表头 nan显示成什么<br>
+frame.to_csv(&quot;testcsv_04.csv&quot;, index=False, header=False, na_rep='0')</p>
+<p>可以存表成tsv文件，即用\t分隔的，避免了文件中有逗号的情况，但是要注意空格和\t的区别，可以在vscode看出来是点还是箭头，甚至还可以复制其他的tab到特定位置</p>
+<h3 id="如何进docker内部调试">如何进docker内部调试</h3>
+<p>1 正常起trail，如下更改后docker默认sleep状态，但GPU空闲过久会被杀<br>
+SCM：du/envir/conf --- /opt/tiger/envir_conf --- 1.0.0.1<br>
+入口：/opt/tiger/envir_conf/entri.sh<br>
+2 起trail时调debug模式，会允许GPU闲置很久，但每人只允许开两个debug模式的trail</p>
+<h3 id="gitignore无法生效">.gitignore无法生效</h3>
+<p>git rm -r --cached .<br>
+git add .<br>
+git commit -m 'update .gitignore'<br>
+其他都博客都是千篇一律的使用了上面的命令<br>
+我试了还是不行，然后我把要忽略的文件直接删了，以为这样总可以了吧，竟然还是不行。</p>
+<p>我推测应该是，一开始我commit了要忽略的文件，虽然删了文件，但是commit记录里还有原来的文件，然后百度到了删除commit记录的命令。</p>
+<p>git reset --mixed 17ef4b4a22c975b4cad7cc4342a7d7a89ba73789<br>
+用这行命令回退到 带有忽略文件的commit的上一个commit 然后再重新commit就行了。</p>
+<p>git reset --mixed：此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息<br>
+git reset --soft：回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可<br>
+git reset --hard：彻底回退到某个版本，本地的源码也会变为上一个版本的内容，此命令慎用！</p>
+<h3 id="容器安装tmux">容器安装tmux</h3>
+<p>sudo chmod 1777 /tmp<br>
+sudo apt update<br>
+sudo apt install tmux</p>
+<h3 id="查看文件行数">查看文件行数</h3>
+<p><code>wc -l file</code></p>
+<h3 id="mac将pdf转换为裁剪边的eps">Mac将pdf转换为裁剪边的eps</h3>
+<p>安装xpdf epstool，使用语句转换<br>
+brew install xpdf<br>
+brew install epstool<br>
+pdftops -eps a.pdf a.eps<br>
+epstool --copy --bbox a.eps b.eps</p>
+<h3 id="查看文件数量">查看文件数量</h3>
+<p>查看当前目录下的文件数量（不包含子目录中的文件）</p>
+<p>查看当前目录下的文件数量（包含子目录中的文件）</p>
+<pre><code class="language-Shell">ls -lR|grep &quot;^-&quot;| wc -l
+</code></pre>
+<h3 id="磁盘容量检测">磁盘容量检测</h3>
+<p>查看磁盘剩余空间<code>df -hl</code><br>
+查看每个根路径的分区大小<code>df -h</code><br>
+返回目录大小<code>du -sh FOLDER_NAME</code><br>
+返回文件夹内文件数<code>du -sm FOLDER_NAME</code></p>
+<h3 id="hadoop">Hadoop</h3>
+<p>Hadoop主要是由三部分组成：分布式文件系统HDFS、分布式计算框架MapReduce，还有一个是分布式集群资源调度框架Yarn。</p>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -212,6 +283,16 @@ sudo find | grep -i .*[.]xml...">
 <li><a href="#ubuntu%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">Ubuntu查看文件夹内文件数量</a></li>
 <li><a href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B">查看进程</a></li>
 <li><a href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B">杀死进程</a></li>
+<li><a href="#%E6%B8%85%E5%8D%8E%E6%BA%90pip">清华源pip</a></li>
+<li><a href="#pandas%E8%AF%BB%E5%8F%96csv%E8%A1%A8">pandas读取csv表</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E8%BF%9Bdocker%E5%86%85%E9%83%A8%E8%B0%83%E8%AF%95">如何进docker内部调试</a></li>
+<li><a href="#gitignore%E6%97%A0%E6%B3%95%E7%94%9F%E6%95%88">.gitignore无法生效</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E5%AE%89%E8%A3%85tmux">容器安装tmux</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%A1%8C%E6%95%B0">查看文件行数</a></li>
+<li><a href="#mac%E5%B0%86pdf%E8%BD%AC%E6%8D%A2%E4%B8%BA%E8%A3%81%E5%89%AA%E8%BE%B9%E7%9A%84eps">Mac将pdf转换为裁剪边的eps</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">查看文件数量</a></li>
+<li><a href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E6%A3%80%E6%B5%8B">磁盘容量检测</a></li>
+<li><a href="#hadoop">Hadoop</a></li>
 </ul>
 </li>
 </ul>

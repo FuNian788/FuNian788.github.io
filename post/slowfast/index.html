@@ -4,139 +4,31 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Week Plan - Zexian Li</title>
+<title>论文阅读 - Slowfast - Zexian Li</title>
 <link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Week Plan - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="论文阅读 - Slowfast - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
 
     
 
-  <meta name="description" content="
-
-
-
-
-
-
-template year/month/day
-
-
-
-
-
-
-
-
-template year/month/day
-
-schedule
-
-
-
-
-时间
-计划
-余力
-实际
-
-
-
-
-10:00 -- 10:50
-
-
-
-
-
-11:10 -..." />
-  <meta property="og:title" content="Week Plan - Zexian Li">
-  <meta property="og:description" content="
-
-
-
-
-
-
-template year/month/day
-
-
-
-
-
-
-
-
-template year/month/day
-
-schedule
-
-
-
-
-时间
-计划
-余力
-实际
-
-
-
-
-10:00 -- 10:50
-
-
-
-
-
-11:10 -..." />
+  <meta name="description" content="Motivation
+对于图像识别，对称处理图片I(x, y)的x、y两个空间维度是约定俗成的做法，这是由于其具有各向同性和平移不变形；但是对于视频行为识别来说，输入视频I(x, y, t)多了时间维度t，动作可视为时空域的延展，但统计学意..." />
+  <meta property="og:title" content="论文阅读 - Slowfast - Zexian Li">
+  <meta property="og:description" content="Motivation
+对于图像识别，对称处理图片I(x, y)的x、y两个空间维度是约定俗成的做法，这是由于其具有各向同性和平移不变形；但是对于视频行为识别来说，输入视频I(x, y, t)多了时间维度t，动作可视为时空域的延展，但统计学意..." />
   <meta property="og:type" content="articles">
-  <meta property="og:url" content="https://FuNian788.github.io/post/week-plan/" />
+  <meta property="og:url" content="https://FuNian788.github.io/post/slowfast/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="Week Plan - Zexian Li">
-  <meta name="twitter:description" content="
-
-
-
-
-
-
-template year/month/day
-
-
-
-
-
-
-
-
-template year/month/day
-
-schedule
-
-
-
-
-时间
-计划
-余力
-实际
-
-
-
-
-10:00 -- 10:50
-
-
-
-
-
-11:10 -...">
+  <meta name="twitter:title" content="论文阅读 - Slowfast - Zexian Li">
+  <meta name="twitter:description" content="Motivation
+对于图像识别，对称处理图片I(x, y)的x、y两个空间维度是约定俗成的做法，这是由于其具有各向同性和平移不变形；但是对于视频行为识别来说，输入视频I(x, y, t)多了时间维度t，动作可视为时空域的延展，但统计学意...">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://FuNian788.github.io/post/week-plan/">
+  <link rel="canonical" href="https://FuNian788.github.io/post/slowfast/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
@@ -158,102 +50,51 @@ schedule
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          Week Plan
+          论文阅读 - Slowfast
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-08-24 · 1 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-12-30 · 5 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p><ul class="markdownIt-TOC">
+          <h3 id="motivation">Motivation</h3>
+<p>对于图像识别，对称处理图片I(x, y)的x、y两个空间维度是约定俗成的做法，这是由于其具有各向同性和平移不变形；但是对于视频行为识别来说，输入视频I(x, y, t)多了时间维度t，动作可视为时空域的延展，但统计学意义上时空在各方向的延展可能性是不同的，例如慢动作比快动作更可能发生。既然如此，我们就没有理由像基于时空卷积的方法那样平等的对待空间和时间维度。相反，我们需要分解该结构，分开处理空间结构和时间事件。</p>
+<h3 id="实现流程">实现流程</h3>
+<p>提出了SlowFast视频识别模型，包括两条在视频建模各有所长的支路：<br>
+Slow pathway：以低帧率运行，捕获空间语义信息；<br>
+Fast pathway：以高帧率运行，在精细时间尺度捕获快速变化的运动信息；通过减少该分支的通道数来保持轻量，该分支最后只占总体计算量的20%；尽管该通道处理空间信息的能力较差，但这些信息可以由Slow pathway在后续的连接处进行补充。</p>
+<h3 id="结构分析">结构分析</h3>
+<p>该结构近似传统的双分支结构，例如双流(RGB分支输出特征和光流分支输出特征融合)，YOWO(2D卷积提取单帧空间信息+3D卷积提取时空信息再将特征融合)。本文的双分支是分别输入高帧率、低帧率的图片，再将输出的特征融合，相当于研究不同时间流速的可能性。<br>
+(ps作者有一个很硬的观点，光流是人工设计的特征表示，方法论上它就无法令人满意，且双流方法无法协同光流进行端到端地学习)</p>
+<h3 id="实现细节">实现细节</h3>
+<ol>
 <li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#template-yearmonthday"><strong>template year/month/day</strong></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</p>
-<h4 id="template-yearmonthday"><strong>template year/month/day</strong></h4>
-<ul>
-<li>schedule</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">时间</th>
-<th style="text-align:center">计划</th>
-<th style="text-align:center">余力</th>
-<th style="text-align:center">实际</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">10:00 -- 10:50</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">11:10 -- 12:00</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">15:00 -- 15:50</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">16:10 -- 17:00</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">19:00 -- 20:00</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>enjoy life</li>
-</ul>
-<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-3556400"><label class="task-list-item-label" for="task-item-3556400"> 读书</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-1906261"><label class="task-list-item-label" for="task-item-1906261"> 看电影</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-7520789"><label class="task-list-item-label" for="task-item-7520789"> 尤克里里</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-7574959"><label class="task-list-item-label" for="task-item-7574959"> 锻炼</label></li>
-</ul>
-<ul>
-<li>better man</li>
-</ul>
-<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-7971427"><label class="task-list-item-label" for="task-item-7971427"> 早睡早起</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-3502774"><label class="task-list-item-label" for="task-item-3502774"> Leetcode</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-8695046"><label class="task-list-item-label" for="task-item-8695046"> 背单词</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-6918249"><label class="task-list-item-label" for="task-item-6918249"> 理财</label></li>
-</ul>
-<ul>
-<li>
-<p>daily TODO</p>
+<p>分支输入<br>
+Slow pathway：<br>
+(1) 从16帧中提取1帧；<br>
+(2) 任意卷积模型均可适用此分支。<br>
+Fast pathway:<br>
+(1) 从2帧中提取1帧；<br>
+(2) 该分支保有高时间分辨率(细粒度)特征，在分类前的全局池化层前，都没有时间下采样层(eg时间池化、时间空洞卷积)，故该分支在时间尺度上的帧数一直未被削减，具有较高的时间保真度；<br>
+(3) 该分支为了提高准确率而降低了通道容量(对，就是为了提高准确率)，实验中通道数为Slow pathway的八分之一，在保持高效率的同时只占用计算量的20%(有趣的是，灵长类动物视网膜细胞中15%~20%是对快速运动敏感，对颜色或空间细节不敏感的M-cell)。低通道容量可以理解为较弱的空间语义信息表示，其对空间建模的能力显然较弱，但实验表明这对结果是有利的，因为它在某种意义上增强了时间建模能力。首此启发，作者研究了Fast pathway中不同的弱化空间能力的方法，包括降低输入空间分辨率、去除颜色信息等，实验证明这些方法的效果均不错。</p>
 </li>
 <li>
-<p>misc</p>
+<p>侧连接<br>
+侧连接将两条pathway的时间维度变换后匹配在一起，具体地，使用单向链接将Fast pathway的特征融入Slow pathway。</p>
 </li>
-</ul>
+<li>
+<p>网络结构<br>
+Slow pathway：<br>
+使用3D ResNet-50作为backbone。网络中conv1至res3的本质为2D卷积核，res4和res5才使用时间核大于1的卷积。<br>
+实验中观察得到：在早期的层使用时间卷积会降低准确率。作者认为这是因为当物体快速移动且时间步长较大时，除非空间感受野足够大，否则其在一个时间感受野内的相关性就很小。</p>
+</li>
+</ol>
+<h3 id="相关实验">相关实验</h3>
+<p>动作检测：在AVA数据集上进行动作检测<br>
+实际思路为暴力检测人体所在位置以得到3D RoI，通过slowfast对proposal内特征进行动作分类。<br>
+使用Detectron2的人体检测模型，具体为Faster R-CNN(backbone ResNeXt-101-FPN，ImageNet和COCO预训练，AVA finetune)，将包含人体confidence&gt;0.8的时刻组合生成propsoal。<br>
+动作分类时的思路更近似于Faster R-CNN在视频层面的应用，将backbone换成slowfast，在时间维度基于proposal将每一帧的2D RoI复制成3D RoI，随后对RoI特征进行空间尺度的RoIAlign，时间尺度的全局平均池化，最后将输出的特征进行最大池化后输入到单类别分类器进行动作种类判断(共K个分类器)。</p>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -299,11 +140,11 @@ schedule
 <ul>
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#template-yearmonthday"><strong>template year/month/day</strong></a></li>
-</ul>
-</li>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B">实现流程</a></li>
+<li><a href="#%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90">结构分析</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82">实现细节</a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E5%AE%9E%E9%AA%8C">相关实验</a></li>
 </ul>
 </li>
 </ul>
