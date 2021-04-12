@@ -84,7 +84,7 @@ Le...">
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 26 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-04-15 · 37 min read</div>
           
             <a href="https://FuNian788.github.io/tag/gDed1cRTSg/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
@@ -107,15 +107,7 @@ Le...">
 <li><a href="#leetcode%E5%AE%9E%E6%88%98">Leetcode实战</a></li>
 </ul>
 </li>
-<li><a href="#2%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">2.数据结构</a></li>
-<li><a href="#3%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95">3.贪心算法</a>
-<ul>
-<li><a href="#%E5%A5%97%E8%B7%AF%E6%80%BB%E7%BB%93-2">套路总结</a></li>
-<li><a href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2">解题思路</a></li>
-<li><a href="#leetcode%E5%AE%9E%E6%88%98-2">Leetcode实战</a></li>
-</ul>
-</li>
-<li><a href="#4%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">4.搜索算法</a>
+<li><a href="#2%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">2.搜索算法</a>
 <ul>
 <li><a href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2deep-first-search-dfs">深度优先搜索(Deep First Search, dfs)</a></li>
 <li><a href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2breath-first-search-bfs">广度优先搜索(Breath First Search, bfs)</a></li>
@@ -123,7 +115,32 @@ Le...">
 <li><a href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">二分搜索</a></li>
 </ul>
 </li>
-<li><a href="#5-%E4%BD%8D%E8%BF%90%E7%AE%97">5. 位运算</a></li>
+<li><a href="#3-%E6%A0%91">3. 树</a>
+<ul>
+<li><a href="#%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86">树的遍历</a></li>
+<li><a href="#%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95">树的递归解法</a></li>
+<li><a href="#%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86">树的基本知识</a></li>
+</ul>
+</li>
+<li><a href="#4%E6%95%B0%E7%BB%84-%E9%93%BE%E8%A1%A8">4.数组、链表</a>
+<ul>
+<li><a href="#%E9%93%BE%E8%A1%A8">链表</a></li>
+</ul>
+</li>
+<li><a href="#5-%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97">5. 栈和队列</a>
+<ul>
+<li><a href="#%E6%A0%88">栈</a></li>
+<li><a href="#%E9%98%9F%E5%88%97">队列</a></li>
+</ul>
+</li>
+<li><a href="#6%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95">6.贪心算法</a>
+<ul>
+<li><a href="#%E5%A5%97%E8%B7%AF%E6%80%BB%E7%BB%93-2">套路总结</a></li>
+<li><a href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2">解题思路</a></li>
+<li><a href="#leetcode%E5%AE%9E%E6%88%98-2">Leetcode实战</a></li>
+</ul>
+</li>
+<li><a href="#7-%E4%BD%8D%E8%BF%90%E7%AE%97">7. 位运算</a></li>
 <li><a href="#nleetcode%E5%88%B7%E9%A2%98%E5%BF%83%E5%BE%97">n.Leetcode刷题心得</a>
 <ul>
 <li><a href="#%E6%99%AE%E9%81%8D%E8%A7%84%E5%BE%8B">普遍规律</a></li>
@@ -339,57 +356,7 @@ dp[i][j]表示戳完第i~j个气球后得到的最高分，以k作为最后一�
 <li>1000合并石头的最小代价(给定数组和K，每次合并K个元素直至合并光，代价为K个元素之和)<br>
 dp[i][j]表示在第i~j个元素经尽可能多次(<code>(j-i)%(k-1)+1</code>)合并的最小成本。</li>
 </ol>
-<h2 id="2数据结构">2.数据结构</h2>
-<p>数据结构的存储方式只有两种：数组(顺序存储)和链表(链式存储)。<br>
-数据结构的核心目的是在不同的场景中，尽可能高效地遍历和访问(增删查改)。</p>
-<ol>
-<li>二叉树类题目</li>
-</ol>
-<p>以104二叉树的最大深度为例：</p>
-<pre><code class="language-C++">    int maxDepth(TreeNode* root) {
-        if (root == nullptr) 
-            return 0;
-        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;
-    }
-</code></pre>
-<p>以235二叉搜索树的最近公共祖先为例：</p>
-<pre><code class="language-C++">class Solution {
-public:
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-
-        //recursive
-        if ((root-&gt;val &gt; p-&gt;val) &amp;&amp; (root-&gt;val &gt; q-&gt;val))
-            return lowestCommonAncestor(root-&gt;left, p, q);
-        if ((root-&gt;val &lt; p-&gt;val) &amp;&amp; (root-&gt;val &lt; q-&gt;val))
-            return lowestCommonAncestor(root-&gt;right, p, q);
-        return root;
-
-        //iteratively
-        TreeNode* cur = root;
-        while(true)
-        {
-            if((cur-&gt;val &gt; p-&gt;val)&amp;&amp;(cur-&gt;val &gt; q-&gt;val))
-                cur = cur-&gt;left;
-            else if((cur-&gt;val &lt; p-&gt;val)&amp;&amp;(cur-&gt;val &lt; q-&gt;val))
-                cur = cur-&gt;right;
-            else
-                break;
-        }
-        return cur;
-    }
-};
-</code></pre>
-<h2 id="3贪心算法">3.贪心算法</h2>
-<h3 id="套路总结-2">套路总结</h3>
-<h3 id="解题思路-2">解题思路</h3>
-<h3 id="leetcode实战-2">Leetcode实战</h3>
-<ol>
-<li>435/452基于贪心的区间调度(计算若干区间中最多有几个互不相交的区间)<br>
-依右区间大小对所有区间升序排序，(1)选取当前的第一个区间x(即右区间最小，结束最早的空间)，(2)将所有与x相交的区间从集合内删除，重复步骤(1)(2)直到集合为空，遍历过的x区间并集即为题解。</li>
-<li>1029两地调度(给定花费，求一半人去A地另一半人去B地的最小花费)<br>
-对所有人以price_A - price_B降序排序，前一半人去B，后一半人去A。可以理解为某个人去B地就是给组织节省price_A - price_B的钱，需求节省钱的最大值。</li>
-</ol>
-<h2 id="4搜索算法">4.搜索算法</h2>
+<h2 id="2搜索算法">2.搜索算法</h2>
 <h3 id="深度优先搜索deep-first-search-dfs">深度优先搜索(Deep First Search, dfs)</h3>
 <p>回溯法的核心思想是将问题分步解决，而在每一步内都尝试所有的可能，当找到解或发现当前路径不可行时，回退到上一步继续尝试其他可能性，dfs则是回溯思想在图(树)上的具体表现形式，在很多情况下可将二者近似等价；由于多数情况下在每一步内的处理方式都是一致的，故递归是dfs的常用实现方式。<br>
 dfs可以理解为不撞南墙不回头，即先一条路走到底，不成功则退至最近的、尚有未遍历岔路的路口，选择下一个新岔路再走到底，循环往复。其基本思想是：<strong>当扩展的节点存在且未被遍历时，递归执行该节点</strong>。由于dfs就是简单地遍历所有情况，故其时间和空间复杂度基本均在O(n)。<br>
@@ -568,7 +535,246 @@ while(low &lt; high):
         high = mid # search in [low, mid)
 return low
 </code></pre>
-<h2 id="5-位运算">5. 位运算</h2>
+<h2 id="3-树">3. 树</h2>
+<p>树是由具有父子关系的节点构成的常见数据结构。算法题中常基于二叉树进行知识点的考察。<br>
+二叉树解题的方法主要分两种，一种是<strong>递归</strong>，一种是<strong>迭代</strong>。当题目有较清晰的子结构时可以选择递归。递归调用系统栈，可能占较大空间，但胜在思路清晰；可通过手动维护一个栈/队列的方式将解法优化成迭代方法。当然，部分题目可能会涉及广度/深度优先搜索的知识，需灵活变通。</p>
+<h3 id="树的遍历">树的遍历</h3>
+<p>参考<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/solution/er-cha-shu-de-qian-xu-bian-li-by-leetcode/">Leetcode官解</a>的一张图：<br>
+<img src="https://FuNian788.github.io/post-images/binary_tree/binary-tree-1.png" alt="遍历方式示意图" loading="lazy"><br>
+不难得出：前、中、后序遍历的核心思想均是深度优先搜索，基于栈实现；层序遍历的核心思想是广度优先搜索，基于队列实现。<br>
+以下给出树的前、中、后序遍历的递归/迭代写法。注意，所有遍历方法都需谨慎考虑空节点情形。</p>
+<p><strong>前序遍历(preorder traversal)</strong>：对根节点的处理是在处理子节点之前进行的。以二叉树为例，先遍历根节点，再遍历左节点、右节点。<br>
+类比实例：遍历目录。其背后的逻辑可以用代码来解释：</p>
+<pre><code class="language-Python">def func(Root Node):
+    print(Root Node)
+    for each Child Node of Root Node:
+        func(Child Node)
+</code></pre>
+<p>递归：从左至右遍历所有节点。</p>
+<pre><code class="language-Python">def dfs(root):
+    if root:
+        print(root) # other op
+        dfs(root.left)
+        dfs(root.right) 
+</code></pre>
+<p>在此过程中需注意边界条件(叶节点/空节点)的判断和扩展节点的顺序(从左到右)。<br>
+迭代：<strong>dfs是后入先出结构，故采用栈实现</strong>。首先将初始节点压入栈，每个节点出栈时将其标记为已读并将其子节点<strong>由右至左</strong>压入栈，出栈过程即为输出过程。</p>
+<pre><code class="language-Python">def dfs(root):
+    stack = [root]
+    while(stack):
+        node = stack.pop()
+        print(node) # other op
+        if node.right: 
+            stack.append(node.right)
+        if node.left: 
+            stack.append(node.left)
+</code></pre>
+<p>还有一种近似于模板的写法，其思路为：先将根节点和所有的左孩子入栈并输出，每次当前节点为空时，弹出栈顶元素并访问其右孩子，循环操作。</p>
+<pre><code class="language-Python">def dfs(root):
+    cur = root
+    stack = []
+    while cur or stack:
+        if cur:
+            print(cur) # other op
+            stack.append(cur)
+            cur = cur.left
+        else:
+            tmp = stack.pop()
+            cur = tmp.right
+</code></pre>
+<hr>
+<p><strong>中序遍历(inorder traversal)</strong>：对根节点的处理是在处理子节点之间进行的。以二叉树为例，先遍历左节点，再遍历根节点，最后遍历右节点。<br>
+类比实例：表达式树的读取。可以尝试将<code>ab+cde+**</code>的输入转换为<code>(a+b) * (c*(d+e))</code>。<br>
+递归：</p>
+<pre><code class="language-Python">def dfs(root):
+    if root:
+        dfs(root.left)
+        print(root) # other op
+        dfs(root.right) 
+</code></pre>
+<p>迭代：参考上述模板，这次是在出栈时输出：</p>
+<pre><code class="language-Python">def dfs(root):
+    cur = root
+    stack = []
+    while cur or stack:
+        if cur:
+            stack.append(cur)
+            cur = cur.left
+        else:
+            tmp = stack.pop()
+            print(tmp) # other op
+            cur = tmp.right
+</code></pre>
+<hr>
+<p><strong>后序遍历(preorder traversal)</strong>：对根节点的处理是在处理子节点之后进行的。以二叉树为例，先遍历左节点、右节点，再遍历根节点。<br>
+类比实例：统计目录内文件总容量。其背后的逻辑可以用代码来解释：</p>
+<pre><code class="language-Python">def size(Root Node):
+    for each Child Node of Root Node:
+        total_size += size(Child Node)
+    total_size += size(Root Node)
+</code></pre>
+<p>递归：</p>
+<pre><code class="language-Python">def dfs(root):
+    if root:
+        dfs(root.left)
+        dfs(root.right)
+        print(root) # other op 
+</code></pre>
+<p>迭代：后序遍历的迭代方法较为复杂，一种方法是将前序遍历的根-左-右代码稍加调整，变成根-右-左形式，再倒序输出结果，此方法不够劲，此处不加赘述。此处介绍一种基于辅助数组记忆已遍历节点的方法：</p>
+<pre><code class="language-Python">def bfs(root):
+    stack = [(0, root)] # untraversed
+    while stack:
+        flag, node = stack.pop()
+        if not node: 
+            continue
+        if flag:
+            print(node)
+        else:
+            stack.append((1, node))
+            stack.append((0, node.right))
+            stack.append((0, node.left))
+</code></pre>
+<hr>
+<p><strong>层序遍历(level-order traversal)</strong>：层序遍历与广度优先搜索方法类似，深度从小到大地逐层处理节点，采用<strong>队列</strong>进行实现。由于遍历时不存在明显的子结构，故放弃递归思路，用迭代法进行实现。<br>
+迭代：迭代法的核心思路是将初始节点压入队列后，在出队列输出该节点的同时，<strong>从左到右</strong>遍历并将其子节点压入队列。</p>
+<pre><code class="language-Python">def bfs(root):
+    queen = [root]
+    while queen:
+        node = queen.pop(0)
+        print(node) # other op
+        if node.left:
+            queen.append(node.left)
+        if node.right:
+            queen.append(node.right)
+</code></pre>
+<p>以上部分代码参考<a href="https://zhuanlan.zhihu.com/p/140909726">博客</a>，在此致谢。</p>
+<h3 id="树的递归解法">树的递归解法</h3>
+<p>以Leetcode104 二叉树的最大深度为例：</p>
+<pre><code class="language-C++">    int maxDepth(TreeNode* root) {
+        if (root == nullptr) 
+            return 0;
+        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;
+    }
+</code></pre>
+<p>以Leetcode235 二叉搜索树的最近公共祖先为例：</p>
+<pre><code class="language-C++">class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+
+        //recursive
+        if ((root-&gt;val &gt; p-&gt;val) &amp;&amp; (root-&gt;val &gt; q-&gt;val))
+            return lowestCommonAncestor(root-&gt;left, p, q);
+        if ((root-&gt;val &lt; p-&gt;val) &amp;&amp; (root-&gt;val &lt; q-&gt;val))
+            return lowestCommonAncestor(root-&gt;right, p, q);
+        return root;
+
+        //iteratively
+        TreeNode* cur = root;
+        while(true)
+        {
+            if((cur-&gt;val &gt; p-&gt;val)&amp;&amp;(cur-&gt;val &gt; q-&gt;val))
+                cur = cur-&gt;left;
+            else if((cur-&gt;val &lt; p-&gt;val)&amp;&amp;(cur-&gt;val &lt; q-&gt;val))
+                cur = cur-&gt;right;
+            else
+                break;
+        }
+        return cur;
+    }
+};
+</code></pre>
+<!--
+## 2. 二叉树祖先问题
+## 3. 二叉树高度问题
+## 4. 二叉树路径问题
+## 5. 二叉树结构问题
+## TODO
+前序遍历：[莫里斯遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/solution/leetcodesuan-fa-xiu-lian-dong-hua-yan-shi-xbian-2/)
+-->
+<h3 id="树的基本知识">树的基本知识</h3>
+<p><strong>二叉树</strong>：二叉树的平均深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msqrt><mi>n</mi></msqrt><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\sqrt {n})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.05028em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">n</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。<br>
+<strong>二叉查找树(ADT)</strong>：对于二叉树中的任一节点X，X的左子树中所有的值均小于X的值，X的右子树中所有的值均大于X的值。易知二叉查找树的平均深度是O(logn)，增删查改的时间复杂度也为O(logn)。<br>
+<strong>AVL树(Adelson-Velskii和Landis)</strong>：由于二叉查找树在多次插入和删除后可能不平衡，故产生了带有平衡条件的二叉查找树--AVL树。AVL树是每个节点的左子树和右子树的高度最多差1的二叉查找树。实践中，若单次插入使AVL树失衡，通过单旋转/双旋转操作来在O(logN)内平衡树。<br>
+当然，二叉树还有很多分类，例如斜树、完全二叉树、满二叉树等。<br>
+<strong>伸展树(splay tree)</strong>：二叉查找树和伸展树的单次最坏运行时间均为O(N)，但二叉查找树的连续M次最坏运行时间为O(MN)，伸展树的连续M次最坏运行时间为O(MlogN)，即每次操作的摊还代价是O(logN)。<br>
+伸展树的基本想法是，当一个节点被访问后，它就要经过一系列AVL树的旋转放到根上。实际操作中，通过对之字形(zig-zag)和一字形(zig-zig)的不同展开，在将访问节点移动到根处的基础上，将访问路径上大部分节点的深度大致减少一半。<br>
+<strong>B树</strong>：阶为M的B树有如下结构特性：<br>
+1 树的根要么为一片树叶，要么其儿子数在2和M之间；<br>
+2 除根外，所有非树叶节点的儿子数在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⌈</mo><mi>M</mi><mi mathvariant="normal">/</mi><mn>2</mn><mo>⌉</mo></mrow><annotation encoding="application/x-tex">\lceil M/2 \rceil</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord">/</span><span class="mord">2</span><span class="mclose">⌉</span></span></span></span>和M之间；<br>
+3 所有的树叶都在相同的深度上。<br>
+所有数据都存储在树叶上，每个内部节点上皆有指向该节点各儿子的指针P1，P2...，Pm和分别代表在子树P2，P3...，Pm中发现的最小关键字的值k1，k2...，km-1。每次find操作时，都从根开始，依据查找的关键字和存储在节点上值来确定当前层在n个方向中的一个方向，直到在最底层找到对应数据。<br>
+在插入时若当前树的平衡被破坏(阶为M的B树的某一个节点的儿子数大于M)，常通过分裂节点来解决，一些情况下也可以将数据迁移到临近的节点中。同理，删除节点时若破坏平衡，可通过与周围节点进行合并来解决。<br>
+对于一次find操作，途径的节点个数为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mi>M</mi></msub><mi>N</mi></mrow><annotation encoding="application/x-tex">log_{M}{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></span>，在路径上的每个节点需要花费O(logM)来确认分支的方向，故find操作的时间复杂度为O(logN)。对于一次插入/删除操作，在某个节点处，最坏时需要O(M)来调整该节点所有信息，整体运算的最坏运行时间为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>M</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mi>M</mi></msub><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(Mlog_{M}{N})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span><span class="mclose">)</span></span></span></span>。<br>
+B树的最大深度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⌈</mo><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mrow><mo>⌈</mo><mi>M</mi><mi mathvariant="normal">/</mi><mn>2</mn><mo>⌉</mo></mrow></msub><mi>N</mi></mrow><mo>⌉</mo></mrow><annotation encoding="application/x-tex">\lceil{log_{\lceil M/2 \rceil}N}\rceil</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1052em;vertical-align:-0.3551999999999999em;"></span><span class="mopen">⌈</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">⌈</span><span class="mord mathdefault mtight" style="margin-right:0.10903em;">M</span><span class="mord mtight">/</span><span class="mord mtight">2</span><span class="mclose mtight">⌉</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3551999999999999em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span><span class="mclose">⌉</span></span></span></span>。从运行时间考虑，M最优选择为3或4；从数据库应用考虑，为了使内部节点装满一个磁盘区块，常有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>32</mn><mo>≤</mo><mi>M</mi><mo>≤</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">{32}\le{M}\le{256}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord"><span class="mord">3</span><span class="mord">2</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">M</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="mord">5</span><span class="mord">6</span></span></span></span></span>。</p>
+<h2 id="4数组-链表">4.数组、链表</h2>
+<h3 id="链表">链表</h3>
+<p>数据结构的存储方式只有两种：数组(顺序存储)和链表(链式存储)。数据结构的核心目的是在不同的场景中，尽可能高效地遍历和访问(增删查改)。<br>
+二者的特性对比可如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">实现方法\操作</th>
+<th style="text-align:center">Find_Kth</th>
+<th style="text-align:center">Find_Key</th>
+<th style="text-align:center">插入</th>
+<th style="text-align:center">删除</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">常数时间</td>
+<td style="text-align:center">线性时间</td>
+<td style="text-align:center">线性时间</td>
+<td style="text-align:center">线性时间</td>
+</tr>
+<tr>
+<td style="text-align:center">链表</td>
+<td style="text-align:center">线性时间</td>
+<td style="text-align:center">线性时间</td>
+<td style="text-align:center">线性时间</td>
+<td style="text-align:center">线性时间</td>
+</tr>
+</tbody>
+</table>
+<p>链表在插入和删除元素时的时间主要花在遍历上。若已经拿到了要删除/插入节点及其前驱节点的信息，时间复杂度骤降到O(1)。链表还有其他形式，例如双链表、循环链表、多重表等。<br>
+链表类题目的解法主要有<strong>快慢指针法</strong>。</p>
+<h2 id="5-栈和队列">5. 栈和队列</h2>
+<p>栈和队列都隶属于线性表结构。</p>
+<h3 id="栈">栈</h3>
+<p>栈是限制插入和删除只能在一个位置上进行的表，该位置是表的末端，叫做栈的顶端。栈可以理解为后进先出表。<br>
+栈可以通过单链表或数组实现。在单链表实现中，表的前端作为栈顶，所有操作均花费常数时间，但该方法的缺点在于对malloc和free的开销昂贵的；更流行的方法是采用数组实现，唯一缺点是需要提前声明一个数组的大小，且错误检测(数组越界)可能影响栈的执行效率。</p>
+<h3 id="队列">队列</h3>
+<p>队列是在末端插入，在开头删除的表。<br>
+在采用数组实现队列时，会维护位置变量Front和Rear。为防止队列溢出，只要位置变量达到数组的末端，它就又绕回开头。</p>
+<p><strong>优先队列</strong><br>
+优先队列是允许至少插入和删除最小者(找出、返回并删除优先队列的最小元素)的数据结构。二叉堆(堆，binary heap)可以在O(logN)内支持以上两种操作。<br>
+二叉堆具有结构性和堆序性，每次对堆的操作均需要到堆的所有性质全被满足时方可停止。<br>
+结构性：堆满足完全二叉树结构，一个堆数据结构由一个数组、一个代表最大值的整数和当前的堆大小组成。<br>
+堆序性：在堆的任意非根节点中，节点的关键字大于其父辈节点的关键字。换而言之，根节点最小。<br>
+在插入元素X时，在堆的下一个空闲位置创建一个空穴，若不满足堆结构，将空穴父节点的元素移入空穴，元素上移一层，迭代直至将X合理插入。这种方法称为上滤：新元素在堆中上滤直到找出正确的位置。</p>
+<p><strong>散列</strong><br>
+散列以常数平均时间进行插入、删除和查找，但不支持任何基于元素间排序的的操作。<br>
+散列表数据结构是一个含有关键字的固定大小的数组，通常情况下，关键字是一个带有相关值的字符串(类比Python中的字典结构：关键字key和相关值value)。将每个关键字使用散列函数(Hash function)映射到0至TableSize-1范围中的一个数字，再在数组对应位置存放关键字对应的值。理想情况下，函数在运算简单的同时应尽可能在单元间均匀地分配关键字。<br>
+当一个元素准备插入处已存在另一个元素时(二者散列值相同)，为消除冲突，常采用分离链接法和开放定址法。<br>
+开放定址法的核心思路是在冲突发生时不断选择另外的单元，直到找到空的单元。此方法要求表稍大，装填因子应小于0.5。常用方法有线性探测法，平方探测法和双散列法。</p>
+<h2 id="6贪心算法">6.贪心算法</h2>
+<h3 id="套路总结-2">套路总结</h3>
+<h3 id="解题思路-2">解题思路</h3>
+<h3 id="leetcode实战-2">Leetcode实战</h3>
+<ol>
+<li>435/452基于贪心的区间调度(计算若干区间中最多有几个互不相交的区间)<br>
+依右区间大小对所有区间升序排序，(1)选取当前的第一个区间x(即右区间最小，结束最早的空间)，(2)将所有与x相交的区间从集合内删除，重复步骤(1)(2)直到集合为空，遍历过的x区间并集即为题解。</li>
+<li>1029两地调度(给定花费，求一半人去A地另一半人去B地的最小花费)<br>
+对所有人以price_A - price_B降序排序，前一半人去B，后一半人去A。可以理解为某个人去B地就是给组织节省price_A - price_B的钱，需求节省钱的最大值。</li>
+</ol>
+<h2 id="7-位运算">7. 位运算</h2>
 <p>先熟悉一下Python3的常用运算符</p>
 <table>
 <thead>
@@ -691,15 +897,7 @@ p55 扔鸡蛋-71
 <li><a href="#leetcode%E5%AE%9E%E6%88%98">Leetcode实战</a></li>
 </ul>
 </li>
-<li><a href="#2%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">2.数据结构</a></li>
-<li><a href="#3%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95">3.贪心算法</a>
-<ul>
-<li><a href="#%E5%A5%97%E8%B7%AF%E6%80%BB%E7%BB%93-2">套路总结</a></li>
-<li><a href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2">解题思路</a></li>
-<li><a href="#leetcode%E5%AE%9E%E6%88%98-2">Leetcode实战</a></li>
-</ul>
-</li>
-<li><a href="#4%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">4.搜索算法</a>
+<li><a href="#2%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">2.搜索算法</a>
 <ul>
 <li><a href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2deep-first-search-dfs">深度优先搜索(Deep First Search, dfs)</a></li>
 <li><a href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2breath-first-search-bfs">广度优先搜索(Breath First Search, bfs)</a></li>
@@ -707,7 +905,32 @@ p55 扔鸡蛋-71
 <li><a href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">二分搜索</a></li>
 </ul>
 </li>
-<li><a href="#5-%E4%BD%8D%E8%BF%90%E7%AE%97">5. 位运算</a></li>
+<li><a href="#3-%E6%A0%91">3. 树</a>
+<ul>
+<li><a href="#%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86">树的遍历</a></li>
+<li><a href="#%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95">树的递归解法</a></li>
+<li><a href="#%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86">树的基本知识</a></li>
+</ul>
+</li>
+<li><a href="#4%E6%95%B0%E7%BB%84-%E9%93%BE%E8%A1%A8">4.数组、链表</a>
+<ul>
+<li><a href="#%E9%93%BE%E8%A1%A8">链表</a></li>
+</ul>
+</li>
+<li><a href="#5-%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97">5. 栈和队列</a>
+<ul>
+<li><a href="#%E6%A0%88">栈</a></li>
+<li><a href="#%E9%98%9F%E5%88%97">队列</a></li>
+</ul>
+</li>
+<li><a href="#6%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95">6.贪心算法</a>
+<ul>
+<li><a href="#%E5%A5%97%E8%B7%AF%E6%80%BB%E7%BB%93-2">套路总结</a></li>
+<li><a href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2">解题思路</a></li>
+<li><a href="#leetcode%E5%AE%9E%E6%88%98-2">Leetcode实战</a></li>
+</ul>
+</li>
+<li><a href="#7-%E4%BD%8D%E8%BF%90%E7%AE%97">7. 位运算</a></li>
 <li><a href="#nleetcode%E5%88%B7%E9%A2%98%E5%BF%83%E5%BE%97">n.Leetcode刷题心得</a>
 <ul>
 <li><a href="#%E6%99%AE%E9%81%8D%E8%A7%84%E5%BE%8B">普遍规律</a></li>
