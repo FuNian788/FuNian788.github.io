@@ -1,0 +1,582 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>MEGVII常用命令 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="MEGVII常用命令 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+目标检测流程pipeline
+
+创建workspace2
+脚本一键配置基础环境
+安装Anaconda
+安装pytorch
+安装rluanch和rrun
+配置cvpack2
+在cvpack2_playground下训练
+inferenc..." />
+  <meta property="og:title" content="MEGVII常用命令 - Zexian Li">
+  <meta property="og:description" content="
+
+
+目标检测流程pipeline
+
+创建workspace2
+脚本一键配置基础环境
+安装Anaconda
+安装pytorch
+安装rluanch和rrun
+配置cvpack2
+在cvpack2_playground下训练
+inferenc..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/megvii-chang-yong-ming-ling/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="MEGVII常用命令 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+目标检测流程pipeline
+
+创建workspace2
+脚本一键配置基础环境
+安装Anaconda
+安装pytorch
+安装rluanch和rrun
+配置cvpack2
+在cvpack2_playground下训练
+inferenc...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/megvii-chang-yong-ming-ling/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          MEGVII常用命令
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2021-04-21 · 6 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E7%A8%8Bpipeline">目标检测流程pipeline</a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BAworkspace2">创建workspace2</a></li>
+<li><a href="#%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83">脚本一键配置基础环境</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85anaconda">安装Anaconda</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85pytorch"><s>安装pytorch</s></a></li>
+<li><a href="#%E5%AE%89%E8%A3%85rluanch%E5%92%8Crrun">安装rluanch和rrun</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEcvpack2">配置cvpack2</a></li>
+<li><a href="#%E5%9C%A8cvpack2_playground%E4%B8%8B%E8%AE%AD%E7%BB%83">在cvpack2_playground下训练</a></li>
+<li><a href="#inference">inference</a></li>
+<li><a href="#vscode%E6%96%87%E4%BB%B6%E6%A0%8F%E8%B0%83%E6%95%B4">VScode文件栏调整</a></li>
+<li><a href="#coco%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8B%E8%BD%BD">coco数据集下载</a></li>
+</ul>
+</li>
+<li><a href="#oss%E5%91%BD%E4%BB%A4">oss命令</a>
+<ul>
+<li><a href="#rlaunch%E5%91%BD%E4%BB%A4">rlaunch命令</a></li>
+<li><a href="#ssh-permission-denied">SSH permission denied</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="目标检测流程pipeline">目标检测流程pipeline</h2>
+<h3 id="创建workspace2">创建workspace2</h3>
+<ul>
+<li>在<a href="https://www.brainpp.cn/hh-b/console/job?type=ws2">计算平台</a>创建一个workspace2。</li>
+<li>创建好后复制内网ssh，eg<code>ssh -CAXY minguk.lizexian.ws2@hh-b-internal.brainpp.cn</code>，使用VScode的remote-SSH插件打开。如有问题可直接配置<code>/Users/lizexian/.ssh/config</code>如下：</li>
+</ul>
+<pre><code class="language-Shell">Host hh-b-internal.brainpp.cn
+  HostName hh-b-internal.brainpp.cn
+  Compression yes
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+  User minguk.lizexian.ws2
+</code></pre>
+<h3 id="脚本一键配置基础环境">脚本一键配置基础环境</h3>
+<ul>
+<li>下载ntools</li>
+</ul>
+<pre><code class="language-Shell">git clone git@git-core.megvii-inc.com:research_model/ntools2.git
+</code></pre>
+<ul>
+<li>一键配置</li>
+</ul>
+<pre><code class="language-Shell">cd ntools2/setup
+sudo chown -R $USER ~/.local/    
+./setup_ws2.sh &amp;&amp; source ~/.bashrc
+cd ..
+./configure
+./install.sh
+</code></pre>
+<ul>
+<li>配置并测试oss</li>
+</ul>
+<pre><code class="language-Shell">aws configure
+# Get below from 'https://www.brainpp.cn/account/security'
+# input E7dv5T2Qm9V1ljMemHY9
+# input L4p-snrN5uGMKa86z0QAV4grERktTeef
+# input NONE
+# input NONE
+oss ls
+</code></pre>
+<h3 id="安装anaconda">安装Anaconda</h3>
+<ul>
+<li>下载anaconda包</li>
+</ul>
+<pre><code class="language-shell">cd /home/lizexian
+oss cp s3://lizexian/Anaconda3-5.3.1-Linux-x86_64.sh .
+</code></pre>
+<ul>
+<li>安装anaconda</li>
+</ul>
+<pre><code class="language-Shell">bash Anaconda3-5.3.1-Linux-x86_64.sh
+</code></pre>
+<p>安装过程一路回车即可，默认刷新bash，不安装vscode</p>
+<ul>
+<li>刷新bashrc</li>
+</ul>
+<pre><code class="language-Shell">source ~/.bashrc
+</code></pre>
+<p>如果没有修改默认bash，可通过如下方法激活conda</p>
+<blockquote>
+<p><code>vim ~/.bashrc</code><br>
+<code>shift + g</code> jump to the last line<br>
+<code>export PATH=&quot;/home/lizexian/anaconda3/bin:$PATH&quot;</code><br>
+<code>source ~/.bashrc</code></p>
+</blockquote>
+<p>如果无法使用conda activate激活，可使用如下</p>
+<blockquote>
+<p><code>source activate cvpack</code></p>
+</blockquote>
+<h3 id="安装pytorch"><s>安装pytorch</s></h3>
+<ul>
+<li>创建并激活虚拟环境</li>
+</ul>
+<pre><code class="language-shell">conda create -n cvpack python=3.7
+conda activate cvpack
+</code></pre>
+<ul>
+<li>安装pytorch</li>
+</ul>
+<pre><code class="language-Shell">conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
+</code></pre>
+<h3 id="安装rluanch和rrun">安装rluanch和rrun</h3>
+<pre><code class="language-Shell">sudo apt update &amp;&amp; sudo apt install -y brainpp
+pip3 install --user rrun
+</code></pre>
+<h3 id="配置cvpack2">配置cvpack2</h3>
+<ul>
+<li>下载cvpack2</li>
+</ul>
+<pre><code class="language-Shell"># 1. Download without cvpack2_playground
+# git clone git@git-core.megvii-inc.com:base-detection/cvpack2.git
+# 2. Download with cvpack2_playground
+git clone --recursive git@git-core.megvii-inc.com:zhubenjin/cvpack2.git
+</code></pre>
+<ul>
+<li>修改requirement.txt</li>
+</ul>
+<pre><code class="language-Shell">torch==1.6.0 # torch==1.7.1
+torchvision==0.7.0 # torch==0.8.2
+</code></pre>
+<ul>
+<li>
+<p>根据YOLOF修改cvpack2<br>
+详见YOLOF的README.txt文档</p>
+</li>
+<li>
+<p>下载YOLOF版本的cvpack2(以上三步可使用此步替代)</p>
+</li>
+</ul>
+<pre><code class="language-Shell">oss cp s3://lizeixan/yolof.zip .
+unzip -qq yolof.zip
+# zip -q -r yolof.zip /home/lizexian/cvpack2
+</code></pre>
+<ul>
+<li>安装依赖项并下载COCO数据集</li>
+</ul>
+<pre><code class="language-Shell">pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+cd cvpack2
+bash tools/setup/install.sh all hhb
+# 'all' option will download COCO dataset to '/data/Datasets/COCO' while 'lib' will not.
+# datasets/cvpack2_prepare coco
+</code></pre>
+<p>如果占卡的时候遇到问题，可直接使用如下语句进行手动编译：</p>
+<blockquote>
+<p><code>rlaunch --cpu=8 --gpu=2 --memory=10240 -- bash</code><br>
+<code>python setup.py build develop --user</code></p>
+</blockquote>
+<p>再手动测试是否安装成功</p>
+<blockquote>
+<p><code>conda activate cvpack</code><br>
+<code>python</code><br>
+<code>import cvpack2</code></p>
+</blockquote>
+<p>单独下载COCO数据集的方法</p>
+<blockquote>
+<p><code>oss sync --no-progress s3://generalDetection/mscoco_raw_data/coco2017 /data/Datasets/COCO</code><br>
+<code>unzip -qq annotations_trainval2017.zip</code><br>
+<code>unzip -qq val2017.zip # 163840</code><br>
+<code>unzip -qq train2017.zip # 3846144</code></p>
+</blockquote>
+<h3 id="在cvpack2_playground下训练">在cvpack2_playground下训练</h3>
+<ul>
+<li><s>拷贝annotation</s></li>
+</ul>
+<pre><code class="language-Shell">cp -r /data/Datasets/COCO/annotations  /home/lizexian/cvpack2/datasets/coco/
+cp -r /data/Datasets/COCO/train2017 /home/lizexian/cvpack2/datasets/coco/
+cp -r /data/Datasets/COCO/val2017 /home/lizexian/cvpack2/datasets/coco/
+</code></pre>
+<ul>
+<li>建立数据集的软连接</li>
+</ul>
+<pre><code class="language-Shell"># build. `ln -s source_address target_address`
+ln -s /data/Datasets/COCO  /home/lizexian/cvpack2/datasets/coco
+
+# delete. `rm -rf address`
+# NOTE not `rm -rf ./test_cjk_in/` which will delete files instead of link.
+rm -rf  ./test_chk_ln 
+</code></pre>
+<ul>
+<li>占卡及训练</li>
+</ul>
+<pre><code class="language-Shell">tmux
+rlaunch --cpu=8 --gpu=8 --memory=200000 -- bash
+cd /home/lizexian/cvpack2/cvpack2_playground/examples/detection/coco/yolof/yolofv1.res50.1x
+conda activate cvpack
+cvpack2_train --num-gpus 8
+</code></pre>
+<blockquote>
+<p>YOLOF至少需要4张卡</p>
+</blockquote>
+<h3 id="inference">inference</h3>
+<p>模型会自动进行inference，结果保存在<code>/data/Outputs/model_logs/cvpack2_playground/examples/detection/coco/yolof/yolofv1.res50.1x/inference/coco_instances_results.json</code>路径下。对应地，该路径下的log、pth等文件会自动上传到<code>s3://cvpack2dumps/lizexian/playground/examples/detection/coco/yolof/yolofv1.res50.1x/</code>路径下。</p>
+<h3 id="vscode文件栏调整">VScode文件栏调整</h3>
+<ul>
+<li>Command + , 呼叫设置栏</li>
+<li>在Files: exclude中添加忽略模式</li>
+</ul>
+<pre><code class="language-json">&quot;files.exclude&quot;: {
+  &quot;**/.aws&quot;: true,
+  &quot;**/.bash_history&quot;: true,
+  &quot;**/.bash_logout&quot;: true,
+  &quot;**/.bashrc&quot;: true,
+  &quot;**/.bashrc-anaconda3.bak&quot;: true,
+  &quot;**/.cache&quot;: true,
+  &quot;**/.conda&quot;: true,
+  &quot;**/.config&quot;: true,
+  &quot;**/.gnupg&quot;: true,
+  &quot;**/.local&quot;: true,
+  &quot;**/.nv&quot;: true,
+  &quot;**/.profile&quot;: true,
+  &quot;**/.python_history&quot;: true,
+  &quot;**/.rlaunch&quot;: true,
+  &quot;**/.ssh&quot;: true,
+  &quot;**/.sudo_as_admin_successful&quot;: true,
+  &quot;**/.tmux.conf&quot;: true,
+  &quot;**/.vim&quot;: true,
+  &quot;**/.vimrc&quot;: true,
+  &quot;**/.wgetrc&quot;: true,
+  &quot;**/.Xauthority&quot;: true
+}
+</code></pre>
+<h3 id="coco数据集下载">coco数据集下载</h3>
+<p>optionB+d退出<br>
+tmux attach<br>
+optionB+N切换</p>
+<p>s3://cvpack2dump/root/<br>
+/data/outputs/、</p>
+<p>base config line 46</p>
+<p>cvpack2_test --num-gpus 8 <br>
+MODEL.WEIGHTS /path/to/your/checkpoint.pth \ # if necessary<br>
+OUTPUT_DIR /path/to/save_dir # don't need to specify this in defalut</p>
+<h2 id="oss命令">oss命令</h2>
+<p>自有路径：<code>lizexian</code> or <code>s3://lizexian</code><br>
+oss的常用指令包括：ls、cp、mv、rm、sync。可使用 --exclude 和 --include 选项指定规则来筛选要操作的文件或者目录。</p>
+<pre><code class="language-Shell">oss ls lizexian/file
+oss cp 1.py s3://lizexian
+oss cp yolof s3://lizexian --recursive
+oss mv 1.py s3://lizexian
+oss rm s3://lizexian/*.py
+</code></pre>
+<h3 id="rlaunch命令">rlaunch命令</h3>
+<p>使用rluanch命令动态申请资源并运行程序</p>
+<pre><code class="language-Shell">rlaunch --cpu=4 --gpu=4 --memory=30000 -- python3 train.py
+rlaunch --cpu=4 --gpu=4 --memory=30000 -- bash
+rlaunch -P1 --cpu=8 --gpu=8 --memory=200000 -- cvpack2_train --num-gpus 8   # can be killed
+rlaunch --gpu=1 --predict-only
+</code></pre>
+<h3 id="ssh-permission-denied">SSH permission denied</h3>
+<pre><code class="language-Shell">ssh-add ~/.ssh/id_rsa_megvii
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E7%A8%8Bpipeline">目标检测流程pipeline</a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BAworkspace2">创建workspace2</a></li>
+<li><a href="#%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83">脚本一键配置基础环境</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85anaconda">安装Anaconda</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85pytorch"><s>安装pytorch</s></a></li>
+<li><a href="#%E5%AE%89%E8%A3%85rluanch%E5%92%8Crrun">安装rluanch和rrun</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEcvpack2">配置cvpack2</a></li>
+<li><a href="#%E5%9C%A8cvpack2_playground%E4%B8%8B%E8%AE%AD%E7%BB%83">在cvpack2_playground下训练</a></li>
+<li><a href="#inference">inference</a></li>
+<li><a href="#vscode%E6%96%87%E4%BB%B6%E6%A0%8F%E8%B0%83%E6%95%B4">VScode文件栏调整</a></li>
+<li><a href="#coco%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8B%E8%BD%BD">coco数据集下载</a></li>
+</ul>
+</li>
+<li><a href="#oss%E5%91%BD%E4%BB%A4">oss命令</a>
+<ul>
+<li><a href="#rlaunch%E5%91%BD%E4%BB%A4">rlaunch命令</a></li>
+<li><a href="#ssh-permission-denied">SSH permission denied</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

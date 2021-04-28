@@ -177,6 +177,18 @@ git clone https://github.com/facebookresearch/slowfast
 cd SlowFast
 python setup.py build develop
 </code></pre>
+<h3 id="傻逼的可视化要求">傻逼的可视化要求</h3>
+<p>可视化需改变 /fight/slowfast/slowfast/visualization/demo_loader.py中，VideoManager类的display函数(Line124+)：</p>
+<pre><code class="language-Python">def display(self, task):
+    for frame in task.frames[task.num_buffer_frames :]:
+        cv2.imshow('slowfast', frame)
+        cv2.waitKey(1)
+        if self.output_file:
+            self.output_file.write(frame)
+</code></pre>
+<p>但如果把waitKey改成time.sleep会发生什么呢</p>
+<h3 id="傻逼的持续时长要求">傻逼的持续时长要求</h3>
+<p>持续时长拉满则需要改变 /fight/slowfast/slowfast/visualization/async_predictor.py中，Line 311 和 315的draw_range修改成None</p>
 <hr>
 <h3 id="项目配置-2">项目配置</h3>
 <p>项目配置在Anaconda虚拟环境fight中，使用<code>conda activate fight</code>启动</p>
@@ -269,6 +281,8 @@ python setup.py build develop
 </li>
 <li><a href="#conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">conda环境配置</a>
 <ul>
+<li><a href="#%E5%82%BB%E9%80%BC%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96%E8%A6%81%E6%B1%82">傻逼的可视化要求</a></li>
+<li><a href="#%E5%82%BB%E9%80%BC%E7%9A%84%E6%8C%81%E7%BB%AD%E6%97%B6%E9%95%BF%E8%A6%81%E6%B1%82">傻逼的持续时长要求</a></li>
 <li><a href="#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE-2">项目配置</a></li>
 <li><a href="#%E9%A1%B9%E7%9B%AE%E8%B7%AF%E5%BE%84-2">项目路径</a></li>
 <li><a href="#%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95-2">执行方法</a></li>

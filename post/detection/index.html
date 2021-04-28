@@ -1,0 +1,609 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>目标检测论文阅读 - Zexian Li</title>
+<link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="目标检测论文阅读 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="
+
+
+方法综述
+评价指标
+常用数据集
+指标比对
+论文笔记
+
+(1) (2021 CVPR)YOLOF: You Only Look One-level Feature
+(2) (FAIR)RetinaNet: Focal Loss for ..." />
+  <meta property="og:title" content="目标检测论文阅读 - Zexian Li">
+  <meta property="og:description" content="
+
+
+方法综述
+评价指标
+常用数据集
+指标比对
+论文笔记
+
+(1) (2021 CVPR)YOLOF: You Only Look One-level Feature
+(2) (FAIR)RetinaNet: Focal Loss for ..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://FuNian788.github.io/post/detection/" />
+  <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="目标检测论文阅读 - Zexian Li">
+  <meta name="twitter:description" content="
+
+
+方法综述
+评价指标
+常用数据集
+指标比对
+论文笔记
+
+(1) (2021 CVPR)YOLOF: You Only Look One-level Feature
+(2) (FAIR)RetinaNet: Focal Loss for ...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://FuNian788.github.io/post/detection/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://FuNian788.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://FuNian788.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      Zexian Li
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          目标检测论文阅读
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2021-04-26 · 18 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%96%B9%E6%B3%95%E7%BB%BC%E8%BF%B0">方法综述</a></li>
+<li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+<li><a href="#%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0">论文笔记</a>
+<ul>
+<li><a href="#1-2021-cvpryolof-you-only-look-one-level-feature">(1) (2021 CVPR)YOLOF: You Only Look One-level Feature</a></li>
+<li><a href="#2-fairretinanet-focal-loss-for-dense-object-detection">(2) (FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></li>
+<li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
+<li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
+<li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
+</ul>
+</li>
+<li><a href="#paper-list">Paper List</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="方法综述">方法综述</h2>
+<p>目标检测的主流方法是anchor-based，也存在一些anchor-free的尝试。<br>
+<strong>anchor-based</strong>：在图片上铺海量的预设anchor，随后对anchor进行种类预测和n次边界回归。通常来说，双阶段方法对边界修正的次数会多于单阶段方法，所以二阶段方法通常有较高的精度，单阶段方法常有较高的计算效率。</p>
+<ul>
+<li>one-stage<br>
+均匀且密集地采样以获得海量候选框，随后进行分类(eg SSD)</li>
+<li>two-stage<br>
+在筛选过的、稀疏的候选框(滤掉了绝大多数背景/负样本)上进行分类(eg Faster R-CNN)</li>
+</ul>
+<p><strong>anchor-free</strong>：不使用预设anchor，直接检测物体。</p>
+<ul>
+<li>keypoint-based<br>
+先定位一些预设的/自学习得到的关键点，再依此生成候选框以检测物体(eg Cornernet预测候选框的左上角和右下角点，再进行组合)</li>
+<li>center-based<br>
+将物体正中心点/中心区域视为正样本，再基于此预测该位置到目标四条边框的距离(eg FCOS将前景框的所有像素点均视为正样本，随后对每个点回归其到框边界的距离)</li>
+</ul>
+<h2 id="评价指标">评价指标</h2>
+<p>mAP</p>
+<h2 id="常用数据集">常用数据集</h2>
+<p>MS COCO：包含80类物体。trainval35k部分的115K图片用于训练，minival部分的5k图片用于validation。</p>
+<h2 id="指标比对">指标比对</h2>
+<p>以THUMOS-14数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ID</th>
+<th style="text-align:center">paper</th>
+<th style="text-align:center">mAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">SCNN</td>
+<td style="text-align:center">19.0%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="论文笔记">论文笔记</h2>
+<h3 id="1-2021-cvpryolof-you-only-look-one-level-feature">(1) <a href="https://arxiv.org/abs/2103.09460">(2021 CVPR)YOLOF: You Only Look One-level Feature</a></h3>
+<ul>
+<li>Motivation</li>
+</ul>
+<p>对RetinaNet的FPN结构做消解实验发现：SiMo仅轻微掉点，故C5特征可能就已涵盖了检测所需要的足够信息；SiMo明显优于MiSo，故分治策略(即多检测头)的重要性远大于融合输入特征的重要性。由上述两点，决定将输入从多输入砍到单输入。<br>
+通常认为FPN的核心优势在于多特征融合(multi-scale feature fusion)和分治策略(divide-and-conquer)。本文提出，FPN最大的优势是在密集目标检测时使用分治策略(逐级检测)来进行优化。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/yolof_1.png" alt="RetinaNet-FPN-单多输入-单多输出" loading="lazy"></p>
+<p>分治策略可以视为一种优化的方法：将大问题拆分成小问题来解决。但其多头结构降低检测速度，使结构更复杂，带来了更大的空间负担。决定将多输出砍到单输出。</p>
+<ul>
+<li>主要贡献</li>
+</ul>
+<p>将FPN简化成单输入(32倍下采样的C5特征)单输出的结构，同时为了弥补SiSo到MiMo的性能差距：</p>
+<ol>
+<li>
+<p>C5特征的感受野大小受限<br>
+提出了空洞编码器(Dilated Encoder)来获取多尺度特征</p>
+</li>
+<li>
+<p>Positive anchor对应的GT大小不均衡<br>
+提出均衡匹配策略(Uniform Matching)来解决单特征图中稀疏anchor引起的positive anchor不平衡问题。</p>
+</li>
+</ol>
+<p>COCO数据集上，在效果相当的同时，YOLOF可以：<br>
+比FPN版本速度快了2.5倍；比DETR的训练轮次少了7倍；比YOLOv4快了13%。</p>
+<ul>
+<li>
+<p>overall<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/yolof_2.png" alt="YOLOF结构" loading="lazy"></p>
+</li>
+<li>
+<p>实现细节</p>
+</li>
+</ul>
+<ol>
+<li>
+<p>空洞编码器<br>
+C5特征的感受野很小，只能cover小物体；使用连续的dilated conv疯狂扩展感受野后，只能捕获大物体。故使用残差结构+空洞卷积，使模型既可以捕获小物体，也能捕获大物体。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/yolof_3.png" alt="dilated encoder" loading="lazy"><br>
+模型的Projector部分，使用1*1卷积减少通道数，使用3*3卷积修复语义信息；残差块部分使用四个不同dilated rate，不共享参数的block，每个block中，第一个conv降通道数，第二个dilated conv扩大感受野，第三个conv恢复通道数。</p>
+</li>
+<li>
+<p>均衡匹配策略<br>
+MiMo模型可以在不同的输出层级上定义不同大小的anchor，然而SiSo模型只有单层输出，对应的anchor数量自然变少。anchor本就容易和大尺度样本有较大的overlap，假设将与任GT bbox的IoU&gt;0.5的anchor定义为positive anchor，那单输入特征图&amp;少anchor时，anchor的不均衡就更为明显：positive anchor主要由大样本占据；模型的重心在大样本上，检出小样本的数量变少。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/yolof_4.png" alt="positive anchor均衡性" loading="lazy"><br>
+Uniform Matching：对于每个GT bbox，选取距其最近的K=4个anchor作为positive anchor。<br>
+YOLOF在C5 feature的每个位置上构建5个anchor，尺度分别为{32, 64, 128, 256, 512}。</p>
+</li>
+</ol>
+<ul>
+<li>改进/Challenge/idea/Que</li>
+</ul>
+<ol>
+<li>imbalance problem on positive anchors<br>
+positive anchor有什么用呢？感觉没弄透 loss是什么样子的，是对每个anchor的feature进行交叉熵分类嘛？<br>
+set anchor；如果anchor与GT iou &gt; 0.5，认为是positive anchor，只有这样的anchor才能参与BP？在分治策略基础上，每个GT都可在不同层级上产生许多positive anchor？<br>
+不同的matching策略是怎么样的呢？会有什么区别呢？<br>
+anhocr的overlap会怎样影响整个流程呢？</li>
+<li>’1×’ schedule这是啥</li>
+</ol>
+<hr>
+<h3 id="2-fairretinanet-focal-loss-for-dense-object-detection">(2) <a href="https://arxiv.org/abs/1708.02002">(FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></h3>
+<ul>
+<li>Motication<br>
+one-stage方法和two-stage方法的核心区别在于：two-stage送去分类器的候选框是稀疏的(过滤了绝大多数背景样本)，而为了实现检测任务，one-stage必须在图片内进行密集的均匀采样，得到未经过滤的候选框并依此去cover所有空间位置。自然地，one-stage这种采样方法得到的候选框中以容易被分类的背景框居多。two-stage方法的候选框大概在1~2k个，one-stage方法的候选框却可达到100k个左右。</li>
+</ul>
+<p>为什么two-stage方法常常更准呢？本文认为其核心问题在于<strong>训练检测器时样本所属前景-背景类别的不均衡性</strong>(the extreme foreground-background class imbalance encountered during training of dense detectors)。基于此，作者在交叉熵损失函数的基础上提出了Focal Loss，有效阻止海量的、易被分类的背景样本主导训练过程，在对其进行降权的同时，让网络更加关注难样本(更多是正样本)的分类过程。总体来说，当网络对一个样本的预测越准确，该样本对loss的贡献程度越低。</p>
+<ul>
+<li>
+<p>主要贡献<br>
+提出Focal Loss来解决正负样本不均衡的问题；基于此提出one-stage的RetinaNet，在保持优良速度的同时具有大幅超过two-stage方法的精度，达到SOTA。</p>
+</li>
+<li>
+<p>overall<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/retinanet_1.png" alt="positive anchor均衡性" loading="lazy"><br>
+<img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></p>
+</li>
+<li>
+<p>实现细节</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) <a href="https://arxiv.org/abs/1904.01355">(2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></h3>
+<ul>
+<li>针对痛点：</li>
+</ul>
+<ol>
+<li>anchor-based方法需要人为设计框的尺寸及超参数，这些参数的优劣会造成显著地性能差异，且人为设计的候选框很难匹配尺度多变的目标；</li>
+<li>anchor-based方法常需要海量的候选框(eg FPN在800见方的图片中需要180K个anchor)，过多的负样本框会造成训练时的样本不平衡；训练时对IoU的不断计算也会导致较大的计算开销；</li>
+<li>传统的anchor-free &amp; one-stage方法有<strong>两大弊端</strong>，一是只将anchor中心点所在的网格试做正样本，这种样本不平衡对recall有较大负面影响；一是很难处理重叠物体(anchor方法可很好的解决重叠问题)。</li>
+</ol>
+<ul>
+<li>主要贡献：</li>
+</ul>
+<ol>
+<li>FCN(fully convolutional networks)已其他领域开展得如火如荼，eg语义分割，首在object detection领域基于FCN方法实现的FCOS有助于复用其他领域经验。</li>
+<li>anchor-free的FCOS省去了调参的负担，在计算更轻量、训练更容易的同时有着不亚于two-stage/anchor-based方法的精度，启发了对anchor必要性的思考。</li>
+<li>提出one-stage的FCN-based网络，提出基于FPN的多尺度预测和center-ness方法，有效解决了当下存在的两大弊端。</li>
+</ol>
+<ul>
+<li>实现流程：<br>
+网络的流程图如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_1.png" alt="流程图" loading="lazy"><br>
+对于单个候选框，每层网络输出一个K维分类label、一个4维距离坐标和一个center-ness得分。该网络较常用的anchor-based方法减少了近9倍的参数量。</li>
+<li>实现细节：</li>
+</ul>
+<ol>
+<li>one-stage FCN网络<br>
+针对弊端一，FCOS不再只将中心点所在的网格视为正样本，而是将GT bbox所覆盖的所有网格均视为正样本。因此，FCOS舍弃了anchor-based方法中先确定候选框中心位置，再以依此对anchor进行回归的做法，具体地，如下左图所示，对每个前景框的每个点(location)，都预测其到GT bbox的上下左右四条边的距离[t, b, l, r]，该做法与FCN-based方法在语义分割领域的实现思路一致，且值得注意的是，与anchor-based方法仅将与GT bbox有较高IoU的anchor作为正样本相比，FCOS将GT内的所有像素均作为正样本进行训练，无形中获取了更多更准的信息。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_2.png" alt="示例图" loading="lazy"><br>
+对于某层feature map上的location点(x, y)，基于当前层的步长s，先将其映射到原始输入图上的点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>⌊</mo><mfrac><mi>s</mi><mn>2</mn></mfrac><mo>⌋</mo><mo>+</mo><mi>x</mi><mi>s</mi><mo separator="true">,</mo><mo>⌊</mo><mfrac><mi>s</mi><mn>2</mn></mfrac><mo>⌋</mo><mo>+</mo><mi>y</mi><mi>s</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\lfloor \frac s2 \rfloor + xs, \lfloor \frac s2 \rfloor + ys)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">(</span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault">x</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span>，用映射后的坐标再进行到框边距离的预测，使用指数函数输出四个非负距离量，考虑到不同尺度feature map预测物体大小不同，单纯的指数函数得到距离有失偏颇，FCOS在指数函数中加入可学习参数s(distance = exp(s * x))来适应各个尺度的预测。<br>
+损失函数方面，分类方面使用focal loss，坐标回归方面使用IOU loss。</li>
+<li>基于FPN的多尺度预测<br>
+为解决重叠候选框时的分类问题(如上图右)，anchor-based方法在不同特征尺度设计不同尺寸的候选框，FCOS则遵循FPN的思路，在不同的feature map层检测不同尺度的目标，且<strong>通过阈值直接限制了每一层检出框的尺寸大小</strong>。在FCOS的五个回归branch中，若预测得到的边长长度不符合当前层的长度限制，直接将其视为负样本，这样便粗暴地解决了不同层内目标含有重叠区域的问题。对于同一层内的重叠区域，FCOS直接使用最小的区域作为回归目标(即使同一层内两个同类物体有重叠，小物体会马上被检出，而大物体也定会在未重叠的区域被检出；但不得不说该方法存在理论缺陷，就是同一层内两个不同类物体有重叠，在重叠部分的location可能会返回A物体的种类和B物体的候选框)。依此，FCOS在多尺度预测的同时很好地解决了物体重叠的问题。<br>
+如流程图所示，C3、C4、C5是backbone的feature map，通过1*1的卷积层得到P3、P4、P5，而P6和P7则是由P5、P6经过stride为2的卷积层得到的，不同层之间的heads共享权重。<br>
+直觉上可能会认为FCOS的BPR(best possible recall，检测器能实现的recall上限，只要有一个anchor涉及到GT框便将其纳入BPR计算范畴内)会受到FCN-based方法中大步长的制约，但实际上FCOS的BPR甚至优于传统的anchor-based方法，所以recall不是FCOS需要着重解决的问题，或者说FPN解决了这一问题。</li>
+<li>center-ness分支<br>
+在前两步之后，FCOS的性能较anchor-based方法仍有一定的gap，这主要是由一些距物体中心较远的location产生的低质量候选框导致的，FCOS在不引入更多超参数的情况下提出了center-ness分支直接而有效地减少了低质量候选框。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/FCOS_3.png" alt="center-ness" loading="lazy"><br>
+center-ness的核心思想是，一个GT bbox内的点很多，但它们对目标的贡献是不同的。偏图像中心的点包含了更多的目标信息，理应得到重视；偏图像边界的点包含的信息相对较少，甚至点可能就不在目标上，这些location提出的候选框的质量常较低，理应设置更小的权重。center-ness表征了一个点到其预测候选框中心的距离，其表达式如下所示：</li>
+</ol>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mo>−</mo><mi>n</mi><mi>e</mi><mi>s</mi><mi>s</mi><mo>=</mo><msqrt><mrow><mfrac><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>)</mo></mrow><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>)</mo></mrow></mfrac><mo>∗</mo><mfrac><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>t</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo></mrow><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mi>t</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo></mrow></mfrac></mrow></msqrt></mrow><annotation encoding="application/x-tex">center-ness = \sqrt{ \frac {min(l, r)}{max(l, r)} *  \frac {min(t, b)}{max(t, b)} }
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69841em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.04em;vertical-align:-1.160625em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.879375em;"><span class="svg-align" style="top:-5em;"><span class="pstrut" style="height:5em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span style="top:-3.839375em;"><span class="pstrut" style="height:5em;"></span><span class="hide-tail" style="min-width:1.02em;height:3.08em;"><svg width='400em' height='3.08em' viewBox='0 0 400000 3240' preserveAspectRatio='xMinYMin slice'><path d='M473,2793c339.3,-1799.3,509.3,-2700,510,-2702
+c3.3,-7.3,9.3,-11,18,-11H400000v40H1017.7s-90.5,478,-276.2,1466c-185.7,988,
+-279.5,1483,-281.5,1485c-2,6,-10,9,-24,9c-8,0,-12,-0.7,-12,-2c0,-1.3,-5.3,-32,
+-16,-92c-50.7,-293.3,-119.7,-693.3,-207,-1200c0,-1.3,-5.3,8.7,-16,30c-10.7,
+21.3,-21.3,42.7,-32,64s-16,33,-16,33s-26,-26,-26,-26s76,-153,76,-153s77,-151,
+77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,104,606z
+M1001 80H400000v40H1017z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.160625em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>当该点为候选框中心时，center-ness的值为1，该点离中心越远，其值越接近0，使用交叉熵损失函数进行训练。center-ness仅在测试时使用，将其与分类得分(classification score)相乘，共同作为候选框的得分，随后进行NMS筛选。</p>
+<ul>
+<li>对动作检测的启发</li>
+</ul>
+<ol>
+<li>FCN网络结构</li>
+<li>动作框预测方式：遍历视频的每一个时刻，返回其到所属动作开始/结束时刻的时间距离</li>
+<li>基于FPN的多尺度预测：如果出现了动作套娃(eg运动里套打篮球)，可以考虑使用这种方法来一起检出；其他情况下则不合适，eg峰谷峰时如何只取两个峰。但多尺度思路可以应用于尺度不同的任务。</li>
+<li>如果一个候选框和GT的IoU较低，其就是一个低质量候选框，这时如果其confidence得分很高，就是Fasle Positive了。center-ness的应用，可以有效解决当前实践中<strong>置信度最高的候选框可能不是最好的</strong>这一问题。<br>
+FCOS认为中心lcoation预测的框是高质量的，边缘location预测的框是低质量的，通过表征location位置的center-ness指标来衡量框的质量，利用其削减低质量候选框得分，从而在NMS阶段保留下真正好的候选框。<br>
+在动作检测中，center-ness可以IoU的形式出现，拓展地，可以参考IoUNet新建一个独立的网络去预测候选框和GT的IoU以参与得分评价(FCOS的center-ness计算更为简洁，只是在原有预测基础上进行简单比例计算，并没有涉及神经网络架构)；而如果搭建FCOS-based的动作检测框架，可以直接利用center-ness思路，但要考虑动作并没有明确中心点这一问题。</li>
+</ol>
+<hr>
+<h3 id="4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) <a href="https://arxiv.org/abs/1912.02424">(2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></h3>
+<ul>
+<li>Motivation<br>
+对比anchor-based one-stage RetinaNet和anchor-free center-based FCOS，二者有以下三个明显的区别：</li>
+</ul>
+<ol>
+<li>每个像素点(location)处铺设anchor的数量<br>
+RetinaNet以每个location为中心位置铺设多个anchor；FCOS视每个location为一个点，再回归该点到该点所在候选框的边界的距离。</li>
+<li><strong>定义正负训练样本的方法</strong><br>
+RetinaNet将与GT bbox的IoU大于阈值的anchor视为正样本；FCOS将GT bbox内的所有像素点视为正样本。</li>
+<li>在何种载体上回归<br>
+RetinaNet在铺设的anchor上回归；FCOS在像素点上进行物体定位。<br>
+实验表明，性能gap的核心在于第二点。</li>
+</ol>
+<ul>
+<li>主要贡献<br>
+首先指出：anchor-based方法和anchor-free方法的本质区别在于<strong>如何定义正负训练样本</strong>，也正是这带来了性能上的差距。如果在训练中使用相同的定义正负样本的方法，那无论是基于box还是point进行回归，最后都不会有显著的性能差异。</li>
+</ul>
+<p>提出了一种自适应的训练样本筛选策略(ATSS, adaptive training sample selection)来依据目标的统计特征自动地筛选样本。</p>
+<ul>
+<li>实验过程</li>
+</ul>
+<ol>
+<li>
+<p>补齐性能差距<br>
+对于mAP，RetinaNet为32.5，FCOS为37.8。为探究anchor-based和anchor-free方法的真正区别，需消除FCOS各种trick对于性能gap的影响：RetinaNet每个像素点处仅许产生一个候选框，再将FCOS的各种trick添加到RetinaNet上(In GT box代表限制GT的正样本数量)：<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_1.png" alt="RetinaNet FCOS实验结果对比" loading="lazy"><br>
+这时的性能：RetinaNet 37.0 vs FCOS 37.8，仍存在0.8个点的差距。此时anchor-based和anchor-free方法仅有两点不同：检测器分类头对于正负样本的定义、检测器回归头是从anchor回归还是从中心点回归。下面对这两点进行进一步实验，探寻到底哪一个才是问题的关键。</p>
+</li>
+<li>
+<p>分类part<br>
+RetinaNet在不同的FPN层级使用IoU来定义样本：将每个目标对应的best anchor和IoU大于阈值的anchor标为正样本，将IoU小于阈值的anchor标为负样本，舍弃剩余anchor。<br>
+FCOS在不同的FPN层级基于空间位置和目标尺度来定义样本：中心点在GT bbox内的为候选正样本，再基于目标尺度和FPN层级的匹配性从中筛选得到真正的正样本，剩余为负样本。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_2.png" alt="RetinaNet FCOS定义正负样本方法" loading="lazy"></p>
+</li>
+<li>
+<p>回归part<br>
+RetinaNet回归4个offset(x, y, w, h)，FCOS回归到边界的四个距离(l, r, t, b)。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_4.png" alt="RetinaNet FCOS回归方法对比" loading="lazy"></p>
+</li>
+<li>
+<p>性能对比<br>
+看每一行，分类时定义正负样本的方法对齐后，尽管回归方式不同，RetinaNet和FCOS(更进一步地，anchor-based和anchor-free)性能却基本相同；<br>
+看每一列，回归的方法确定后，RetinaNet和FCOS均会因定义样本的方式而产生较大的性能gap。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_3.png" alt="RetinaNet FCOS性能对比" loading="lazy"><br>
+以上实验说明，anchor-based和anchor-free方法性能差距的核心在于<strong>训练时定义正负样本的方式不同</strong>。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>提出改进<br>
+FCOS提出的定义正负样本的方法优于之前基于IoU的方法，但这些方法都很依赖超参的设置。本文更进一步地，提出了无超参、鲁棒的、依赖数据特征的定义正负样本新方法ATSS(Adaptive Training Sample Selection)。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_5.png" alt="ATSS" loading="lazy"><br>
+简要概括：对于GT G，在每一层找k个距其L2距离最近的anchor，组成候选positive anchor的集合P'。随后计算G和P'的IoU，统计其IoU的均值方差并修正，最后保留IoU大于修正值且中心在G内的所有positive anchor，将其组成正样本集合P；剩余的anchor作为负样本。<br>
+补充优点：这种方法不会像IoU方法，对大物体表现出明显的青睐，在一定程度上保证了尺度的均衡性。<br>
+实验表明，ATSS对于k的大小不敏感，对于anchor的scale和ratio不敏感，具有很好的鲁棒性。</p>
+</li>
+<li>
+<p>实验结果<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ATSS_6.png" alt="ATSS实验结果" loading="lazy"><br>
+实验结果表现出了有趣的insight。第一行是原始RetinaNet(每个位置9个anchor)，后几行都是每个位置1个anchor。实验结果表明，对于传统的IoU筛选策略，在每个位置多设置一些anchor是有涨点的(37.0 -&gt; 38.4)。然而在优秀的筛选策略ATSS下，每个位置有一个anchor就够了，设置很多不同scale和ratio的anchor反倒没有什么用。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+<hr>
+<h3 id="n-2021-cvprpaper-name">(n) <a href="https://arxiv.org/abs/2103.09460">(2021 CVPR)PAPER NAME</a></h3>
+<ul>
+<li>
+<p>Motivation</p>
+</li>
+<li>
+<p>主要贡献</p>
+</li>
+<li>
+<p>overall</p>
+</li>
+<li>
+<p>实现细节</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+<h2 id="paper-list">Paper List</h2>
+<p>ATSS<br>
+RetinaNet 看看anchor的设计方法<br>
+FCOS<br>
+DETR<br>
+Deformable DETR<br>
+HRNet<br>
+HRNet-based</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Bad decisions make good stories.
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%96%B9%E6%B3%95%E7%BB%BC%E8%BF%B0">方法综述</a></li>
+<li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
+<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
+<li><a href="#%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0">论文笔记</a>
+<ul>
+<li><a href="#1-2021-cvpryolof-you-only-look-one-level-feature">(1) (2021 CVPR)YOLOF: You Only Look One-level Feature</a></li>
+<li><a href="#2-fairretinanet-focal-loss-for-dense-object-detection">(2) (FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></li>
+<li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
+<li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
+<li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
+</ul>
+</li>
+<li><a href="#paper-list">Paper List</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://FuNian788.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://FuNian788.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>

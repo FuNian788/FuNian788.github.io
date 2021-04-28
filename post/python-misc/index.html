@@ -19,28 +19,28 @@
 
 
 
+wget在arxiv下载论文
 遍历字典
 scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方式
-Python3迭代器(it..." />
+Python导入方..." />
   <meta property="og:title" content="Python杂记 - Zexian Li">
   <meta property="og:description" content="
 
 
 
 
+wget在arxiv下载论文
 遍历字典
 scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方式
-Python3迭代器(it..." />
+Python导入方..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/python-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -52,14 +52,14 @@ Python3迭代器(it..." />
 
 
 
+wget在arxiv下载论文
 遍历字典
 scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方式
-Python3迭代器(it...">
+Python导入方...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/python-misc/">
 
@@ -96,6 +96,7 @@ Python3迭代器(it...">
 <ul>
 <li>
 <ul>
+<li><a href="#wget%E5%9C%A8arxiv%E4%B8%8B%E8%BD%BD%E8%AE%BA%E6%96%87">wget在arxiv下载论文</a></li>
 <li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
 <li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
 <li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
@@ -111,12 +112,16 @@ Python3迭代器(it...">
 <li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
 <li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
 <li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8try%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6">使用try读取文件</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </p>
+<h3 id="wget在arxiv下载论文">wget在arxiv下载论文</h3>
+<pre><code class="language-Shell">wget --user-agent=Lynx https://arxiv.org/pdf/2103.09460.pdf
+</code></pre>
 <h3 id="遍历字典">遍历字典</h3>
 <p>for key in dict.keys()<br>
 for value in dict.values()<br>
@@ -512,6 +517,14 @@ print(np.count_nonzero(a.sum(axis=0)))  # 4
 </code></pre>
 <p>当<code>a.sum(axis=0)</code>时，程序执行的是<code>sum(a[:][j])</code>；<br>
 当<code>a.sum(axis=1)</code>时，程序执行的是<code>sum(a[i][:])</code>。</p>
+<h3 id="使用try读取文件">使用try读取文件</h3>
+<pre><code class="language-python">try:
+    with open(fn, 'rb') as f:
+        return pickle.load(f, encoding='utf-8')
+except Exception as ex:
+    print(ex)
+return None
+</code></pre>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -557,6 +570,7 @@ print(np.count_nonzero(a.sum(axis=0)))  # 4
 <ul>
 <li>
 <ul>
+<li><a href="#wget%E5%9C%A8arxiv%E4%B8%8B%E8%BD%BD%E8%AE%BA%E6%96%87">wget在arxiv下载论文</a></li>
 <li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
 <li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
 <li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
@@ -572,6 +586,7 @@ print(np.count_nonzero(a.sum(axis=0)))  # 4
 <li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
 <li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
 <li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8try%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6">使用try读取文件</a></li>
 </ul>
 </li>
 </ul>
