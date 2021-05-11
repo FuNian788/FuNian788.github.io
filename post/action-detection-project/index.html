@@ -177,6 +177,7 @@ git clone https://github.com/facebookresearch/slowfast
 cd SlowFast
 python setup.py build develop
 </code></pre>
+<p>demo_net和demo_loader</p>
 <h3 id="傻逼的可视化要求">傻逼的可视化要求</h3>
 <p>可视化需改变 /fight/slowfast/slowfast/visualization/demo_loader.py中，VideoManager类的display函数(Line124+)：</p>
 <pre><code class="language-Python">def display(self, task):
@@ -186,7 +187,6 @@ python setup.py build develop
         if self.output_file:
             self.output_file.write(frame)
 </code></pre>
-<p>但如果把waitKey改成time.sleep会发生什么呢</p>
 <h3 id="傻逼的持续时长要求">傻逼的持续时长要求</h3>
 <p>持续时长拉满则需要改变 /fight/slowfast/slowfast/visualization/async_predictor.py中，Line 311 和 315的draw_range修改成None</p>
 <hr>

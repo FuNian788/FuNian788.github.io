@@ -81,7 +81,7 @@
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2021-04-26 · 18 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2021-04-26 · 23 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -98,10 +98,16 @@
 <li><a href="#2-fairretinanet-focal-loss-for-dense-object-detection">(2) (FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></li>
 <li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
 <li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
+<li><a href="#5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) (2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B">基础模型</a>
+<ul>
+<li><a href="#1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) (2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></li>
 <li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
 </ul>
 </li>
-<li><a href="#paper-list">Paper List</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">基本常识</a></li>
 </ul>
 </li>
 </ul>
@@ -125,22 +131,34 @@
 <h2 id="评价指标">评价指标</h2>
 <p>mAP</p>
 <h2 id="常用数据集">常用数据集</h2>
-<p>MS COCO：包含80类物体。trainval35k部分的115K图片用于训练，minival部分的5k图片用于validation。</p>
+<p>MS COCO：包含80类物体。数据集划分如下：train有80k图片，val有40k图片。<br>
+MSCOCO 2017： training118k validation5k(val) testing about20k无标注(test-dev)<br>
+trainval35k部分的115K图片(train的80k图片+)用于训练，minival部分的5k图片用于validation。</p>
 <h2 id="指标比对">指标比对</h2>
-<p>以THUMOS-14数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<p>以COCO数据集AP作为基准指标，比较各方法如下：</p>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">ID</th>
 <th style="text-align:center">paper</th>
-<th style="text-align:center">mAP</th>
+<th style="text-align:center">AP</th>
+<th style="text-align:center">AP50</th>
+<th style="text-align:center">AP75</th>
+<th style="text-align:center">APs</th>
+<th style="text-align:center">APm</th>
+<th style="text-align:center">APl</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center">SCNN</td>
-<td style="text-align:center">19.0%</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">YOLOF</td>
+<td style="text-align:center">37.7</td>
+<td style="text-align:center">56.9</td>
+<td style="text-align:center">40.6</td>
+<td style="text-align:center">19.1</td>
+<td style="text-align:center">42.5</td>
+<td style="text-align:center">53.2</td>
 </tr>
 </tbody>
 </table>
@@ -196,14 +214,6 @@ YOLOF在C5 feature的每个位置上构建5个anchor，尺度分别为{32, 64, 1
 <ul>
 <li>改进/Challenge/idea/Que</li>
 </ul>
-<ol>
-<li>imbalance problem on positive anchors<br>
-positive anchor有什么用呢？感觉没弄透 loss是什么样子的，是对每个anchor的feature进行交叉熵分类嘛？<br>
-set anchor；如果anchor与GT iou &gt; 0.5，认为是positive anchor，只有这样的anchor才能参与BP？在分治策略基础上，每个GT都可在不同层级上产生许多positive anchor？<br>
-不同的matching策略是怎么样的呢？会有什么区别呢？<br>
-anhocr的overlap会怎样影响整个流程呢？</li>
-<li>’1×’ schedule这是啥</li>
-</ol>
 <hr>
 <h3 id="2-fairretinanet-focal-loss-for-dense-object-detection">(2) <a href="https://arxiv.org/abs/1708.02002">(FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></h3>
 <ul>
@@ -218,15 +228,22 @@ one-stage方法和two-stage方法的核心区别在于：two-stage送去分类�
 </li>
 <li>
 <p>overall<br>
+对于交叉熵损失函数，在真值类别时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>=</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>(</mo><mi>P</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">Loss = -log(P)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span>，在其他类别时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>=</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">Loss = -log(1 - P)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span>。作者认为在此中，简单样本带来的loss不足够小，当简单的背景样本过于多的时候还是可以主宰整个训练过程。为了将训练的注意力集中在难样本上，作者提出了如下图的focal loss。<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/retinanet_1.png" alt="positive anchor均衡性" loading="lazy"><br>
-<img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></p>
+假设模型输出概率<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>。对应地，在两种情况下分析模型处理简单样本的过程：在真值类别下，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>很大，接近于1，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>=</mo><mi>P</mi></mrow><annotation encoding="application/x-tex">P_{t} = P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>，这时损失函数的值就超小；在其他类别下，预测得很准时<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>应该很小，接近于0，此时的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi></mrow><annotation encoding="application/x-tex">P_{t} = 1 - P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>还是很大，损失函数仍然很小。反之，处理难样本时的损失函数没有被削减。</p>
 </li>
-<li>
-<p>实现细节</p>
-</li>
-<li>
-<p>改进/Challenge/idea/Que</p>
-</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></figure>
+<ul>
+<li>实现细节</li>
+</ul>
+<ol>
+<li>anchor<br>
+在每个位置上，</li>
+</ol>
+<p>在不同的输出特征图上限制检出物体的大小。</p>
+<ul>
+<li>改进/Challenge/idea/Que</li>
 </ul>
 <hr>
 <h3 id="3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) <a href="https://arxiv.org/abs/1904.01355">(2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></h3>
@@ -331,10 +348,11 @@ RetinaNet回归4个offset(x, y, w, h)，FCOS回归到边界的四个距离(l, r,
 </li>
 <li>
 <p>性能对比<br>
-看每一行，分类时定义正负样本的方法对齐后，尽管回归方式不同，RetinaNet和FCOS(更进一步地，anchor-based和anchor-free)性能却基本相同；<br>
+实验中，只改变了定义样本的方式，但数据可以从多个角度进行分析：<br>
 看每一列，回归的方法确定后，RetinaNet和FCOS均会因定义样本的方式而产生较大的性能gap。<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/ATSS_3.png" alt="RetinaNet FCOS性能对比" loading="lazy"><br>
-以上实验说明，anchor-based和anchor-free方法性能差距的核心在于<strong>训练时定义正负样本的方式不同</strong>。</p>
+以上实验说明，anchor-based和anchor-free方法性能差距的核心在于<strong>训练时定义正负样本的方式不同</strong>。<br>
+PS 看每一行，分类时定义正负样本的方法对齐后，尽管回归方式不同，RetinaNet和FCOS(更进一步地，anchor-based和anchor-free)性能却基本相同。</p>
 </li>
 </ol>
 <ul>
@@ -350,6 +368,59 @@ FCOS提出的定义正负样本的方法优于之前基于IoU的方法，但这�
 <p>实验结果<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/ATSS_6.png" alt="ATSS实验结果" loading="lazy"><br>
 实验结果表现出了有趣的insight。第一行是原始RetinaNet(每个位置9个anchor)，后几行都是每个位置1个anchor。实验结果表明，对于传统的IoU筛选策略，在每个位置多设置一些anchor是有涨点的(37.0 -&gt; 38.4)。然而在优秀的筛选策略ATSS下，每个位置有一个anchor就够了，设置很多不同scale和ratio的anchor反倒没有什么用。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+<hr>
+<h3 id="5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) <a href="https://arxiv.org/abs/1908.07919">(2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></h3>
+<ul>
+<li>
+<p>Motivation<br>
+现有方法常先使用卷积层将输入编码至low-resolution representation，再从中恢复出high-resolution representation(全流程eg U-Net)。然而高分辨率信息对于position-sensitive的任务十分重要。</p>
+</li>
+<li>
+<p>主要贡献<br>
+HR-Net在全阶段都维持了高分辨率表示，从而获取更丰富的语义信息和更准确的空间位置。<br>
+核心部件：<br>
+(1) <strong>并行</strong>的高分辨率到低分辨率的卷积流(connect the high-to-low resolution convolution streams in parallel)<br>
+(2) 重复融合多分辨率流的信息(repreatedly exchange the information across resolutions)</p>
+</li>
+<li>
+<p>overall<br>
+如下图所示，第一行一直保持高分辨率信息。四个阶段中，每阶段都在增加稍低分辨率的并行卷积流(一行行增加)，同时通过不同分辨率卷积流的信息交换实现多分辨率融合。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_1.png" alt="overall" loading="lazy"><br>
+如下图所示，融合不同分辨率特征的方法是有区别的：高分辨率到低分辨率使用n个stride为2的3*3卷积进行下采样；同分辨率直接相加；低分辨率到高分辨率使用n个(双线性差值+1*1卷积层)实现上采样和通道对齐。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_2.png" alt="信息融合" loading="lazy"></p>
+</li>
+</ul>
+<p>HRNetV1，HRNetV2和HRNetV2p的结构图如下所示。HRNetV1只输出高分辨率流，用于人体姿态估计；HRNetV2将低分辨率流上采样后将四个流的特征叠加起来，用于语义分割；HRNetV2p在HRNetV2的基础上多了下采样的过程，用于目标检测。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_3.png" alt="backbone" loading="lazy"></p>
+<ul>
+<li>改进/Challenge/idea/Que<br>
+Related Work中包含了很多文章，eg如何从低分辨率信息中学习，如何重建高分辨率信息，如何维持高分辨率信息，可以好好学习一下。</li>
+</ul>
+<hr>
+<hr>
+<h2 id="基础模型">基础模型</h2>
+<h3 id="1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) <a href="https://arxiv.org/abs/1611.05431">(2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></h3>
+<ul>
+<li>Motivation<br>
+VGG &amp; ResNet这类网络通过堆叠相同形状的block来构建深网络，且这种简洁的策略在不同数据集上表现出了优秀的鲁棒性；尽管Inception类网络可以在特定数据上以较低的运算开销展现卓越的性能，但其手工设计痕迹明显，任务迁移时需重新精调网络结构和超参数，成本较高。如何合并这两者？</li>
+</ul>
+<p>Inception结构通常遵循split-&gt;transform-&gt;merge范式，这是否是Inception成功的关键？(split: 使用许多1*1卷积将输入拆成多个低通道embedding；transform: 使用一些3*3和5*5的卷积来转换信息；merge: 使用通过concate将上述输出综合)</p>
+<ul>
+<li>
+<p>主要贡献<br>
+提出ResNeXt，既使用了repeat layer策略(from VGG &amp; ResNet)，又以一种简单、可扩展的方式利用split-transform-merge策略(from Inception)。</p>
+</li>
+<li>
+<p>overall<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ResNeXt_1.png" alt="backbone" loading="lazy"></p>
+</li>
+<li>
+<p>实现细节</p>
 </li>
 <li>
 <p>改进/Challenge/idea/Que</p>
@@ -374,14 +445,16 @@ FCOS提出的定义正负样本的方法优于之前基于IoU的方法，但这�
 <p>改进/Challenge/idea/Que</p>
 </li>
 </ul>
-<h2 id="paper-list">Paper List</h2>
-<p>ATSS<br>
-RetinaNet 看看anchor的设计方法<br>
-FCOS<br>
-DETR<br>
-Deformable DETR<br>
-HRNet<br>
-HRNet-based</p>
+<hr>
+<h2 id="基本常识">基本常识</h2>
+<ol>
+<li>论文中的<code>1x</code>代表以batch size为16，在COCO数据集上训练90k个iter，约为118287张图片上的12.17个epoch。2x等以此类推。</li>
+<li>anchor：所有的anchor都参与classification分支的反向传播，此时的损失函数是在K+1类上的交叉熵损失函数，但只有positive anchor才参与regression分支的反向传播。positive的常用定义是IoU阈值，当然也存在一些根据近邻程度的匹配算法。</li>
+<li>Anchor的设计存在很多定义方式，但都是在初始anchor(eg 16*16的正方形)上进行变换。<br>
+在单feature map上(eg Faster RCNN)，可设定areas和aspect ratio；在多feature map上(eg FPN)，可在aspect ratio和areas之外设定scale。<br>
+areas指面积，对应的是边长扩大比例(eg2的3、4、5次幂)，这样可得到原图像上对应的anchor大小eg 128*128，256*256，512*512。aspect ratio是在面积不变的情况下改变长宽比(eg 1:2，1:1，2:1)，以128*128为例可得到eg 184*96，128*128，96*184。这样就有三种面积，每种面积下三种比例，故RPN在每个点处生成9个候选框。<br>
+scale指anchor的缩放比例，eg<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>0</mn></msup><mi mathvariant="normal">，</mi><msup><mn>2</mn><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mn>3</mn></mrow></msup><mo>=</mo><mn>1.26</mn><mi mathvariant="normal">，</mi><msup><mn>2</mn><mrow><mn>2</mn><mi mathvariant="normal">/</mi><mn>3</mn></mrow></msup><mo>=</mo><mn>1.59</mn></mrow><annotation encoding="application/x-tex">2^{0}，2^{1/3}=1.26，2^{2/3}=1.59</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">/</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">2</span><span class="mord">6</span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">/</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">9</span></span></span></span>。当然这也和FPN中有多种尺度的特征图输出有关。</li>
+</ol>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -435,10 +508,16 @@ HRNet-based</p>
 <li><a href="#2-fairretinanet-focal-loss-for-dense-object-detection">(2) (FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></li>
 <li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
 <li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
+<li><a href="#5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) (2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B">基础模型</a>
+<ul>
+<li><a href="#1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) (2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></li>
 <li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
 </ul>
 </li>
-<li><a href="#paper-list">Paper List</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">基本常识</a></li>
 </ul>
 </li>
 </ul>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://FuNian788.github.io</id>
     <title>Zexian Li</title>
-    <updated>2021-04-28T07:05:22.104Z</updated>
+    <updated>2021-05-11T02:47:45.391Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://FuNian788.github.io"/>
     <link rel="self" href="https://FuNian788.github.io/atom.xml"/>
@@ -10,6 +10,160 @@
     <logo>https://FuNian788.github.io/images/avatar.png</logo>
     <icon>https://FuNian788.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Zexian Li</rights>
+    <entry>
+        <title type="html"><![CDATA[论文简读]]></title>
+        <id>https://FuNian788.github.io/post/paper-easy-read/</id>
+        <link href="https://FuNian788.github.io/post/paper-easy-read/">
+        </link>
+        <updated>2021-05-10T05:59:27.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-mlp-mixer-an-all-mlp-architecture-for-vision">(1) MLP-Mixer: An all-MLP Architecture for Vision</a></li>
+<li><a href="#2-acnet-strengthening-the-kernel-skeletons-for-powerful-cnn-via-asymmetric-convolution-blocks">(2) ACNet: Strengthening the Kernel Skeletons for Powerful CNN via Asymmetric Convolution Blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="1-mlp-mixer-an-all-mlp-architecture-for-vision">(1) <a href="https://arxiv.org/pdf/2105.01601.pdf">MLP-Mixer: An all-MLP Architecture for Vision</a></h3>
+<p><strong>Make MLP great again</strong>🌝</p>
+<p>MLP-Mixer包含两种MLP：token-mixing MLP每次处理单个通道，进行不同patch间的信息交换(图中一个patch使用一种颜色)；channel-mixing MLP每次处理单个patch，进行通道上的信息交换。<br>
+如下图所示，每个Mixer Layer包含一个token-mixing MLP(MLP1)和channel-mixing MLP(MLP2)。具体地，每个MLP包含两个fc层和一个GELU层(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi><mi>E</mi><mi>L</mi><mi>U</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>x</mi><mi>P</mi><mo>(</mo><mi>X</mi><mo>≤</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>x</mi><mi mathvariant="normal">Φ</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">GELU(x) = xP(X\le x) = x\Phi (x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">x</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">x</span><span class="mord">Φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>)；token-mixing MLP共享参数，<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/mixer_1.png" alt="mixer结构" loading="lazy"><br>
+Depthwise Separable Convolution将卷积分成depthwise convolution和pointwise convolution两步来实现，这很有那味。但Depthwise Separable Convolution对不同通道使用不同卷积核，而Mixer对所有通道均使用相同的卷积核。</p>
+<p>伪代码如下所示：<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/mixer_2.png" alt="伪代码" loading="lazy"><br>
+对于(N, H=224, W=224, C)的原图片，设patch大小为(s_height=16, s_width=16)，可得到h=14*w=14个patch。<br>
+MlpMixer中，Line36相当于对(N, H, W, C)的原图片，挨个patch处理其特征，输出(N, h, w, c)的特征，Line37将其resize到(N, hw, c)。将该特征送到token-mixing MLP中时，将其reshape到(N, hw, c)后接两个通道数为c的fc，将该特征送到channel-mixing时，将其reshape到(N, c, hw)后接两个通道数为hw的fc。</p>
+<h3 id="2-acnet-strengthening-the-kernel-skeletons-for-powerful-cnn-via-asymmetric-convolution-blocks">(2) <a href="https://arxiv.org/pdf/1908.03930.pdf">ACNet: Strengthening the Kernel Skeletons for Powerful CNN via Asymmetric Convolution Blocks</a></h3>
+<p><strong>重参数化：轻微延长训练时间以在不涨参数量的情况下获得涨点。</strong><br>
+举例，<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ACNet_1.png" alt="重参数化" loading="lazy"></p>
+<p>宏观上来看ACNet分为训练和推理阶段，训练阶段重点在于强化特征提取，实现效果提升。而测试阶段重点在于卷积核融合，不增强任何计算量。</p>
+<p>训练阶段：因为[公式]卷积是大多数网络的基础组件，因此ACNet的实验都是针对[公式]卷积进行的。训练阶段就是将现有网络中的每一个[公式]卷积换成[公式]卷积+[公式]卷积+[公式]卷积共三个卷积层，最终将这三个卷积层的计算结果进行融合获得卷积层的输出。因为这个过程中引入的[公式]卷积和[公式]卷积是非对称的，所以将其命名为Asymmetric Convolution。<br>
+推理阶段：如Figure1右图所示，这部分主要是对三个卷积核进行融合。这部分在实现过程中就是使用融合后的卷积核参数来初始化现有的网络，因此在推理阶段，网络结构和原始网络是完全一样的了，只不过网络参数采用了特征提取能力更强的参数即融合后的卷积核参数，因此在推理阶段不会增加计算量。<br>
+总结一下就是ACNet在训练阶段强化了原始网络的特征提取能力，在推理阶段融合卷积核达到不增加计算量的目的。虽然训练时间增加了一些时间，但却换来了对推理无痛的精度提升，怎么看都是一笔非常划算的交易。下面的Table3展示出来，对于AlexNet提升了比较多，而对ResNet和DenseNet提升不到一个百分点，不过考虑到这个提升是白赚的也还是非常值得肯定的。</p>
+<p>换取不涨参数的</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Transformer in CV]]></title>
+        <id>https://FuNian788.github.io/post/transformer-in-cv/</id>
+        <link href="https://FuNian788.github.io/post/transformer-in-cv/">
+        </link>
+        <updated>2021-05-07T09:25:59.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-2017-nipsattention-is-all-you-need">(1) (2017 NIPS)Attention is all you need</a></li>
+<li><a href="#2-fairdetr-end-to-end-object-detection-with-transformers">(2) (FAIR)DETR: End-to-End Object Detection with Transformers</a></li>
+<li><a href="#3-2021-iclr-oraldeformable-detr-deformable-transformers-for-end-to-end-object-detection">(3) (2021 ICLR oral)Deformable DETR: Deformable Transformers for End-to-End Object Detection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="1-2017-nipsattention-is-all-you-need">(1) <a href="https://arxiv.org/abs/1706.03762">(2017 NIPS)Attention is all you need</a></h3>
+<figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/object_detection/transformer_1.png" alt="transformer结构图" loading="lazy"></figure>
+<h3 id="2-fairdetr-end-to-end-object-detection-with-transformers">(2) <a href="https://arxiv.org/abs/2005.12872">(FAIR)DETR: End-to-End Object Detection with Transformers</a></h3>
+<ul>
+<li>
+<p>Motivation</p>
+</li>
+<li>
+<p>主要贡献<br>
+把目标检测任务视为一个直接的集合预测问题。<br>
+简化了检测流程，移除了很多人为设计的模块eg NMS、基于先验知识的方法eg anchor生成。</p>
+</li>
+<li>
+<p>overall</p>
+</li>
+<li>
+<p>实现细节</p>
+</li>
+</ul>
+<p>匈牙利算法：<br>
+参考Pecco的一篇<a href="https://zhuanlan.zhihu.com/p/96229700">知乎博客</a>，可将匈牙利算法的核心代码展示如下：</p>
+<pre><code class="language-C">int M, N;            //M, N分别表示左、右侧集合的元素数量
+int Map[MAXM][MAXN]; //邻接矩阵存图
+int p[MAXN];         //记录当前右侧元素所对应的左侧元素
+bool vis[MAXN];      //记录右侧元素是否已被访问过
+bool match(int i)
+{
+    for (int j = 1; j &lt;= N; ++j)
+        if (Map[i][j] &amp;&amp; !vis[j]) //有边且未访问
+        {
+            vis[j] = true;                 //记录状态为访问过
+            if (p[j] == 0 || match(p[j])) //如果暂无匹配，或者原来匹配的左侧元素可以找到新的匹配
+            {
+                p[j] = i;    //当前左侧元素成为当前右侧元素的新匹配
+                return true; //返回匹配成功
+            }
+        }
+    return false; //循环结束，仍未找到匹配，返回匹配失败
+}
+int Hungarian()
+{
+    int cnt = 0;
+    for (int i = 1; i &lt;= M; ++i)
+    {
+        memset(vis, 0, sizeof(vis)); //重置vis数组
+        if (match(i))
+            cnt++;
+    }
+    return cnt;
+}
+</code></pre>
+<ul>
+<li>改进/Challenge/idea/Que</li>
+</ul>
+<h3 id="3-2021-iclr-oraldeformable-detr-deformable-transformers-for-end-to-end-object-detection">(3) <a href="https://arxiv.org/abs/2010.04159">(2021 ICLR oral)Deformable DETR: Deformable Transformers for End-to-End Object Detection</a></h3>
+<ul>
+<li>
+<p>前导知识<br>
+ICCV 2017 Deformable Convolutional Networks提出了Deformable conv，如下图所示，deformable conv为基本卷积时围绕中心规整排列的所有采样点均叠加一个位置offset，在移动后的位置进行信息采样，能有效捕获物体的关键信息。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/deform_conv_1.png" alt="deformable conv" loading="lazy"><br>
+多层下基本卷积和deformable conv的区别示意图：<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/deform_conv_2.png" alt="deformable conv示意图" loading="lazy"><br>
+该方法很容易理解，但代码实现时需要考虑：<br>
+Q1 如何将deformable conv变成单独的一个层？<br>
+A1 不对卷积核进行迁移，而是重新整合feature map，再进行正常的卷积。<br>
+Q2 如何有效实现反向传播？<br>
+feature map整合时，由于存在像素级偏移操作，而偏移量可能为浮点数类型。</p>
+</li>
+<li>
+<p>Motivation<br>
+DETR训练收敛速度慢：注意力模块在初始化时，对feature map所有位置给了近乎相同的权重，收敛就会很慢；</p>
+</li>
+</ul>
+<p>，在小物体检测效果不佳。前者是因为</p>
+<p>DETR受Transformer Attention module的限制，其收敛速度较慢，特征的分辨率也受限。</p>
+<p>文章是detr的改进，主要解决detr收敛慢的问题，此外由于有限的特征空间分辨率，在检测小物体方面的性能相对较低<br>
+作者将原始detr的encoder部分换成deformable attention module，感觉这一点很重要，此外引入了多尺度的特征，来提升小物体的检出性能。</p>
+<p>较慢的收敛速度和</p>
+<ul>
+<li>
+<p>主要贡献</p>
+</li>
+<li>
+<p>overall</p>
+</li>
+<li>
+<p>实现细节</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[目标检测论文阅读]]></title>
         <id>https://FuNian788.github.io/post/detection/</id>
@@ -29,10 +183,16 @@
 <li><a href="#2-fairretinanet-focal-loss-for-dense-object-detection">(2) (FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></li>
 <li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
 <li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
+<li><a href="#5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) (2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B">基础模型</a>
+<ul>
+<li><a href="#1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) (2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></li>
 <li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
 </ul>
 </li>
-<li><a href="#paper-list">Paper List</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">基本常识</a></li>
 </ul>
 </li>
 </ul>
@@ -56,22 +216,34 @@
 <h2 id="评价指标">评价指标</h2>
 <p>mAP</p>
 <h2 id="常用数据集">常用数据集</h2>
-<p>MS COCO：包含80类物体。trainval35k部分的115K图片用于训练，minival部分的5k图片用于validation。</p>
+<p>MS COCO：包含80类物体。数据集划分如下：train有80k图片，val有40k图片。<br>
+MSCOCO 2017： training118k validation5k(val) testing about20k无标注(test-dev)<br>
+trainval35k部分的115K图片(train的80k图片+)用于训练，minival部分的5k图片用于validation。</p>
 <h2 id="指标比对">指标比对</h2>
-<p>以THUMOS-14数据集IoU=0.5作为基准指标，比较各方法的mAP如下：</p>
+<p>以COCO数据集AP作为基准指标，比较各方法如下：</p>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">ID</th>
 <th style="text-align:center">paper</th>
-<th style="text-align:center">mAP</th>
+<th style="text-align:center">AP</th>
+<th style="text-align:center">AP50</th>
+<th style="text-align:center">AP75</th>
+<th style="text-align:center">APs</th>
+<th style="text-align:center">APm</th>
+<th style="text-align:center">APl</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center">SCNN</td>
-<td style="text-align:center">19.0%</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">YOLOF</td>
+<td style="text-align:center">37.7</td>
+<td style="text-align:center">56.9</td>
+<td style="text-align:center">40.6</td>
+<td style="text-align:center">19.1</td>
+<td style="text-align:center">42.5</td>
+<td style="text-align:center">53.2</td>
 </tr>
 </tbody>
 </table>
@@ -127,14 +299,6 @@ YOLOF在C5 feature的每个位置上构建5个anchor，尺度分别为{32, 64, 1
 <ul>
 <li>改进/Challenge/idea/Que</li>
 </ul>
-<ol>
-<li>imbalance problem on positive anchors<br>
-positive anchor有什么用呢？感觉没弄透 loss是什么样子的，是对每个anchor的feature进行交叉熵分类嘛？<br>
-set anchor；如果anchor与GT iou &gt; 0.5，认为是positive anchor，只有这样的anchor才能参与BP？在分治策略基础上，每个GT都可在不同层级上产生许多positive anchor？<br>
-不同的matching策略是怎么样的呢？会有什么区别呢？<br>
-anhocr的overlap会怎样影响整个流程呢？</li>
-<li>’1×’ schedule这是啥</li>
-</ol>
 <hr>
 <h3 id="2-fairretinanet-focal-loss-for-dense-object-detection">(2) <a href="https://arxiv.org/abs/1708.02002">(FAIR)RetinaNet: Focal Loss for Dense Object Detection</a></h3>
 <ul>
@@ -149,15 +313,22 @@ one-stage方法和two-stage方法的核心区别在于：two-stage送去分类�
 </li>
 <li>
 <p>overall<br>
+对于交叉熵损失函数，在真值类别时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>=</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>(</mo><mi>P</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">Loss = -log(P)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span>，在其他类别时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>=</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">Loss = -log(1 - P)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span>。作者认为在此中，简单样本带来的loss不足够小，当简单的背景样本过于多的时候还是可以主宰整个训练过程。为了将训练的注意力集中在难样本上，作者提出了如下图的focal loss。<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/retinanet_1.png" alt="positive anchor均衡性" loading="lazy"><br>
-<img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></p>
+假设模型输出概率<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>。对应地，在两种情况下分析模型处理简单样本的过程：在真值类别下，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>很大，接近于1，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>=</mo><mi>P</mi></mrow><annotation encoding="application/x-tex">P_{t} = P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>，这时损失函数的值就超小；在其他类别下，预测得很准时<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>应该很小，接近于0，此时的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>P</mi><mi>t</mi></msub><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi></mrow><annotation encoding="application/x-tex">P_{t} = 1 - P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>还是很大，损失函数仍然很小。反之，处理难样本时的损失函数没有被削减。</p>
 </li>
-<li>
-<p>实现细节</p>
-</li>
-<li>
-<p>改进/Challenge/idea/Que</p>
-</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></figure>
+<ul>
+<li>实现细节</li>
+</ul>
+<ol>
+<li>anchor<br>
+在每个位置上，</li>
+</ol>
+<p>在不同的输出特征图上限制检出物体的大小。</p>
+<ul>
+<li>改进/Challenge/idea/Que</li>
 </ul>
 <hr>
 <h3 id="3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) <a href="https://arxiv.org/abs/1904.01355">(2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></h3>
@@ -262,10 +433,11 @@ RetinaNet回归4个offset(x, y, w, h)，FCOS回归到边界的四个距离(l, r,
 </li>
 <li>
 <p>性能对比<br>
-看每一行，分类时定义正负样本的方法对齐后，尽管回归方式不同，RetinaNet和FCOS(更进一步地，anchor-based和anchor-free)性能却基本相同；<br>
+实验中，只改变了定义样本的方式，但数据可以从多个角度进行分析：<br>
 看每一列，回归的方法确定后，RetinaNet和FCOS均会因定义样本的方式而产生较大的性能gap。<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/ATSS_3.png" alt="RetinaNet FCOS性能对比" loading="lazy"><br>
-以上实验说明，anchor-based和anchor-free方法性能差距的核心在于<strong>训练时定义正负样本的方式不同</strong>。</p>
+以上实验说明，anchor-based和anchor-free方法性能差距的核心在于<strong>训练时定义正负样本的方式不同</strong>。<br>
+PS 看每一行，分类时定义正负样本的方法对齐后，尽管回归方式不同，RetinaNet和FCOS(更进一步地，anchor-based和anchor-free)性能却基本相同。</p>
 </li>
 </ol>
 <ul>
@@ -281,6 +453,59 @@ FCOS提出的定义正负样本的方法优于之前基于IoU的方法，但这�
 <p>实验结果<br>
 <img src="https://FuNian788.github.io/post-images/object_detection/ATSS_6.png" alt="ATSS实验结果" loading="lazy"><br>
 实验结果表现出了有趣的insight。第一行是原始RetinaNet(每个位置9个anchor)，后几行都是每个位置1个anchor。实验结果表明，对于传统的IoU筛选策略，在每个位置多设置一些anchor是有涨点的(37.0 -&gt; 38.4)。然而在优秀的筛选策略ATSS下，每个位置有一个anchor就够了，设置很多不同scale和ratio的anchor反倒没有什么用。</p>
+</li>
+<li>
+<p>改进/Challenge/idea/Que</p>
+</li>
+</ul>
+<hr>
+<h3 id="5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) <a href="https://arxiv.org/abs/1908.07919">(2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></h3>
+<ul>
+<li>
+<p>Motivation<br>
+现有方法常先使用卷积层将输入编码至low-resolution representation，再从中恢复出high-resolution representation(全流程eg U-Net)。然而高分辨率信息对于position-sensitive的任务十分重要。</p>
+</li>
+<li>
+<p>主要贡献<br>
+HR-Net在全阶段都维持了高分辨率表示，从而获取更丰富的语义信息和更准确的空间位置。<br>
+核心部件：<br>
+(1) <strong>并行</strong>的高分辨率到低分辨率的卷积流(connect the high-to-low resolution convolution streams in parallel)<br>
+(2) 重复融合多分辨率流的信息(repreatedly exchange the information across resolutions)</p>
+</li>
+<li>
+<p>overall<br>
+如下图所示，第一行一直保持高分辨率信息。四个阶段中，每阶段都在增加稍低分辨率的并行卷积流(一行行增加)，同时通过不同分辨率卷积流的信息交换实现多分辨率融合。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_1.png" alt="overall" loading="lazy"><br>
+如下图所示，融合不同分辨率特征的方法是有区别的：高分辨率到低分辨率使用n个stride为2的3*3卷积进行下采样；同分辨率直接相加；低分辨率到高分辨率使用n个(双线性差值+1*1卷积层)实现上采样和通道对齐。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_2.png" alt="信息融合" loading="lazy"></p>
+</li>
+</ul>
+<p>HRNetV1，HRNetV2和HRNetV2p的结构图如下所示。HRNetV1只输出高分辨率流，用于人体姿态估计；HRNetV2将低分辨率流上采样后将四个流的特征叠加起来，用于语义分割；HRNetV2p在HRNetV2的基础上多了下采样的过程，用于目标检测。<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/HR-Net_3.png" alt="backbone" loading="lazy"></p>
+<ul>
+<li>改进/Challenge/idea/Que<br>
+Related Work中包含了很多文章，eg如何从低分辨率信息中学习，如何重建高分辨率信息，如何维持高分辨率信息，可以好好学习一下。</li>
+</ul>
+<hr>
+<hr>
+<h2 id="基础模型">基础模型</h2>
+<h3 id="1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) <a href="https://arxiv.org/abs/1611.05431">(2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></h3>
+<ul>
+<li>Motivation<br>
+VGG &amp; ResNet这类网络通过堆叠相同形状的block来构建深网络，且这种简洁的策略在不同数据集上表现出了优秀的鲁棒性；尽管Inception类网络可以在特定数据上以较低的运算开销展现卓越的性能，但其手工设计痕迹明显，任务迁移时需重新精调网络结构和超参数，成本较高。如何合并这两者？</li>
+</ul>
+<p>Inception结构通常遵循split-&gt;transform-&gt;merge范式，这是否是Inception成功的关键？(split: 使用许多1*1卷积将输入拆成多个低通道embedding；transform: 使用一些3*3和5*5的卷积来转换信息；merge: 使用通过concate将上述输出综合)</p>
+<ul>
+<li>
+<p>主要贡献<br>
+提出ResNeXt，既使用了repeat layer策略(from VGG &amp; ResNet)，又以一种简单、可扩展的方式利用split-transform-merge策略(from Inception)。</p>
+</li>
+<li>
+<p>overall<br>
+<img src="https://FuNian788.github.io/post-images/object_detection/ResNeXt_1.png" alt="backbone" loading="lazy"></p>
+</li>
+<li>
+<p>实现细节</p>
 </li>
 <li>
 <p>改进/Challenge/idea/Que</p>
@@ -305,14 +530,16 @@ FCOS提出的定义正负样本的方法优于之前基于IoU的方法，但这�
 <p>改进/Challenge/idea/Que</p>
 </li>
 </ul>
-<h2 id="paper-list">Paper List</h2>
-<p>ATSS<br>
-RetinaNet 看看anchor的设计方法<br>
-FCOS<br>
-DETR<br>
-Deformable DETR<br>
-HRNet<br>
-HRNet-based</p>
+<hr>
+<h2 id="基本常识">基本常识</h2>
+<ol>
+<li>论文中的<code>1x</code>代表以batch size为16，在COCO数据集上训练90k个iter，约为118287张图片上的12.17个epoch。2x等以此类推。</li>
+<li>anchor：所有的anchor都参与classification分支的反向传播，此时的损失函数是在K+1类上的交叉熵损失函数，但只有positive anchor才参与regression分支的反向传播。positive的常用定义是IoU阈值，当然也存在一些根据近邻程度的匹配算法。</li>
+<li>Anchor的设计存在很多定义方式，但都是在初始anchor(eg 16*16的正方形)上进行变换。<br>
+在单feature map上(eg Faster RCNN)，可设定areas和aspect ratio；在多feature map上(eg FPN)，可在aspect ratio和areas之外设定scale。<br>
+areas指面积，对应的是边长扩大比例(eg2的3、4、5次幂)，这样可得到原图像上对应的anchor大小eg 128*128，256*256，512*512。aspect ratio是在面积不变的情况下改变长宽比(eg 1:2，1:1，2:1)，以128*128为例可得到eg 184*96，128*128，96*184。这样就有三种面积，每种面积下三种比例，故RPN在每个点处生成9个候选框。<br>
+scale指anchor的缩放比例，eg<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>0</mn></msup><mi mathvariant="normal">，</mi><msup><mn>2</mn><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mn>3</mn></mrow></msup><mo>=</mo><mn>1.26</mn><mi mathvariant="normal">，</mi><msup><mn>2</mn><mrow><mn>2</mn><mi mathvariant="normal">/</mi><mn>3</mn></mrow></msup><mo>=</mo><mn>1.59</mn></mrow><annotation encoding="application/x-tex">2^{0}，2^{1/3}=1.26，2^{2/3}=1.59</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">/</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">2</span><span class="mord">6</span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">/</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">9</span></span></span></span>。当然这也和FPN中有多种尺度的特征图输出有关。</li>
+</ol>
 ]]></content>
     </entry>
     <entry>
@@ -1203,496 +1430,6 @@ loss = loss_func(output * mask, gt_label * mask)
 <li>可在模型参数位置传入列表以对多个模型的参数进行优化。<br>
 <code>optimizer = optim.Adam([model_coarse.parameters(), model_fine.parameters()], lr=opt.learning_rate, weight_decay=opt.weight_decay_l2)</code></li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Deep Learning杂记]]></title>
-        <id>https://FuNian788.github.io/post/deep-learning-misc/</id>
-        <link href="https://FuNian788.github.io/post/deep-learning-misc/">
-        </link>
-        <updated>2020-09-17T03:19:27.000Z</updated>
-        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BD%92%E4%B8%80%E5%8C%96">数据归一化</a></li>
-<li><a href="#bn%E5%92%8C%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%BF%80%E6%B4%BB%E5%B1%82%E7%9A%84%E5%89%8D%E5%90%8E%E9%A1%BA%E5%BA%8F">BN和非线性激活层的前后顺序</a></li>
-<li><a href="#precision-recall">precision &amp; recall</a></li>
-<li><a href="#aran-map">AR@AN &amp; mAP</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E6%8B%9F%E5%90%88%E8%90%BD%E5%9C%B0model%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E6%A1%88%E4%BE%8B">如何拟合落地model时遇到的特殊案例</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</p>
-<h3 id="数据归一化">数据归一化</h3>
-<p>数据归一化的核心形式：<strong>减去均值，除以标准差，施以线性映射</strong>。不同归一化方法的主要区别在于操作的feature map维度不同。归一化方法的示意图如下所示：BN是对每个通道内归一化；GN是对每个样本的几个通道进行归一化；LN和IN是GN的变种，LN是对每个样本内所有通道归一化，IN是对每个样本的每个通道内归一化。<br>
-<img src="https://FuNian788.github.io/post-images/1603075146545.jpg" alt="归一化示意图" loading="lazy"><br>
-单纯使数据具有0均值和单位方差是不够的，这种规范化甚至可能会降低层的表达能力，例如使用Sigmoid激活函数时，受限于数据的范围，激活函数只有近似线性的部分被使用；同时底层神经元的努力不应被简单粗暴地通过归一化方式调整，为此添加两个线性参数(平移、缩放)来维持表达能力(将原数据x增强为ax+b形式)。<br>
-更多有关归一化的知识可参照Juliuszh的博客<a href="https://zhuanlan.zhihu.com/p/33173246">详解深度学习中的Normalization，BN/LN/WN</a>，讲的非常之好！</p>
-<h3 id="bn和非线性激活层的前后顺序">BN和非线性激活层的前后顺序</h3>
-<p>先说结论，实测时将BN层放在ReLU层的后面的结果通常较好(尽管作者在论文中将ReLU放在BN层的后边)。<br>
-虽然没有明确的解释，但我们可以从玄学角度进行一定的思考：<br>
-(1)如tanh和sigmoid函数，相较于x的变化，y的变化比较小，容易出现梯度衰减的问题，此时在非线性激活前进行BN，可在一定程度上缓解梯度衰减；但ReLU的函数图像和前二者相去甚远，先ReLU后BN可能会有更好的平滑作用；<br>
-(2)对于后续的层，BN和ReLU的组合主要完成归一化操作。考虑到BN中两个可学习参数，先ReLU后BN的网络参数更满足0均值和单位方差，而先BN后ReLU可能会破坏这种数据归一格式。</p>
-<h3 id="precision-recall">precision &amp; recall</h3>
-<p>precision = TP / (TP+FP)<br>
-recall = TP / (TP+FN)<br>
-FP是错判成正样本的样本(实际为负样本)，precision准确率代表模型输出中实际正样本的比例；<br>
-FN是错判成负样本的样本(实际为正样本)，recall召回率代表正样本被模型检出的比例。</p>
-<h3 id="aran-map">AR@AN &amp; mAP</h3>
-<p>AR@AN即Average Recall vs. Average Number of Proposals per Video，由于TAP任务只需要提出候选框而不需要进一步分类，故可用此指标衡量找的框是否够全。详细信息及代码可参照：<a href="http://activity-net.org/challenges/2019/tasks/anet_proposals.html">activity-net页面</a>。<br>
-mAP即mean average precision，AP是在某一类别中PR曲线与坐标轴围成的面积，mAP是在所有种类中的均值。</p>
-<h3 id="如何拟合落地model时遇到的特殊案例">如何拟合落地model时遇到的特殊案例</h3>
-<ol>
-<li>trick/先验经验/人为设计特征</li>
-<li>使用大量同类数据来进一步训练（金钱开销大）</li>
-<li>虚拟引擎复现特定环境以产生数据（金钱时间开销大、实现困难）</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python杂记]]></title>
-        <id>https://FuNian788.github.io/post/python-misc/</id>
-        <link href="https://FuNian788.github.io/post/python-misc/">
-        </link>
-        <updated>2020-09-17T03:18:28.000Z</updated>
-        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#wget%E5%9C%A8arxiv%E4%B8%8B%E8%BD%BD%E8%AE%BA%E6%96%87">wget在arxiv下载论文</a></li>
-<li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
-<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
-<li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
-<li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
-<li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>
-<li><a href="#python%E5%AD%97%E7%AC%A6%E4%B8%B2">Python字符串</a></li>
-<li><a href="#python%E5%AF%BC%E5%85%A5%E6%96%B9%E5%BC%8F">Python导入方式</a></li>
-<li><a href="#python3%E8%BF%AD%E4%BB%A3%E5%99%A8iterator%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8generator">Python3迭代器(iterator)和生成器(generator)</a></li>
-<li><a href="#python-zip%E5%87%BD%E6%95%B0">Python zip函数</a></li>
-<li><a href="#python3-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7">Python3 异常捕获</a></li>
-<li><a href="#python%E6%8E%92%E5%BA%8F">Python排序</a></li>
-<li><a href="#python-http%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">Python http局域网传输文件</a></li>
-<li><a href="#python-super%E5%87%BD%E6%95%B0">Python super函数</a></li>
-<li><a href="#numpypytorch%E4%BA%A7%E7%94%9F%E9%9A%8F%E6%9C%BA%E6%95%B0">numpy/Pytorch产生随机数</a></li>
-<li><a href="#numpy%E7%9A%84%E8%BD%B4">numpy的轴</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8try%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6">使用try读取文件</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</p>
-<h3 id="wget在arxiv下载论文">wget在arxiv下载论文</h3>
-<pre><code class="language-Shell">wget --user-agent=Lynx https://arxiv.org/pdf/2103.09460.pdf
-</code></pre>
-<h3 id="遍历字典">遍历字典</h3>
-<p>for key in dict.keys()<br>
-for value in dict.values()<br>
-for key, value in dict.items()</p>
-<h3 id="scipy模块插值使用方法fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</h3>
-<p><code>scipy.interpolate.interp1d</code>函数可实现一维尺度的插值，函数输入如下所示：<code>scipy.interpolate.interp1d(x, y, kind='linear', axis=- 1, copy=True, bounds_error=None, fill_value=nan, assume_sorted=False)</code><br>
-输入x为1-D矩阵，输入y为N-D矩阵，</p>
-<pre><code class="language-Python">    Arguements:
-        feature (tensor[C=opt.feature_dimension=2048][T=temporal_length]): proposed proposal's clipped-feature.
-        num_sample (int[1]): number of sample points.
-
-    Return Arguements:
-        feature_spfp (tensor[C=opt.feature_dimension=2048][T=num_sample]): interpolation feature after SPFP.
-    &quot;&quot;&quot;
-
-    feature_dimension, temporal_length = feature.shape
-    assert feature_dimension == 2048
-
-    # For each channel, learn from x: range(T) and y: feature value(shape:[T]).
-    # Then use linear interpolation to fit sample points and get its possibel value.
-    spfp = scipy.interpolate.interp1d(range(temporal_length), feature, axis=1)
-    feature_spfp = np.zeros((feature_dimension, num_sample), dtype=np.float32)
-    sample_indexs = [float(i + np.random.random()) / num_sample * (temporal_length - 1) for i in range(num_sample)]
-
-    for i, sample_index in enumerate(sample_indexs):
-        feature_spfp[:,i] = spfp(sample_index)   
-
-    return feature_spfp
-</code></pre>
-<h3 id="python中队列的使用方法">Python中队列的使用方法</h3>
-<ol>
-<li>使用queue</li>
-</ol>
-<pre><code class="language-Python">from queue import Queue
-q = Queue() 
-q.put(node) # in
-q.get()     # out
-</code></pre>
-<ol start="2">
-<li>使用deque</li>
-</ol>
-<pre><code class="language-Python">import collections
-q = collections.deque() 
-q.append()   # in
-q.popleft()  # out
-</code></pre>
-<h3 id="python2和python3除法">Python2和Python3除法</h3>
-<p>Python2中<code>/</code>除法时，两个int相除为整除法，返回向下取整的整数值；参数中若有float变量则进行正常的float除法，返回真float值。Python3中<code>/</code>除法全返回float真值。</p>
-<pre><code class="language-Python">#             Python2     Python3 
-print(3/2)      # 1         1.5
-print(-3/2)     # -2        -1.5
-print(3/2.0)    # 1.5       1.5
-print(-3.0/2)   # -1.5      -1.5
-</code></pre>
-<p>Python2和Python3中<code>//</code>除法都寓意整除，均为：两个int相除时返回向下取整的整数值，参数中若有float变量则返回向下取整的整数的float形。</p>
-<pre><code class="language-Python">#             Python2     Python3 
-print(3//2)      # 1         1
-print(-3//2)     # -2        -2
-print(3//2.0)    # 1.0       1.0
-print(-3.0//2)   # -2.0      -2.0
-</code></pre>
-<h3 id="python3中列表-元组-字典和集合">Python3中列表、元组、字典和集合</h3>
-<ol>
-<li>列表(list)：使用<code>[]</code>或list创建，支持增删查改、索引等操作。<br>
-常用操作如下表所示：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">函数</th>
-<th style="text-align:left">方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">list.append(obj)</td>
-<td style="text-align:left">在列表末尾添加单个对象</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">list.extend(seq)</td>
-<td style="text-align:left">在列表末尾添加另一个序列内部的所有内容</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">list.insert(index, obj)</td>
-<td style="text-align:left">将对象插入列表特定位置</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">list.pop([index=-1])</td>
-<td style="text-align:left">移除列表中的一个元素(默认最后一个)，并返回该元素的值</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center">list.remove(obj)</td>
-<td style="text-align:left">移除列表中某值的第一个匹配项</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">list.index(value)</td>
-<td style="text-align:left">列表中第一个匹配某值的索引位置</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">list.count(obj)</td>
-<td style="text-align:left">统计某个元素在列表中出现的次数</td>
-</tr>
-<tr>
-<td style="text-align:center">8</td>
-<td style="text-align:center">list.sort(key=None, reverse=False)</td>
-<td style="text-align:left">列表排序</td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">list.reverse()</td>
-<td style="text-align:left">反向列表中元素</td>
-</tr>
-<tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center">list.copy()</td>
-<td style="text-align:left">复制列表</td>
-</tr>
-<tr>
-<td style="text-align:center">11</td>
-<td style="text-align:center">list.clear()</td>
-<td style="text-align:left">清空列表</td>
-</tr>
-</tbody>
-</table>
-<ol start="2">
-<li>元组(tuple)：使用<code>()</code>或tuple创建，支持增删查、索引等操作。功能均近似于列表，甚至常用操作函数也与列表相同，区别仅在于不可改变元组内部的值。</li>
-<li>字典(dict)：使用<code>{}</code>或dict创建键值对，支持增删查改等操作。需注意键只可出现一次，若出现多次仅记住最后一次输入；键不可变，故键值需采用数字、字符串和元组，不可使用列表作为键。<br>
-常用操作如下表所示：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">函数</th>
-<th style="text-align:left">方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">dict.clear()</td>
-<td style="text-align:left">清空字典</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">dict.items()</td>
-<td style="text-align:left">返回可遍历的(键，值)元组数组</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">dict.keys()</td>
-<td style="text-align:left">返回可遍历的键数组(而非列表)</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">dict.values()</td>
-<td style="text-align:left">返回可遍历的值数组(而非列表)</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center">dict.update(dict2)</td>
-<td style="text-align:left">将dict2的键值对添加到现有dict中</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">dict.get(key, default=None)</td>
-<td style="text-align:left">返回键对应的值，若不存在则返回default</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">dict.setdefault(key, default=None)</td>
-<td style="text-align:left">返回键对应的值，若不存在则添加为default</td>
-</tr>
-<tr>
-<td style="text-align:center">8</td>
-<td style="text-align:center">dict.fromleys(keys[, value])</td>
-<td style="text-align:left">以keys作为键创建字典，所有键均赋值为value</td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">dict.pop(key[, default])</td>
-<td style="text-align:left">删除键key对应的键值对并将值返回，若不存在则需给定default值并返回default值</td>
-</tr>
-<tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center">dict.popitem()</td>
-<td style="text-align:left">删除并返回最后一对键值对</td>
-</tr>
-<tr>
-<td style="text-align:center">11</td>
-<td style="text-align:center">del dict[key]</td>
-<td style="text-align:left">删除键key对应的键值对</td>
-</tr>
-</tbody>
-</table>
-<ol start="4">
-<li>集合(set)：使用<code>{}</code>或set创建，支持增删操作。集合为不重复元素无序集，内部元素需为不可变数据类型(例如数字、字符串、元组等，不支持列表)。<br>
-常用操作如下所示：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">函数</th>
-<th style="text-align:left">方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">set1 - set2 / set1.difference(set2)</td>
-<td style="text-align:left">返回set1包含而set2不包含的元素</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">set1.difference_update(set2,...)</td>
-<td style="text-align:left">将set1变为set1包含而set2不包含的元素</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">set1 | set2 / set1.union(set2,...)</td>
-<td style="text-align:left">返回并集</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">set1 &amp; set2 / set1.intersection(set2,...)</td>
-<td style="text-align:left">返回交集</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center">set1.intersection_update(set2,...)</td>
-<td style="text-align:left">将set1变为交集</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">set1 ^ set2 / set1.symmetric_difference(set2)</td>
-<td style="text-align:left">只单独存在set1或set2内的元素</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">set1.symmetric_difference_update(set2)</td>
-<td style="text-align:left">将set1变为只单独存在set1或set2内的元素</td>
-</tr>
-<tr>
-<td style="text-align:center">8</td>
-<td style="text-align:center">set.add(x)</td>
-<td style="text-align:left">添加元素</td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">set.update(x)</td>
-<td style="text-align:left">添加若干个序列内部所有的内容(可为列表、元组、字典等，字典时添加键)</td>
-</tr>
-<tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center">set.remove(x)</td>
-<td style="text-align:left">移除元素，若不存在则报错</td>
-</tr>
-<tr>
-<td style="text-align:center">11</td>
-<td style="text-align:center">set.discard(x)</td>
-<td style="text-align:left">移除元素，若不存在不报错</td>
-</tr>
-<tr>
-<td style="text-align:center">12</td>
-<td style="text-align:center">set.clear()</td>
-<td style="text-align:left">清空集合</td>
-</tr>
-<tr>
-<td style="text-align:center">13</td>
-<td style="text-align:center">set1.isdisjoint(set2)</td>
-<td style="text-align:left">返回两个集合是否含有相同元素</td>
-</tr>
-<tr>
-<td style="text-align:center">14</td>
-<td style="text-align:center">set1.issubset(set2)</td>
-<td style="text-align:left">返回set1为set2的子集</td>
-</tr>
-<tr>
-<td style="text-align:center">15</td>
-<td style="text-align:center">set1.issuperset(set2)</td>
-<td style="text-align:left">返回set2为set1的子集</td>
-</tr>
-</tbody>
-</table>
-<p>以上部分内容参考runoob.com。</p>
-<h3 id="python字符串">Python字符串</h3>
-<p>Python2中默认的编码方式是ASCII；Python3中默认的编码方式是Unicode字符集+UTF-8编码规则。Python2中还有Unicode字符串和非Unicode字符串混用的情况，例如用<code>unicode()</code>将对象转换成Unicode字符串，用<code>str()</code>将对象转换成非Unicode字符串；而Python3只有Unicode字符串，只剩下<code>str()</code>函数实现所有的功能。<br>
-Python2中字节字符串是str，文本字符串是Unicode；Python3中字节字符串是bytes，文本字符串是str。<br>
-字符串都是以Unicode字符进行存储的。</p>
-<h3 id="python导入方式">Python导入方式</h3>
-<p>Python2在导入时，先在当前目录搜索，再在Python搜索路径中搜索(sys.path)；Python3会直接在Python的搜索路径中搜索，所以有些情况下需使用<code>from . import xx</code>进行重名包的导入。</p>
-<h3 id="python3迭代器iterator和生成器generator">Python3迭代器(iterator)和生成器(generator)</h3>
-<p>迭代(iterable)是访问集合元素的一种方式，迭代器(iterator)是一个可以记住遍历位置的对象。迭代器对象从集合的第一个元素开始访问，每次访问一个元素，在所有的元素均被访问后结束。迭代器只能往前不会后退。<br>
-迭代器都是可迭代的，但不是所有可迭代的对象都是迭代器。<br>
-可用<code>isinstance(something, Iterable)</code>语句来判断具体对象是否为可迭代的，能作用于for循环的对象都是可迭代的，我们常见的列表list、元组tuple、集合set、字典dict、字符串都是可迭代的，一些自定义类也是可迭代的。<br>
-可用<code>isinstance(something, Iterator)</code>语句来判断具体对象是否为迭代器，能作用于<code>next()</code>函数的对象都是迭代器，上述提到的列表list、元组tuple、集合set、字典dict、字符串均不是迭代器，可在自定义类中实现<code>__iter__()</code>与<code>__next__()</code>方法来创建迭代器。<br>
-我们常用<code>iter()</code>方法从可迭代对象构建迭代器，使用<code>next()</code>或常规for语句使迭代器遍历下一个元素。迭代器是一个惰性的数据流，我们并不知道迭代器的长度，只在调用next函数时才去计算并返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
-<pre><code class="language-Python">a = {1, 2, 3, 4}    
-iteration = iter(a)
-for i in range(len(a)):
-    print(next(iteration))
-for i in iteration:
-    print(i)
-</code></pre>
-<p>注：我们常对迭代器使用<code>tqdm(iterator)</code>方法来显示进度。<br>
-使用了yield的Python函数被称为生成器(generator)，生成器一定是一个迭代器。在生成器运行的过程中，每次遇到yield时函数会暂停并保存当前所有的运行信息，同时返回yield的值, 并在下一次执行next()方法时从当前位置继续运行。</p>
-<h3 id="python-zip函数">Python zip函数</h3>
-<pre><code class="language-Python">a = [1,2,3]
-b = (4,5,6)
-c = [7,8,9]
-d = list(zip(a, b, c))
-print(d)    # [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
-</code></pre>
-<h3 id="python3-异常捕获">Python3 异常捕获</h3>
-<ol>
-<li>抛出自定义异常<br>
-可用<code>raise BaseException</code>或<code>raise BaseException(&quot;GUGU&quot;)</code>形式抛出自定义异常。</li>
-<li>捕获异常<br>
-捕获异常的方式可如下所示：</li>
-</ol>
-<pre><code class="language-Python">try:
-    import mymodule
-except:
-# except ImportError:
-# except ImportError as e:
-# except (ImportError, RuntimeError) as e:
-    print(&quot;An Error.&quot;)
-</code></pre>
-<h3 id="python排序">Python排序</h3>
-<p>Python中可通过<code>sorted()</code>函数对任何可迭代对象进行排序，函数返回一个新的排序后数据；具体对于列表这种数据结构，可使用<code>list.sort()</code>方法对原列表进行in-place排序，此方法返回None以防止混淆。<br>
-可通过形参key来制定在列表元素上进行调用的函数，可通过reverse参数制定是否进行降序排序。<br>
-具体使用可参照下例，对同学的成绩进行降序排列，优先看得分，随后看等级：</p>
-<pre><code class="language-Python">student_tuples = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10), ('kate', 'A', 12)]
-print(sorted(student_tuples, key=lambda student: (student[2], -ord(student[1])), reverse=True))
-</code></pre>
-<h3 id="python-http局域网传输文件">Python http局域网传输文件</h3>
-<p>A电脑在准备传输文件的路径下使用<code>python -m http.server</code>创建web sever，B电脑用浏览器打开A电脑的ip地址加上:8000，例如<code>127.0.0.1:8000</code>，即可点击并下载相应文件。</p>
-<h3 id="python-super函数">Python super函数</h3>
-<p>，用于解决多重继承问题。<br>
-在类的继承中，如果重定义某个方法，该方法会覆盖父类的同名方法，但有时我们希望能同时实现父类的功能，<code>super()</code>函数就是用于调用父类功能的一个方法，常用于解决多重继承问题(eg多重继承时，希望祖父的<code>__init__</code>方法只被执行一次)。</p>
-<pre><code class="language-Python">class A(object):   
-    def add(self, x):
-        print(x + 1)
-
-class B(A):
-    def add(self, x):
-        super(B, self).add(x)   # Python 2
-        super().add()           # Python 3
-</code></pre>
-<p>更深入地，在多重继承时，Python遵循类的方法解析顺序(Method Resolution Order，MRO)列表进行解析，详细内容可参照<a href="https://blog.csdn.net/wo198711203217/article/details/84097274">博客</a>。<br>
-在Pytorch定义模型时常常继承<code>torch.nn.Module</code>，如下：</p>
-<pre><code class="language-Python">class MyModel(nn.Module):
-    def __init__(self, in_features):
-        super(MyModel, self).__init__()
-        self.in_features = in_features
-</code></pre>
-<h3 id="numpypytorch产生随机数">numpy/Pytorch产生随机数</h3>
-<p>numpy中随机数功能都在np.random模块下，torch中随机数功能都在torch模块下。</p>
-<p>numpy.random.rand(d0, d1, …, dn)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
-numpy.random.random((d0, d1, …, dn))返回[0, 1)中均匀分布的样本值，函数接收参数元组；<br>
-torch.rand(*size, out=None)返回[0, 1)中均匀分布的样本值，函数接收独立的参数；<br>
-numpy.random.randn(d0, d1, …, dn)是从标准正态分布中返回一个或多个样本值；<br>
-torch.randn(*size, out=None)是从标准正态分布中返回一个或多个样本值；<br>
-np.random.randint(low, high, size)从[low, high)中返回特定格式的整数值；<br>
-torch.randint(low, high, size)从[low, high)中返回特定格式的整数值。</p>
-<pre><code class="language-Python">rand_np = np.random.rand(2, 3)
-random_np = np.random.random((2, 3))
-rand_torch = torch.rand(2, 3)
-randn_np = np.random.randn(2, 3)
-randn_torch = torch.randn(2, 3)
-randint_np = np.random.randint(low=0, high=3, size=(2, 3))
-randint_torch = torch.randint(low=0, high=3, size=(2, 3))
-</code></pre>
-<h3 id="numpy的轴">numpy的轴</h3>
-<p>以此作例：</p>
-<pre><code class="language-Python">import numpy as np
-
-a = np.ones((3,4))* 2
-print(a.sum(axis=0))    # [6. 6. 6. 6.]
-print(a.sum(axis=1))    # [8. 8. 8.]
-print(np.count_nonzero(a, axis=0))  # [3 3 3 3]
-print(np.count_nonzero(a, axis=1))  # [4 4 4]
-print(np.count_nonzero(a.sum(axis=0)))  # 4
-</code></pre>
-<p>当<code>a.sum(axis=0)</code>时，程序执行的是<code>sum(a[:][j])</code>；<br>
-当<code>a.sum(axis=1)</code>时，程序执行的是<code>sum(a[i][:])</code>。</p>
-<h3 id="使用try读取文件">使用try读取文件</h3>
-<pre><code class="language-python">try:
-    with open(fn, 'rb') as f:
-        return pickle.load(f, encoding='utf-8')
-except Exception as ex:
-    print(ex)
-return None
-</code></pre>
 ]]></content>
     </entry>
 </feed>

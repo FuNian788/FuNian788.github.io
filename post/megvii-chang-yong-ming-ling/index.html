@@ -344,7 +344,7 @@ oss rm s3://lizexian/*.py
 <pre><code class="language-Shell">rlaunch --cpu=4 --gpu=4 --memory=30000 -- python3 train.py
 rlaunch --cpu=4 --gpu=4 --memory=30000 -- bash
 rlaunch -P1 --cpu=8 --gpu=8 --memory=200000 -- cvpack2_train --num-gpus 8   # can be killed
-rlaunch --gpu=1 --predict-only
+rlaunch gpu --predict-only
 </code></pre>
 <h3 id="ssh-permission-denied">SSH permission denied</h3>
 <pre><code class="language-Shell">ssh-add ~/.ssh/id_rsa_megvii
