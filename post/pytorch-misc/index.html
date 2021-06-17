@@ -19,20 +19,22 @@
 
 
 
-torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
-Pytorch使用scatter_函数将label变成one hot编码
-DataLoader中collate_fn的使用
-nn.modules和n..." />
+model.state_dict()、model.parameters()和model.named_parameters()的区别
+不同层设置不同学习率
+加载模型
+锁定参数
+torch.nn.module主要功能*（*（DSHFS..." />
   <meta property="og:title" content="Pytorch杂记 - Zexian Li">
   <meta property="og:description" content="
 
 
 
 
-torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
-Pytorch使用scatter_函数将label变成one hot编码
-DataLoader中collate_fn的使用
-nn.modules和n..." />
+model.state_dict()、model.parameters()和model.named_parameters()的区别
+不同层设置不同学习率
+加载模型
+锁定参数
+torch.nn.module主要功能*（*（DSHFS..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/pytorch-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -44,10 +46,11 @@ nn.modules和n..." />
 
 
 
-torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
-Pytorch使用scatter_函数将label变成one hot编码
-DataLoader中collate_fn的使用
-nn.modules和n...">
+model.state_dict()、model.parameters()和model.named_parameters()的区别
+不同层设置不同学习率
+加载模型
+锁定参数
+torch.nn.module主要功能*（*（DSHFS...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/pytorch-misc/">
 
@@ -75,7 +78,7 @@ nn.modules和n...">
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 12 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 14 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -84,6 +87,10 @@ nn.modules和n...">
 <ul>
 <li>
 <ul>
+<li><a href="#modelstate_dict-modelparameters%E5%92%8Cmodelnamed_parameters%E7%9A%84%E5%8C%BA%E5%88%AB">model.state_dict()、model.parameters()和model.named_parameters()的区别</a></li>
+<li><a href="#%E4%B8%8D%E5%90%8C%E5%B1%82%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%AD%A6%E4%B9%A0%E7%8E%87">不同层设置不同学习率</a></li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B">加载模型</a></li>
+<li><a href="#%E9%94%81%E5%AE%9A%E5%8F%82%E6%95%B0">锁定参数</a></li>
 <li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
 <li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
 <li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
@@ -103,6 +110,51 @@ nn.modules和n...">
 </li>
 </ul>
 </p>
+<h3 id="modelstate_dict-modelparameters和modelnamed_parameters的区别">model.state_dict()、model.parameters()和model.named_parameters()的区别</h3>
+<p>parameters()只包含模块的参数，即weight和bias（包括BN的）。<br>
+named_parameters()返回包含模块名和模块的参数的列表，列表的每个元素均是包含layer name和layer param的元组。layer param就是parameters()的内容。<br>
+state_dict()返回包含模块整个状态的字典，除model.parameters()外，还包括model.buffer()如running_mean、running_var等BN相关参数。保存参数时需保存state_dict()。<br>
+值得注意的是，model.state_dict()所存储的模型参数tensor的require_grad都是False，而model.named_parameters()模型参数中的require_grad属性都是True。</p>
+<h3 id="不同层设置不同学习率">不同层设置不同学习率</h3>
+<pre><code class="language-Python">head_params = list(map(id, self.model.head.parameters()))
+base_params = filter(lambda p: id(p) not in head_params, self.model.parameters())
+params = [
+    {&quot;params&quot;: base_params, 'name':'base', &quot;lr&quot;: 3e-4, &quot;weight_decay&quot;: 1e-5}
+    {&quot;params&quot;: self.model.head.parameters(), 'name':'head', &quot;lr&quot;: 3e-5,&quot;weight_decay&quot;: 1e-5},
+]
+self.optimG = AdamW(params)
+# change LR in train process.
+for param_group in self.optimG.param_groups:
+    if param_group['name'] == 'base':
+        param_group['lr'] = learning_rate
+    else:
+        param_group['lr'] = learning_rate / 10
+</code></pre>
+<h3 id="加载模型">加载模型</h3>
+<p>全部加载</p>
+<pre><code class="language-Python">model=ResNet()
+model.load_state_dict(torch.load('ckpt.pth'))
+</code></pre>
+<p>加载部分权重</p>
+<pre><code class="language-Python">model=ResNet()
+model_dict = model.state_dict()
+pretrained_dict = torch.load('ckpt.pth'))
+pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict} 
+model_dict.update(pretrained_dict)
+model.load_state_dict(model_dict)
+</code></pre>
+<h3 id="锁定参数">锁定参数</h3>
+<pre><code class="language-Python"># method1. all parameters
+for p in model.parameters():
+    p.requires_grad = False
+optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=0.0001, betas=(0.9, 0.999), eps=1e-08, weight_decay=1e-5)
+
+# method2. some parameters
+for k, v in model.named_parameters():
+    if k in frozen_list:
+        v.requires_grad=False
+</code></pre>
+<p>还有一种方法，就是在网络定义中的forward方法中，将需要冻结的层放在 torch.no_grad()下。</p>
 <h3 id="torchnnmodule主要功能dshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</h3>
 <p>nn.Module()是最常用的模块了，与nn.functional只做运算不同，它还会保存权重等信息。</p>
 <p>parameters(memo=None): 返回一个 包含模型所有参数 的迭代器。一般用作optimizer参数<br>
@@ -209,11 +261,12 @@ d = torch.Tensor([2])   # tensor([2.])
 训练时，BN层采用当前batch数据的均值和方差，进行Dropout以更新部网络分参数；<br>
 测试时，BN层采用全部训练数据的均值和方差，不进行Dropout，使用所有网络参数。</p>
 <h3 id="多gpu的处理机制">多GPU的处理机制</h3>
-<p>Pytorch下多GPU的处理机制为：<br>
+<p>DataParallel：Pytorch下多GPU的处理机制为：<br>
 （1）在各个GPU上初始化模型；<br>
 （2）前向传播时，把batch数据分配到各个GPU上进行计算；<br>
 （3）将输出结果在主GPU上汇总，计算loss并反向传播，更新主GPU上模型的权值；<br>
-（4）将主GPU上的模型复制到其它GPU上。</p>
+（4）将主GPU上的模型复制到其它GPU上。<br>
+DistributedDataParallel是进程间的通信，不会把某一GPU拉得过高。</p>
 <h3 id="torchnnparameter">torch.nn.Parameter()</h3>
 <p><code>torch.nn.Parameter()</code>可以将一个不可训练的Tensor转换成可训练的Parameter(此时requires_grad默认为True)，并将该Parameter绑定到module中，变成模型参数(<code>model.parameters()</code>)的一部分，从而可以进行参数优化。但注意，Parameter也是tensor，符合一切tensor特性。<br>
 <code>torch.tensor(a, requires_grad=True)</code>则不尽相同，其只能将参数变成可训练的，但并未将其绑定到module的Parameters列表中。<br>
@@ -328,6 +381,10 @@ loss = loss_func(output * mask, gt_label * mask)
 <ul>
 <li>
 <ul>
+<li><a href="#modelstate_dict-modelparameters%E5%92%8Cmodelnamed_parameters%E7%9A%84%E5%8C%BA%E5%88%AB">model.state_dict()、model.parameters()和model.named_parameters()的区别</a></li>
+<li><a href="#%E4%B8%8D%E5%90%8C%E5%B1%82%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%AD%A6%E4%B9%A0%E7%8E%87">不同层设置不同学习率</a></li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B">加载模型</a></li>
+<li><a href="#%E9%94%81%E5%AE%9A%E5%8F%82%E6%95%B0">锁定参数</a></li>
 <li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
 <li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
 <li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>

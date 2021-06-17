@@ -94,14 +94,15 @@
 <figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/object_detection/transformer_1.png" alt="transformer结构图" loading="lazy"></figure>
 <h3 id="2-fairdetr-end-to-end-object-detection-with-transformers">(2) <a href="https://arxiv.org/abs/2005.12872">(FAIR)DETR: End-to-End Object Detection with Transformers</a></h3>
 <ul>
-<li>
-<p>Motivation</p>
-</li>
-<li>
-<p>主要贡献<br>
-把目标检测任务视为一个直接的集合预测问题。<br>
-简化了检测流程，移除了很多人为设计的模块eg NMS、基于先验知识的方法eg anchor生成。</p>
-</li>
+<li>Motivation</li>
+</ul>
+<p>提出了一个基于transformer的目标检测结构，大大简化了检测流程(移除了很多人为设计的模块eg NMS、基于先验知识的方法eg anchor生成)。</p>
+<ul>
+<li>主要贡献</li>
+</ul>
+<p>端到端训练、单次并行测试：把目标检测任务视为一个集合预测问题。输入可训练的object query，获取预测框，再使用匈牙利匹配算法对GT和predicted的二分图进行匹配，从而计算损失函数。</p>
+<figure data-type="image" tabindex="2"><img src="https://FuNian788.github.io/post-images/object_detection/DETR_1.png" alt="DETR结构图" loading="lazy"></figure>
+<ul>
 <li>
 <p>overall</p>
 </li>

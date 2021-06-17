@@ -4,37 +4,31 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ubuntu显卡资源配置 - Zexian Li</title>
+<title>Python多进程 - Zexian Li</title>
 <link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Ubuntu显卡资源配置 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Python多进程 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
 
     
 
-  <meta name="description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
-
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷..." />
-  <meta property="og:title" content="Ubuntu显卡资源配置 - Zexian Li">
-  <meta property="og:description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
-
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷..." />
+  <meta name="description" content="
+Unix/Linux下可通过fork()调用实现多进程。对于Python，在Unix/Linux下，其multiprocessing模块封装了fork()的调用，在Windows中，multiprocessing通过将父进程的所有Pyth..." />
+  <meta property="og:title" content="Python多进程 - Zexian Li">
+  <meta property="og:description" content="
+Unix/Linux下可通过fork()调用实现多进程。对于Python，在Unix/Linux下，其multiprocessing模块封装了fork()的调用，在Windows中，multiprocessing通过将父进程的所有Pyth..." />
   <meta property="og:type" content="articles">
-  <meta property="og:url" content="https://FuNian788.github.io/post/ubuntu-gpu/" />
+  <meta property="og:url" content="https://FuNian788.github.io/post/python-duo-jin-cheng/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="Ubuntu显卡资源配置 - Zexian Li">
-  <meta name="twitter:description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
-
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷...">
+  <meta name="twitter:title" content="Python多进程 - Zexian Li">
+  <meta name="twitter:description" content="
+Unix/Linux下可通过fork()调用实现多进程。对于Python，在Unix/Linux下，其multiprocessing模块封装了fork()的调用，在Windows中，multiprocessing通过将父进程的所有Pyth...">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://FuNian788.github.io/post/ubuntu-gpu/">
+  <link rel="canonical" href="https://FuNian788.github.io/post/python-duo-jin-cheng/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
@@ -56,76 +50,43 @@ nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watc
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          Ubuntu显卡资源配置
+          Python多进程
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-08-13 · 3 min read</div>
-          
-            <a href="https://FuNian788.github.io/tag/R1mhCZ9jPe/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
-              <i class="ri-hashtag"></i>
-              Linux
-            </a>
+          <div class="text-gray-400 text-sm mr-4">2021-05-11 · 2 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p>DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。</p>
-<ol>
-<li>查看显卡状态<br>
-<code>nvidia-smi</code>指令可查看当前显卡状态，进阶点的做法可以使用<code>watch -n 0.5 nvidia-smi</code>每0.5秒刷新并实时查看显卡状态。</li>
-<li>查看使用显卡资源的程序<br>
-使用<code>sudo fuser -v /dev/nvidia*</code>可以查看占用GPU资源的程序PID。如要进一步溯源可使用如下两种方法来查找进程的详细启动路径。</li>
-</ol>
-<pre><code class="language-Shell"># method 1
-cd /proc/PID
-ls -ail
-# method 2
-lsof -p PID
-</code></pre>
-<blockquote>
-<p>可通过<code>apt-get install psmisc</code>来配置fuser。</p>
-</blockquote>
-<ol start="3">
-<li>杀死进程<br>
-使用<code>sudo kill -9 PID</code>杀死对应进程。</li>
-<li>指定使用显卡<br>
-可以在Python程序中使用如下语句指定显卡：</li>
-</ol>
-<pre><code class="language-Python">import os
-os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
-</code></pre>
-<p>上述语句会将GPU3作为程序调用的第一块卡(主卡)，将GPU0作为程序调用的第二块卡。且需要注意的是，这语句需要在任何调用GPU的语句前使用。<br>
-或直接在命令行前加上指定显卡的语句<code>CUDA_VISIBLE_DEVICES=0,1 python main.py</code>。<br>
-5. 多卡训练<br>
-Pytorch中多卡训练的语句例下所示：</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
+          <p></p>
+<p>Unix/Linux下可通过<code>fork()</code>调用实现多进程。对于Python，在Unix/Linux下，其multiprocessing模块封装了<code>fork()</code>的调用，在Windows中，multiprocessing通过将父进程的所有Python对象通过pickle序列化并传到子进程中来模拟<code>fork()</code>的效果。</p>
+<p>###一段最基本的多进程代码</p>
+<pre><code class="language-Python">from multiprocessing import Process
+import os
 
-model = MyModel(opt)
-model = nn.DataParallel(model,device_ids=[0,1])
-model.cuda()
-</code></pre>
-<p>其中<code>nn.DataParallel</code>的<code>device_ids</code>参数只能写<code>[0,1]</code>，实测写<code>[1,0]</code>都会报错，或者直接去掉<code>device_ids</code>参数也可，因为Pytorch会自动纳入所有可用的显卡。实测最后的<code>model.cuda()</code>语句也需加上。<br>
-6. 单卡训练<br>
-单卡训练有很多种写法，这里本着最小改动原则记录Pytorch中一种个人用起来很舒适的方法。</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;1&quot;
+def run_proc(name):
+    print('Run child process {} and the pid is {}.'.format(name, os.getpid()))
 
-model = MyModel(opt)
-model = nn.DataParallel(model)
-model.cuda()
+if __name__=='__main__':
+    print('Parent process {}.'.format(os.getpid()))
+    p = Process(target=run_proc, args=('test',))
+    print('Child process will start.')
+    p.start()   # start a child process.
+    p.join()    # wait for the end of child process.
+    print('Child process end.')
 </code></pre>
-<ol start="7">
-<li>设定主卡</li>
-</ol>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;1,2,3&quot;
-device = torch.device(&quot;cuda:1&quot;if USE_CUDA else &quot;cpu&quot;)
-model = nn.DataParallel(model)
-model.to(device)
+<p>此时的输出如下所示：</p>
+<pre><code class="language-Shell">Parent process 66596.
+Child process will start.
+Run child process test and the pid is 66599.
+Child process end.
 </code></pre>
-<p>此时所用的主卡为2卡。<br>
-如下，实际用到的显卡为4、5、6、7号显卡，显卡的运算编号为0、2、3，也就是说<br>
-其中物理上的4号显卡为实际的主卡。同时注意，多卡并行计算时的显卡中必须包含主卡。</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;4,5,6,7&quot;
-model = torch.nn.DataParallel(model, device_ids=[0,2,3]).cuda()
+<p>创建子进程，就是向Process实例传入一个执行函数和该函数的参数，使用start()方法启动该执行函数。<br>
+注意，当注释掉<code>p.join()</code>语句时，主进程不会等待子进程结束，对应的输出也会发生如下的改变：</p>
+<pre><code class="language-Shell">Parent process 66616.
+Child process will start.
+Child process end.
+Run child process test and the pid is 66618.
 </code></pre>
 
         </div>

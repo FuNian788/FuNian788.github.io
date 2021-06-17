@@ -148,15 +148,20 @@ matcher.py
 <p>先把C3C4C5的通道压缩到一致再attention</p>
 <p>因为C5'大小和</p>
 <ol start="2">
-<li>将Encoder中的dilated conv转换成MLP-mixer<br>
-注意：C5的尺寸不固定，需先pad到特定大小；先Norm再padding0；把pad的0删除<br>
+<li>将Encoder中的dilated conv转换成MLP-mixer(encoder-mixer)<br>
+将Encoder中的dilated conv修改成MLP<br>
 改动：<br>
-retinanet.py中Bottleneck的dilated conv修改</li>
+retinanet.py中Bottleneck变成Bottleneck_MLP，注意C5 feature map大小和比例不固定，需先拉直，layernorm，再pad0，过了MLP后再把pad的0删除。<br>
+TODO:</li>
 </ol>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-5079219"><label class="task-list-item-label" for="task-item-5079219"> pad及layernorm的方法</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-1385558"><label class="task-list-item-label" for="task-item-1385558"> 一层超大的fc？GL</label></li>
+</ul>
 <h2 id="想法">想法</h2>
 <ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-764271"><label class="task-list-item-label" for="task-item-764271"> 能不能修改一下backbone</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-6359283"><label class="task-list-item-label" for="task-item-6359283"> 探索小物体assign规则</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-168979"><label class="task-list-item-label" for="task-item-168979"> 能不能修改一下backbone</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-225716"><label class="task-list-item-label" for="task-item-225716"> 探索小物体assign规则</label></li>
 </ul>
 <h2 id="代码阅读">代码阅读</h2>
 <h3 id="anchor_generatorpy">anchor_generator.py</h3>

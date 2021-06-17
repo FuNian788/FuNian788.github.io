@@ -22,11 +22,16 @@
 创建workspace2
 脚本一键配置基础环境
 安装Anaconda
-安装pytorch
+创建并激活虚拟环境
 安装rluanch和rrun
+下载cvpack2
+
+快捷方法
+通用方法
+
+
 配置cvpack2
-在cvpack2_playground下训练
-inferenc..." />
+在cvpack2..." />
   <meta property="og:title" content="MEGVII常用命令 - Zexian Li">
   <meta property="og:description" content="
 
@@ -36,11 +41,16 @@ inferenc..." />
 创建workspace2
 脚本一键配置基础环境
 安装Anaconda
-安装pytorch
+创建并激活虚拟环境
 安装rluanch和rrun
+下载cvpack2
+
+快捷方法
+通用方法
+
+
 配置cvpack2
-在cvpack2_playground下训练
-inferenc..." />
+在cvpack2..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/megvii-chang-yong-ming-ling/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -55,11 +65,16 @@ inferenc..." />
 创建workspace2
 脚本一键配置基础环境
 安装Anaconda
-安装pytorch
+创建并激活虚拟环境
 安装rluanch和rrun
+下载cvpack2
+
+快捷方法
+通用方法
+
+
 配置cvpack2
-在cvpack2_playground下训练
-inferenc...">
+在cvpack2...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/megvii-chang-yong-ming-ling/">
 
@@ -99,8 +114,14 @@ inferenc...">
 <li><a href="#%E5%88%9B%E5%BB%BAworkspace2">创建workspace2</a></li>
 <li><a href="#%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83">脚本一键配置基础环境</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85anaconda">安装Anaconda</a></li>
-<li><a href="#%E5%AE%89%E8%A3%85pytorch"><s>安装pytorch</s></a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E6%BF%80%E6%B4%BB%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">创建并激活虚拟环境</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85rluanch%E5%92%8Crrun">安装rluanch和rrun</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BDcvpack2">下载cvpack2</a>
+<ul>
+<li><a href="#%E5%BF%AB%E6%8D%B7%E6%96%B9%E6%B3%95">快捷方法</a></li>
+<li><a href="#%E9%80%9A%E7%94%A8%E6%96%B9%E6%B3%95">通用方法</a></li>
+</ul>
+</li>
 <li><a href="#%E9%85%8D%E7%BD%AEcvpack2">配置cvpack2</a></li>
 <li><a href="#%E5%9C%A8cvpack2_playground%E4%B8%8B%E8%AE%AD%E7%BB%83">在cvpack2_playground下训练</a></li>
 <li><a href="#inference">inference</a></li>
@@ -188,23 +209,34 @@ oss cp s3://lizexian/Anaconda3-5.3.1-Linux-x86_64.sh .
 <blockquote>
 <p><code>source activate cvpack</code></p>
 </blockquote>
-<h3 id="安装pytorch"><s>安装pytorch</s></h3>
-<ul>
-<li>创建并激活虚拟环境</li>
-</ul>
+<h3 id="创建并激活虚拟环境">创建并激活虚拟环境</h3>
 <pre><code class="language-shell">conda create -n cvpack python=3.7
 conda activate cvpack
 </code></pre>
-<ul>
-<li>安装pytorch</li>
-</ul>
-<pre><code class="language-Shell">conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
+<blockquote>
+<p>如在wuhu-a集群遇到HTTPERROR时，可修改conda源：修改~/.condarc如下</p>
+</blockquote>
+<pre><code class="language-Shell">channels:
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+show_channel_urls: true
 </code></pre>
 <h3 id="安装rluanch和rrun">安装rluanch和rrun</h3>
 <pre><code class="language-Shell">sudo apt update &amp;&amp; sudo apt install -y brainpp
 pip3 install --user rrun
 </code></pre>
-<h3 id="配置cvpack2">配置cvpack2</h3>
+<h3 id="下载cvpack2">下载cvpack2</h3>
+<h4 id="快捷方法">快捷方法</h4>
+<ul>
+<li>下载预打包的YOLOF_cvpack2</li>
+</ul>
+<pre><code class="language-Shell">oss cp s3://lizexian/yolof0511.zip .
+unzip -qq yolof.zip
+# zip -q -r yolof.zip cvpack2/
+# oss cp yolof0511.zip s3://lizexian
+</code></pre>
+<h4 id="通用方法">通用方法</h4>
 <ul>
 <li>下载cvpack2</li>
 </ul>
@@ -217,21 +249,13 @@ git clone --recursive git@git-core.megvii-inc.com:zhubenjin/cvpack2.git
 <li>修改requirement.txt</li>
 </ul>
 <pre><code class="language-Shell">torch==1.6.0 # torch==1.7.1
-torchvision==0.7.0 # torch==0.8.2
+torchvision==0.7.0 # torchvision==0.8.2
 </code></pre>
 <ul>
-<li>
-<p>根据YOLOF修改cvpack2<br>
-详见YOLOF的README.txt文档</p>
-</li>
-<li>
-<p>下载YOLOF版本的cvpack2(以上三步可使用此步替代)</p>
-</li>
+<li>根据YOLOF修改cvpack2<br>
+详见YOLOF的README.txt文档</li>
 </ul>
-<pre><code class="language-Shell">oss cp s3://lizeixan/yolof.zip .
-unzip -qq yolof.zip
-# zip -q -r yolof.zip /home/lizexian/cvpack2
-</code></pre>
+<h3 id="配置cvpack2">配置cvpack2</h3>
 <ul>
 <li>安装依赖项并下载COCO数据集</li>
 </ul>
@@ -255,18 +279,13 @@ bash tools/setup/install.sh all hhb
 <p>单独下载COCO数据集的方法</p>
 <blockquote>
 <p><code>oss sync --no-progress s3://generalDetection/mscoco_raw_data/coco2017 /data/Datasets/COCO</code><br>
+<code># val2017.zip 815585330</code><br>
+<code># train2017.zip 19336861798</code><br>
 <code>unzip -qq annotations_trainval2017.zip</code><br>
-<code>unzip -qq val2017.zip # 163840</code><br>
-<code>unzip -qq train2017.zip # 3846144</code></p>
+<code>unzip -qq val2017.zip # val2017: 163840</code><br>
+<code>unzip -qq train2017.zip # train2017: 3846144</code></p>
 </blockquote>
 <h3 id="在cvpack2_playground下训练">在cvpack2_playground下训练</h3>
-<ul>
-<li><s>拷贝annotation</s></li>
-</ul>
-<pre><code class="language-Shell">cp -r /data/Datasets/COCO/annotations  /home/lizexian/cvpack2/datasets/coco/
-cp -r /data/Datasets/COCO/train2017 /home/lizexian/cvpack2/datasets/coco/
-cp -r /data/Datasets/COCO/val2017 /home/lizexian/cvpack2/datasets/coco/
-</code></pre>
 <ul>
 <li>建立数据集的软连接</li>
 </ul>
@@ -344,7 +363,7 @@ oss rm s3://lizexian/*.py
 <pre><code class="language-Shell">rlaunch --cpu=4 --gpu=4 --memory=30000 -- python3 train.py
 rlaunch --cpu=4 --gpu=4 --memory=30000 -- bash
 rlaunch -P1 --cpu=8 --gpu=8 --memory=200000 -- cvpack2_train --num-gpus 8   # can be killed
-rlaunch gpu --predict-only
+rlaunch --predict-only
 </code></pre>
 <h3 id="ssh-permission-denied">SSH permission denied</h3>
 <pre><code class="language-Shell">ssh-add ~/.ssh/id_rsa_megvii
@@ -397,8 +416,14 @@ rlaunch gpu --predict-only
 <li><a href="#%E5%88%9B%E5%BB%BAworkspace2">创建workspace2</a></li>
 <li><a href="#%E8%84%9A%E6%9C%AC%E4%B8%80%E9%94%AE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83">脚本一键配置基础环境</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85anaconda">安装Anaconda</a></li>
-<li><a href="#%E5%AE%89%E8%A3%85pytorch"><s>安装pytorch</s></a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E6%BF%80%E6%B4%BB%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">创建并激活虚拟环境</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85rluanch%E5%92%8Crrun">安装rluanch和rrun</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BDcvpack2">下载cvpack2</a>
+<ul>
+<li><a href="#%E5%BF%AB%E6%8D%B7%E6%96%B9%E6%B3%95">快捷方法</a></li>
+<li><a href="#%E9%80%9A%E7%94%A8%E6%96%B9%E6%B3%95">通用方法</a></li>
+</ul>
+</li>
 <li><a href="#%E9%85%8D%E7%BD%AEcvpack2">配置cvpack2</a></li>
 <li><a href="#%E5%9C%A8cvpack2_playground%E4%B8%8B%E8%AE%AD%E7%BB%83">在cvpack2_playground下训练</a></li>
 <li><a href="#inference">inference</a></li>

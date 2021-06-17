@@ -96,7 +96,7 @@ Mac...">
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 6 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 7 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -119,6 +119,7 @@ Mac...">
 <li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">查看文件数量</a></li>
 <li><a href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E6%A3%80%E6%B5%8B">磁盘容量检测</a></li>
 <li><a href="#hadoop">Hadoop</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BDgoogle-drive%E6%96%87%E4%BB%B6">下载google drive文件</a></li>
 </ul>
 </li>
 </ul>
@@ -234,6 +235,15 @@ epstool --copy --bbox a.eps b.eps</p>
 返回文件夹内文件数<code>du -sm FOLDER_NAME</code></p>
 <h3 id="hadoop">Hadoop</h3>
 <p>Hadoop主要是由三部分组成：分布式文件系统HDFS、分布式计算框架MapReduce，还有一个是分布式集群资源调度框架Yarn。</p>
+<h3 id="下载google-drive文件">下载google drive文件</h3>
+<p>假设下载链接如下所示：<br>
+<code>https://drive.google.com/uc?id=1eQtZIpmtVM0-JDv_2nx3xMuGKjA1beLF&amp;export=download</code>，则对应的FileID为<code>1eQtZIpmtVM0-JDv_2nx3xMuGKjA1beLF</code><br>
+则设置好将要保存的filename，替换两次对应的fileid，即可使用下述口令进行下载：</p>
+<pre><code class="language-Shell">wget --load-cookies /tmp/cookies.txt &quot;https://docs.google.com/uc?export=download&amp;confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&amp;id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&amp;id=FILEID&quot; -O FILENAME &amp;&amp; rm -rf /tmp/cookies.txt
+</code></pre>
+<p>可以通过查杀的小文件可以便捷一点：</p>
+<pre><code class="language-Shell">wget --no-check-certificate ‘https://docs.google.com/uc?export=download&amp;id=FILEID’ -O FILENAME
+</code></pre>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -293,6 +303,7 @@ epstool --copy --bbox a.eps b.eps</p>
 <li><a href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F">查看文件数量</a></li>
 <li><a href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E6%A3%80%E6%B5%8B">磁盘容量检测</a></li>
 <li><a href="#hadoop">Hadoop</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BDgoogle-drive%E6%96%87%E4%BB%B6">下载google drive文件</a></li>
 </ul>
 </li>
 </ul>

@@ -19,28 +19,30 @@
 
 
 
+断点调试
 wget在arxiv下载论文
 遍历字典
-scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方..." />
+Python导入方式
+Python3迭代器(itera..." />
   <meta property="og:title" content="Python杂记 - Zexian Li">
   <meta property="og:description" content="
 
 
 
 
+断点调试
 wget在arxiv下载论文
 遍历字典
-scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方..." />
+Python导入方式
+Python3迭代器(itera..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/python-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -52,14 +54,15 @@ Python导入方..." />
 
 
 
+断点调试
 wget在arxiv下载论文
 遍历字典
-scipy模块插值使用方法fdgfgdgfd
 Python中队列的使用方法
 Python2和Python3除法
 Python3中列表、元组、字典和集合
 Python字符串
-Python导入方...">
+Python导入方式
+Python3迭代器(itera...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/python-misc/">
 
@@ -87,7 +90,7 @@ Python导入方...">
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 13 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-09-17 · 12 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -96,9 +99,9 @@ Python导入方...">
 <ul>
 <li>
 <ul>
+<li><a href="#%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95">断点调试</a></li>
 <li><a href="#wget%E5%9C%A8arxiv%E4%B8%8B%E8%BD%BD%E8%AE%BA%E6%96%87">wget在arxiv下载论文</a></li>
 <li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
-<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
 <li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
 <li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
 <li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>
@@ -119,6 +122,15 @@ Python导入方...">
 </li>
 </ul>
 </p>
+<h3 id="断点调试">断点调试</h3>
+<pre><code class="language-Python"># method 1
+import IPython
+IPython.embed()
+
+# method 2
+import pdb
+pdb.set_trace()
+</code></pre>
 <h3 id="wget在arxiv下载论文">wget在arxiv下载论文</h3>
 <pre><code class="language-Shell">wget --user-agent=Lynx https://arxiv.org/pdf/2103.09460.pdf
 </code></pre>
@@ -126,31 +138,6 @@ Python导入方...">
 <p>for key in dict.keys()<br>
 for value in dict.values()<br>
 for key, value in dict.items()</p>
-<h3 id="scipy模块插值使用方法fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</h3>
-<p><code>scipy.interpolate.interp1d</code>函数可实现一维尺度的插值，函数输入如下所示：<code>scipy.interpolate.interp1d(x, y, kind='linear', axis=- 1, copy=True, bounds_error=None, fill_value=nan, assume_sorted=False)</code><br>
-输入x为1-D矩阵，输入y为N-D矩阵，</p>
-<pre><code class="language-Python">    Arguements:
-        feature (tensor[C=opt.feature_dimension=2048][T=temporal_length]): proposed proposal's clipped-feature.
-        num_sample (int[1]): number of sample points.
-
-    Return Arguements:
-        feature_spfp (tensor[C=opt.feature_dimension=2048][T=num_sample]): interpolation feature after SPFP.
-    &quot;&quot;&quot;
-
-    feature_dimension, temporal_length = feature.shape
-    assert feature_dimension == 2048
-
-    # For each channel, learn from x: range(T) and y: feature value(shape:[T]).
-    # Then use linear interpolation to fit sample points and get its possibel value.
-    spfp = scipy.interpolate.interp1d(range(temporal_length), feature, axis=1)
-    feature_spfp = np.zeros((feature_dimension, num_sample), dtype=np.float32)
-    sample_indexs = [float(i + np.random.random()) / num_sample * (temporal_length - 1) for i in range(num_sample)]
-
-    for i, sample_index in enumerate(sample_indexs):
-        feature_spfp[:,i] = spfp(sample_index)   
-
-    return feature_spfp
-</code></pre>
 <h3 id="python中队列的使用方法">Python中队列的使用方法</h3>
 <ol>
 <li>使用queue</li>
@@ -570,9 +557,9 @@ return None
 <ul>
 <li>
 <ul>
+<li><a href="#%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95">断点调试</a></li>
 <li><a href="#wget%E5%9C%A8arxiv%E4%B8%8B%E8%BD%BD%E8%AE%BA%E6%96%87">wget在arxiv下载论文</a></li>
 <li><a href="#%E9%81%8D%E5%8E%86%E5%AD%97%E5%85%B8">遍历字典</a></li>
-<li><a href="#scipy%E6%A8%A1%E5%9D%97%E6%8F%92%E5%80%BC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95fdgfgdgfd">scipy模块插值使用方法fdgfgdgfd</a></li>
 <li><a href="#python%E4%B8%AD%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Python中队列的使用方法</a></li>
 <li><a href="#python2%E5%92%8Cpython3%E9%99%A4%E6%B3%95">Python2和Python3除法</a></li>
 <li><a href="#python3%E4%B8%AD%E5%88%97%E8%A1%A8-%E5%85%83%E7%BB%84-%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88">Python3中列表、元组、字典和集合</a></li>

@@ -4,37 +4,82 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ubuntu显卡资源配置 - Zexian Li</title>
+<title>tmux配置及常用内容 - Zexian Li</title>
 <link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Ubuntu显卡资源配置 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="tmux配置及常用内容 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
 
     
 
-  <meta name="description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
+  <meta name="description" content="
 
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷..." />
-  <meta property="og:title" content="Ubuntu显卡资源配置 - Zexian Li">
-  <meta property="og:description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
 
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷..." />
+
+
+参考~/.tmux.conf
+常用指令
+
+
+
+
+
+
+参考~/.tmux.conf
+# Status bar
+# colors
+set -g status-bg black
+set -g status-fg white
+# alig..." />
+  <meta property="og:title" content="tmux配置及常用内容 - Zexian Li">
+  <meta property="og:description" content="
+
+
+
+
+参考~/.tmux.conf
+常用指令
+
+
+
+
+
+
+参考~/.tmux.conf
+# Status bar
+# colors
+set -g status-bg black
+set -g status-fg white
+# alig..." />
   <meta property="og:type" content="articles">
-  <meta property="og:url" content="https://FuNian788.github.io/post/ubuntu-gpu/" />
+  <meta property="og:url" content="https://FuNian788.github.io/post/tmux/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="Ubuntu显卡资源配置 - Zexian Li">
-  <meta name="twitter:description" content="DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。
+  <meta name="twitter:title" content="tmux配置及常用内容 - Zexian Li">
+  <meta name="twitter:description" content="
 
-查看显卡状态
-nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watch -n 0.5 nvidia-smi每0.5秒刷...">
+
+
+
+参考~/.tmux.conf
+常用指令
+
+
+
+
+
+
+参考~/.tmux.conf
+# Status bar
+# colors
+set -g status-bg black
+set -g status-fg white
+# alig...">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://FuNian788.github.io/post/ubuntu-gpu/">
+  <link rel="canonical" href="https://FuNian788.github.io/post/tmux/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
@@ -56,77 +101,55 @@ nvidia-smi指令可查看当前显卡状态，进阶点的做法可以使用watc
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          Ubuntu显卡资源配置
+          tmux配置及常用内容
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-08-13 · 3 min read</div>
-          
-            <a href="https://FuNian788.github.io/tag/R1mhCZ9jPe/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
-              <i class="ri-hashtag"></i>
-              Linux
-            </a>
+          <div class="text-gray-400 text-sm mr-4">2021-05-21 · 1 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p>DeepLearning相关工作免不了对显卡的重度使用，现mark一下常用指令和常见情况的处理方法。</p>
-<ol>
-<li>查看显卡状态<br>
-<code>nvidia-smi</code>指令可查看当前显卡状态，进阶点的做法可以使用<code>watch -n 0.5 nvidia-smi</code>每0.5秒刷新并实时查看显卡状态。</li>
-<li>查看使用显卡资源的程序<br>
-使用<code>sudo fuser -v /dev/nvidia*</code>可以查看占用GPU资源的程序PID。如要进一步溯源可使用如下两种方法来查找进程的详细启动路径。</li>
-</ol>
-<pre><code class="language-Shell"># method 1
-cd /proc/PID
-ls -ail
-# method 2
-lsof -p PID
-</code></pre>
-<blockquote>
-<p>可通过<code>apt-get install psmisc</code>来配置fuser。</p>
-</blockquote>
-<ol start="3">
-<li>杀死进程<br>
-使用<code>sudo kill -9 PID</code>杀死对应进程。</li>
-<li>指定使用显卡<br>
-可以在Python程序中使用如下语句指定显卡：</li>
-</ol>
-<pre><code class="language-Python">import os
-os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
-</code></pre>
-<p>上述语句会将GPU3作为程序调用的第一块卡(主卡)，将GPU0作为程序调用的第二块卡。且需要注意的是，这语句需要在任何调用GPU的语句前使用。<br>
-或直接在命令行前加上指定显卡的语句<code>CUDA_VISIBLE_DEVICES=0,1 python main.py</code>。<br>
-5. 多卡训练<br>
-Pytorch中多卡训练的语句例下所示：</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;3, 0&quot;
+          <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83~tmuxconf">参考~/.tmux.conf</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">常用指令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h3 id="参考~tmuxconf">参考~/.tmux.conf</h3>
+<pre><code class="language-Shell"># Status bar
+# colors
+set -g status-bg black
+set -g status-fg white
+# alignment
+set-option -g status-justify centre
+# spot at left
+set-option -g status-left '#[bg=black,fg=yellow][#[fg=white]#S#[fg=yellow]]'
+set-option -g status-left-length 20
+# window list
+setw -g automatic-rename on
+set-window-option -g window-status-format '#[yellow]#I:#[default]#W#[fg=grey,yellow]'
+set-window-option -g window-status-current-format '#[fg=white,bold]#I#[fg=yellow]:#[fg=white]#W#[fg=yellow]'
+# spot at right
+set -g status-right '#[fg=yellow][#[fg=white]%Y-%m-%d#[fg=yellow]]'
+setw -g mouse
+bind c new-window -c &quot;#{pane_current_path}&quot;
 
-model = MyModel(opt)
-model = nn.DataParallel(model,device_ids=[0,1])
-model.cuda()
-</code></pre>
-<p>其中<code>nn.DataParallel</code>的<code>device_ids</code>参数只能写<code>[0,1]</code>，实测写<code>[1,0]</code>都会报错，或者直接去掉<code>device_ids</code>参数也可，因为Pytorch会自动纳入所有可用的显卡。实测最后的<code>model.cuda()</code>语句也需加上。<br>
-6. 单卡训练<br>
-单卡训练有很多种写法，这里本着最小改动原则记录Pytorch中一种个人用起来很舒适的方法。</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;1&quot;
+bind '&quot;' split-window -v -c &quot;#{pane_current_path}&quot;
+bind % split-window -h -c &quot;#{pane_current_path}&quot;
 
-model = MyModel(opt)
-model = nn.DataParallel(model)
-model.cuda()
+set-window-option -g mode-keys vi
 </code></pre>
-<ol start="7">
-<li>设定主卡</li>
-</ol>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;1,2,3&quot;
-device = torch.device(&quot;cuda:1&quot;if USE_CUDA else &quot;cpu&quot;)
-model = nn.DataParallel(model)
-model.to(device)
-</code></pre>
-<p>此时所用的主卡为2卡。<br>
-如下，实际用到的显卡为4、5、6、7号显卡，显卡的运算编号为0、2、3，也就是说<br>
-其中物理上的4号显卡为实际的主卡。同时注意，多卡并行计算时的显卡中必须包含主卡。</p>
-<pre><code class="language-Python">os.environ[&quot;CUDA_VISIBLE_DEVICES&quot;] = &quot;4,5,6,7&quot;
-model = torch.nn.DataParallel(model, device_ids=[0,2,3]).cuda()
-</code></pre>
+<h3 id="常用指令">常用指令</h3>
+<p>tmux ls<br>
+tmux new -s new_name<br>
+tmux kill-session -t 1</p>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -167,7 +190,19 @@ model = torch.nn.DataParallel(model, device_ids=[0,2,3]).cuda()
         </div>
       </div>
       <div class="post-toc-container">
-        
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83~tmuxconf">参考~/.tmux.conf</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">常用指令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
       </div>
     </div>
 
