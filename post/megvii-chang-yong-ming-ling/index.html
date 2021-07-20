@@ -102,7 +102,7 @@
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2021-04-21 · 6 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2021-05-15 · 7 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -133,6 +133,7 @@
 <ul>
 <li><a href="#rlaunch%E5%91%BD%E4%BB%A4">rlaunch命令</a></li>
 <li><a href="#ssh-permission-denied">SSH permission denied</a></li>
+<li><a href="#gitlab%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">gitlab常用命令</a></li>
 </ul>
 </li>
 </ul>
@@ -355,18 +356,36 @@ oss的常用指令包括：ls、cp、mv、rm、sync。可使用 --exclude 和 --
 <pre><code class="language-Shell">oss ls lizexian/file
 oss cp 1.py s3://lizexian
 oss cp yolof s3://lizexian --recursive
+oss cp s3://lizexian/1.py ./
 oss mv 1.py s3://lizexian
 oss rm s3://lizexian/*.py
 </code></pre>
 <h3 id="rlaunch命令">rlaunch命令</h3>
 <p>使用rluanch命令动态申请资源并运行程序</p>
 <pre><code class="language-Shell">rlaunch --cpu=4 --gpu=4 --memory=30000 -- python3 train.py
-rlaunch --cpu=4 --gpu=4 --memory=30000 -- bash
+rlaunch --cpu=4 --gpu=4 --memory=30000 --max-wait-time=24h -- bash
 rlaunch -P1 --cpu=8 --gpu=8 --memory=200000 -- cvpack2_train --num-gpus 8   # can be killed
 rlaunch --predict-only
 </code></pre>
 <h3 id="ssh-permission-denied">SSH permission denied</h3>
 <pre><code class="language-Shell">ssh-add ~/.ssh/id_rsa_megvii
+</code></pre>
+<h3 id="gitlab常用命令">gitlab常用命令</h3>
+<pre><code class="language-Shell">git init
+git remote add origin gitLINK
+git add .
+git checkout -b branchNAME
+git commit -m 'INFO'
+git push origin branchNAME:branchNAME2
+
+# delete online branch
+git push origin --delete NAME
+# delete local branch 
+git branch -d NAME
+</code></pre>
+<pre><code class="language-Shell">git pull origin master
+git push -u origin master
+git push -u origin master -f
 </code></pre>
 
         </div>
@@ -435,6 +454,7 @@ rlaunch --predict-only
 <ul>
 <li><a href="#rlaunch%E5%91%BD%E4%BB%A4">rlaunch命令</a></li>
 <li><a href="#ssh-permission-denied">SSH permission denied</a></li>
+<li><a href="#gitlab%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">gitlab常用命令</a></li>
 </ul>
 </li>
 </ul>

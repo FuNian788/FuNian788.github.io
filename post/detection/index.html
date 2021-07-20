@@ -4,56 +4,56 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>目标检测论文阅读 - Zexian Li</title>
+<title>目标检测(object detection)论文小记 - Zexian Li</title>
 <link rel="shortcut icon" href="https://FuNian788.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://FuNian788.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="目标检测论文阅读 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="目标检测(object detection)论文小记 - Zexian Li - Atom Feed" href="https://FuNian788.github.io/atom.xml">
 
     
 
-  <meta name="description" content="
+  <meta name="description" content="简单记录最近阅读的几篇有趣的目标检测论文🎅
 
-
-方法综述
-评价指标
-常用数据集
-指标比对
-论文笔记
-
-(1) (2021 CVPR)YOLOF: You Only Look One-level Feature
-(2) (FAIR)RetinaNet: Focal Loss for ..." />
-  <meta property="og:title" content="目标检测论文阅读 - Zexian Li">
-  <meta property="og:description" content="
 
 
 方法综述
 评价指标
 常用数据集
-指标比对
 论文笔记
 
 (1) (2021 CVPR)YOLOF: You Only Look One-level Feature
-(2) (FAIR)RetinaNet: Focal Loss for ..." />
+(2) (FAIR)RetinaNe..." />
+  <meta property="og:title" content="目标检测(object detection)论文小记 - Zexian Li">
+  <meta property="og:description" content="简单记录最近阅读的几篇有趣的目标检测论文🎅
+
+
+
+方法综述
+评价指标
+常用数据集
+论文笔记
+
+(1) (2021 CVPR)YOLOF: You Only Look One-level Feature
+(2) (FAIR)RetinaNe..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/detection/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="目标检测论文阅读 - Zexian Li">
-  <meta name="twitter:description" content="
+  <meta name="twitter:title" content="目标检测(object detection)论文小记 - Zexian Li">
+  <meta name="twitter:description" content="简单记录最近阅读的几篇有趣的目标检测论文🎅
+
 
 
 方法综述
 评价指标
 常用数据集
-指标比对
 论文笔记
 
 (1) (2021 CVPR)YOLOF: You Only Look One-level Feature
-(2) (FAIR)RetinaNet: Focal Loss for ...">
+(2) (FAIR)RetinaNe...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/detection/">
 
@@ -77,21 +77,21 @@
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          目标检测论文阅读
+          目标检测(object detection)论文小记
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2021-04-26 · 23 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2021-06-26 · 24 min read</div>
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p><ul class="markdownIt-TOC">
+          <p>简单记录最近阅读的几篇有趣的目标检测论文🎅<br>
+<ul class="markdownIt-TOC">
 <li>
 <ul>
 <li><a href="#%E6%96%B9%E6%B3%95%E7%BB%BC%E8%BF%B0">方法综述</a></li>
 <li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
 <li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
-<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
 <li><a href="#%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0">论文笔记</a>
 <ul>
 <li><a href="#1-2021-cvpryolof-you-only-look-one-level-feature">(1) (2021 CVPR)YOLOF: You Only Look One-level Feature</a></li>
@@ -99,12 +99,7 @@
 <li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
 <li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
 <li><a href="#5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) (2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></li>
-</ul>
-</li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B">基础模型</a>
-<ul>
-<li><a href="#1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) (2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></li>
-<li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
+<li><a href="#6-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(6) (2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></li>
 </ul>
 </li>
 <li><a href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">基本常识</a></li>
@@ -134,34 +129,15 @@
 <p>MS COCO：包含80类物体。数据集划分如下：train有80k图片，val有40k图片。<br>
 MSCOCO 2017： training118k validation5k(val) testing about20k无标注(test-dev)<br>
 trainval35k部分的115K图片(train的80k图片+)用于训练，minival部分的5k图片用于validation。</p>
-<h2 id="指标比对">指标比对</h2>
-<p>以COCO数据集AP作为基准指标，比较各方法如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">ID</th>
-<th style="text-align:center">paper</th>
-<th style="text-align:center">AP</th>
-<th style="text-align:center">AP50</th>
-<th style="text-align:center">AP75</th>
-<th style="text-align:center">APs</th>
-<th style="text-align:center">APm</th>
-<th style="text-align:center">APl</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">YOLOF</td>
-<td style="text-align:center">37.7</td>
-<td style="text-align:center">56.9</td>
-<td style="text-align:center">40.6</td>
-<td style="text-align:center">19.1</td>
-<td style="text-align:center">42.5</td>
-<td style="text-align:center">53.2</td>
-</tr>
-</tbody>
-</table>
+<!--
+
+## 指标比对
+以COCO数据集AP作为基准指标，比较各方法如下：
+| ID  | paper | AP |  AP50 | AP75 | APs | APm | APl | 
+| :--: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
+| 1 | YOLOF |  37.7 | 56.9 | 40.6 | 19.1 | 42.5 | 53.2 |
+
+-->
 <h2 id="论文笔记">论文笔记</h2>
 <h3 id="1-2021-cvpryolof-you-only-look-one-level-feature">(1) <a href="https://arxiv.org/abs/2103.09460">(2021 CVPR)YOLOF: You Only Look One-level Feature</a></h3>
 <ul>
@@ -234,17 +210,15 @@ one-stage方法和two-stage方法的核心区别在于：two-stage送去分类�
 </li>
 </ul>
 <figure data-type="image" tabindex="1"><img src="https://FuNian788.github.io/post-images/object_detection/retinanet_2.png" alt="RetinaNet结构图" loading="lazy"></figure>
-<ul>
-<li>实现细节</li>
-</ul>
-<ol>
-<li>anchor<br>
-在每个位置上，</li>
-</ol>
-<p>在不同的输出特征图上限制检出物体的大小。</p>
-<ul>
-<li>改进/Challenge/idea/Que</li>
-</ul>
+<!--
+* 实现细节
+1. anchor
+在每个位置上，
+
+
+在不同的输出特征图上限制检出物体的大小。
+* 改进/Challenge/idea/Que
+-->
 <hr>
 <h3 id="3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) <a href="https://arxiv.org/abs/1904.01355">(2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></h3>
 <ul>
@@ -294,17 +268,15 @@ c3.3,-7.3,9.3,-11,18,-11H400000v40H1017.7s-90.5,478,-276.2,1466c-185.7,988,
 77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,104,606z
 M1001 80H400000v40H1017z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.160625em;"><span></span></span></span></span></span></span></span></span></span></p>
 <p>当该点为候选框中心时，center-ness的值为1，该点离中心越远，其值越接近0，使用交叉熵损失函数进行训练。center-ness仅在测试时使用，将其与分类得分(classification score)相乘，共同作为候选框的得分，随后进行NMS筛选。</p>
-<ul>
-<li>对动作检测的启发</li>
-</ul>
-<ol>
-<li>FCN网络结构</li>
-<li>动作框预测方式：遍历视频的每一个时刻，返回其到所属动作开始/结束时刻的时间距离</li>
-<li>基于FPN的多尺度预测：如果出现了动作套娃(eg运动里套打篮球)，可以考虑使用这种方法来一起检出；其他情况下则不合适，eg峰谷峰时如何只取两个峰。但多尺度思路可以应用于尺度不同的任务。</li>
-<li>如果一个候选框和GT的IoU较低，其就是一个低质量候选框，这时如果其confidence得分很高，就是Fasle Positive了。center-ness的应用，可以有效解决当前实践中<strong>置信度最高的候选框可能不是最好的</strong>这一问题。<br>
-FCOS认为中心lcoation预测的框是高质量的，边缘location预测的框是低质量的，通过表征location位置的center-ness指标来衡量框的质量，利用其削减低质量候选框得分，从而在NMS阶段保留下真正好的候选框。<br>
-在动作检测中，center-ness可以IoU的形式出现，拓展地，可以参考IoUNet新建一个独立的网络去预测候选框和GT的IoU以参与得分评价(FCOS的center-ness计算更为简洁，只是在原有预测基础上进行简单比例计算，并没有涉及神经网络架构)；而如果搭建FCOS-based的动作检测框架，可以直接利用center-ness思路，但要考虑动作并没有明确中心点这一问题。</li>
-</ol>
+<!--
+* 对动作检测的启发
+1. FCN网络结构
+2. 动作框预测方式：遍历视频的每一个时刻，返回其到所属动作开始/结束时刻的时间距离
+3. 基于FPN的多尺度预测：如果出现了动作套娃(eg运动里套打篮球)，可以考虑使用这种方法来一起检出；其他情况下则不合适，eg峰谷峰时如何只取两个峰。但多尺度思路可以应用于尺度不同的任务。
+4. 如果一个候选框和GT的IoU较低，其就是一个低质量候选框，这时如果其confidence得分很高，就是Fasle Positive了。center-ness的应用，可以有效解决当前实践中**置信度最高的候选框可能不是最好的**这一问题。
+FCOS认为中心lcoation预测的框是高质量的，边缘location预测的框是低质量的，通过表征location位置的center-ness指标来衡量框的质量，利用其削减低质量候选框得分，从而在NMS阶段保留下真正好的候选框。
+在动作检测中，center-ness可以IoU的形式出现，拓展地，可以参考IoUNet新建一个独立的网络去预测候选框和GT的IoU以参与得分评价(FCOS的center-ness计算更为简洁，只是在原有预测基础上进行简单比例计算，并没有涉及神经网络架构)；而如果搭建FCOS-based的动作检测框架，可以直接利用center-ness思路，但要考虑动作并没有明确中心点这一问题。
+-->
 <hr>
 <h3 id="4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) <a href="https://arxiv.org/abs/1912.02424">(2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></h3>
 <ul>
@@ -402,50 +374,78 @@ HR-Net在全阶段都维持了高分辨率表示，从而获取更丰富的语�
 Related Work中包含了很多文章，eg如何从低分辨率信息中学习，如何重建高分辨率信息，如何维持高分辨率信息，可以好好学习一下。</li>
 </ul>
 <hr>
-<hr>
-<h2 id="基础模型">基础模型</h2>
-<h3 id="1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) <a href="https://arxiv.org/abs/1611.05431">(2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></h3>
+<h3 id="6-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(6) <a href="https://arxiv.org/abs/180.01244">(2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></h3>
+<p>该论文为anchor-free的目标检测论文。</p>
 <ul>
-<li>Motivation<br>
-VGG &amp; ResNet这类网络通过堆叠相同形状的block来构建深网络，且这种简洁的策略在不同数据集上表现出了优秀的鲁棒性；尽管Inception类网络可以在特定数据上以较低的运算开销展现卓越的性能，但其手工设计痕迹明显，任务迁移时需重新精调网络结构和超参数，成本较高。如何合并这两者？</li>
+<li>针对痛点<br>
+为覆盖真值，需要大量的anchor，这会造成正负样本的不平衡并降低训练速度；同时anchor的设计需要大量人为设计的超参数和结构，与DL的核心思路不符。</li>
+<li>主要贡献<br>
+CornerNet使用候选框左上角和右下角的点来表示bounding box，在摒弃anchor复杂设计的基础上大幅精简了网络的输出；同时论文提出了corner pooling方法以进行更好的角点定位。</li>
+<li>实现流程<br>
+如下图所示，卷积层输出一个包含所有左上角点的热图(heatmap)，输出一个包含所有右下角点的热图(heatmap)，为每个检出角点输出一个嵌入向量(embedding vector)。网络通过训练，为同一目标的角点输出尽可能相似的嵌入向量。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_1.png" alt="流程图" loading="lazy"><br>
+更详细的细节如下图，两个预测模块(prediction module)是独立的，每个模块都有独有的corner pooling层，并基于此输出heatmap，embedding和offset。<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_2.png" alt="详细流程图" loading="lazy"><br>
+这种寻找左上/右下点并将其聚合起来的bottom-up方法是受到skeleton-detection的相关研究启发的。</li>
+<li>实现细节</li>
 </ul>
-<p>Inception结构通常遵循split-&gt;transform-&gt;merge范式，这是否是Inception成功的关键？(split: 使用许多1*1卷积将输入拆成多个低通道embedding；transform: 使用一些3*3和5*5的卷积来转换信息；merge: 使用通过concate将上述输出综合)</p>
-<ul>
-<li>
-<p>主要贡献<br>
-提出ResNeXt，既使用了repeat layer策略(from VGG &amp; ResNet)，又以一种简单、可扩展的方式利用split-transform-merge策略(from Inception)。</p>
-</li>
-<li>
-<p>overall<br>
-<img src="https://FuNian788.github.io/post-images/object_detection/ResNeXt_1.png" alt="backbone" loading="lazy"></p>
-</li>
-<li>
-<p>实现细节</p>
-</li>
-<li>
-<p>改进/Challenge/idea/Que</p>
-</li>
-</ul>
+<ol>
+<li>角点检测<br>
+对于输出，以左上角点对应的heatmap为例，heatmap的尺寸为K*H*W，其中K个通道分别代表K个类别，每个通道均为二值mask，表示某一像素点是不是该类别下的角点。<br>
+对于每一个角点，都有其对应的唯一真值点，但训练时并不采用简单的0-1损失函数，而是基于2D高斯核，对以真值为圆心，以特定值为半径的的圆内的预测值给予相对较小的惩罚(半径大小与目标尺寸有关，需保证以圆内点作为角点的候选框与GT的IoU大于0.3)，具体损失函数采用focal loss的变种。<br>
+很多网络采用降采样层来获得全局信息、减少存储空间，此时输出的尺寸常小于输入的尺寸，目标边界的定位准确性不免受像素点对齐的影响。为避免此问题，网络在将heatmap中的点映射回原输入图像前先行预测offset以对角点坐标进行微调，对应的offset为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>=</mo><mo>(</mo><mfrac><mi>x</mi><mi>n</mi></mfrac><mo>−</mo><mo>⌊</mo><mfrac><mi>x</mi><mi>n</mi></mfrac><mo>⌋</mo><mo separator="true">,</mo><mfrac><mi>y</mi><mi>n</mi></mfrac><mo>−</mo><mo>⌊</mo><mfrac><mi>y</mi><mi>n</mi></mfrac><mo>⌋</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">O = (\frac {x}{n} - \lfloor \frac {x}{n} \rfloor,  \frac {y}{n} - \lfloor \frac {y}{n} \rfloor)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7475em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7475em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span><span class="mclose">)</span></span></span></span>，具体回归时采用Smooth L1损失函数。</li>
+<li>角点合并<br>
+模型为所有检测到的角点输出一维embedding，并基于embedding间的距离进行聚类。采用pull-push损失函数。<br>
+在对corner heatmap进行max pooling+NMS操作后，得到100个最有可能的左上角点和100个最有可能的右下角点，在用offset进行校正后，比较左上/右下角点embedding间的L1距离，舍弃距离大于阈值和非同一类别的角点对，保留下来的角点对为初步结果，角点对中两角点的平均值作为检测得分。</li>
+<li>角点池化(Corner Pooling)<br>
+对于目标检测来讲，角点处可能不存在目标信息，且目标信息都处于角点的同一方向。基于此先验信息，将局部max-pooling转变成corner pooling，其核心思想为对于左上角点，目标在其右下方，故只对角点右侧和下侧的特征进行池化(而非右下侧)，具体示意如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_3.png" alt="corner pooling" loading="lazy"><br>
+且实验表明，corner pooling在尺度大小不同的区域上表现近似相同，展现了一定的稳定性。</li>
+<li>详细的网络结构如下图所示：<br>
+<img src="https://FuNian788.github.io/post-images/TAD/Corner_4.png" alt="网络结构" loading="lazy"><br>
+其中backbone采用了在人体骨架检测中广泛应用的沙漏网络(Hourglass network)的变种。</li>
+</ol>
 <hr>
-<h3 id="n-2021-cvprpaper-name">(n) <a href="https://arxiv.org/abs/2103.09460">(2021 CVPR)PAPER NAME</a></h3>
-<ul>
-<li>
-<p>Motivation</p>
-</li>
-<li>
-<p>主要贡献</p>
-</li>
-<li>
-<p>overall</p>
-</li>
-<li>
-<p>实现细节</p>
-</li>
-<li>
-<p>改进/Challenge/idea/Que</p>
-</li>
-</ul>
-<hr>
+<!--
+
+
+
+## 基础模型
+###  (1) [(2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks](https://arxiv.org/abs/1611.05431)
+[^_^]: Read in 2021/04/29
+
+* Motivation
+VGG & ResNet这类网络通过堆叠相同形状的block来构建深网络，且这种简洁的策略在不同数据集上表现出了优秀的鲁棒性；尽管Inception类网络可以在特定数据上以较低的运算开销展现卓越的性能，但其手工设计痕迹明显，任务迁移时需重新精调网络结构和超参数，成本较高。如何合并这两者？
+
+Inception结构通常遵循split->transform->merge范式，这是否是Inception成功的关键？(split: 使用许多1\*1卷积将输入拆成多个低通道embedding；transform: 使用一些3\*3和5\*5的卷积来转换信息；merge: 使用通过concate将上述输出综合)
+
+* 主要贡献
+提出ResNeXt，既使用了repeat layer策略(from VGG & ResNet)，又以一种简单、可扩展的方式利用split-transform-merge策略(from Inception)。
+
+
+* overall
+![backbone](https://FuNian788.github.io/post-images/object_detection/ResNeXt_1.png)
+
+* 实现细节
+
+* 改进/Challenge/idea/Que
+
+
+
+---
+###  (n) [(2021 CVPR)PAPER NAME](https://arxiv.org/abs/2103.09460)
+[^_^]: Read in 2021/04/26
+
+* Motivation
+
+* 主要贡献
+
+* overall
+
+* 实现细节
+
+* 改进/Challenge/idea/Que
+-->
 <h2 id="基本常识">基本常识</h2>
 <ol>
 <li>论文中的<code>1x</code>代表以batch size为16，在COCO数据集上训练90k个iter，约为118287张图片上的12.17个epoch。2x等以此类推。</li>
@@ -501,7 +501,6 @@ scale指anchor的缩放比例，eg<span class="katex"><span class="katex-mathml"
 <li><a href="#%E6%96%B9%E6%B3%95%E7%BB%BC%E8%BF%B0">方法综述</a></li>
 <li><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li>
 <li><a href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E9%9B%86">常用数据集</a></li>
-<li><a href="#%E6%8C%87%E6%A0%87%E6%AF%94%E5%AF%B9">指标比对</a></li>
 <li><a href="#%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0">论文笔记</a>
 <ul>
 <li><a href="#1-2021-cvpryolof-you-only-look-one-level-feature">(1) (2021 CVPR)YOLOF: You Only Look One-level Feature</a></li>
@@ -509,12 +508,7 @@ scale指anchor的缩放比例，eg<span class="katex"><span class="katex-mathml"
 <li><a href="#3-2019-iccvfcos-fully-convolutional-one-stage-object-detection">(3) (2019 ICCV)FCOS: Fully Convolutional One-Stage Object Detection</a></li>
 <li><a href="#4-2020-cvpr-oralatss-bridging-the-gap-between-anchor-based-and-anchor-free-detection-via-adaptive-training-sample-selection">(4) (2020 CVPR oral)ATSS: Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</a></li>
 <li><a href="#5-2019-cvprhr-net-deep-high-resolution-representation-learning-for-visual-recognition">(5) (2019 CVPR)HR-Net: Deep High-Resolution Representation Learning for Visual Recognition</a></li>
-</ul>
-</li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B">基础模型</a>
-<ul>
-<li><a href="#1-2017-cvprresnext-aggregated-residual-transformations-for-deep-neural-networks">(1) (2017 CVPR)ResNeXt: Aggregated Residual Transformations for Deep Neural Networks</a></li>
-<li><a href="#n-2021-cvprpaper-name">(n) (2021 CVPR)PAPER NAME</a></li>
+<li><a href="#6-2018-eccvcornernet-detecting-objects-as-paired-keypoints">(6) (2018 ECCV)CornerNet: Detecting Objects as Paired Keypoints</a></li>
 </ul>
 </li>
 <li><a href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86">基本常识</a></li>

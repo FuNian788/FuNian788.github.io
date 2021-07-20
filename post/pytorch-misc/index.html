@@ -19,22 +19,24 @@
 
 
 
+高级函数
 model.state_dict()、model.parameters()和model.named_parameters()的区别
 不同层设置不同学习率
 加载模型
 锁定参数
-torch.nn.module主要功能*（*（DSHFS..." />
+Pytorch使用scatter_函数将lab..." />
   <meta property="og:title" content="Pytorch杂记 - Zexian Li">
   <meta property="og:description" content="
 
 
 
 
+高级函数
 model.state_dict()、model.parameters()和model.named_parameters()的区别
 不同层设置不同学习率
 加载模型
 锁定参数
-torch.nn.module主要功能*（*（DSHFS..." />
+Pytorch使用scatter_函数将lab..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://FuNian788.github.io/post/pytorch-misc/" />
   <meta property="og:image" content="https://FuNian788.github.io/images/avatar.png">
@@ -46,11 +48,12 @@ torch.nn.module主要功能*（*（DSHFS..." />
 
 
 
+高级函数
 model.state_dict()、model.parameters()和model.named_parameters()的区别
 不同层设置不同学习率
 加载模型
 锁定参数
-torch.nn.module主要功能*（*（DSHFS...">
+Pytorch使用scatter_函数将lab...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://FuNian788.github.io/post/pytorch-misc/">
 
@@ -87,11 +90,11 @@ torch.nn.module主要功能*（*（DSHFS...">
 <ul>
 <li>
 <ul>
+<li><a href="#%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0">高级函数</a></li>
 <li><a href="#modelstate_dict-modelparameters%E5%92%8Cmodelnamed_parameters%E7%9A%84%E5%8C%BA%E5%88%AB">model.state_dict()、model.parameters()和model.named_parameters()的区别</a></li>
 <li><a href="#%E4%B8%8D%E5%90%8C%E5%B1%82%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%AD%A6%E4%B9%A0%E7%8E%87">不同层设置不同学习率</a></li>
 <li><a href="#%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B">加载模型</a></li>
 <li><a href="#%E9%94%81%E5%AE%9A%E5%8F%82%E6%95%B0">锁定参数</a></li>
-<li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
 <li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
 <li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
 <li><a href="#nnmodules%E5%92%8Cnnchildren%E7%9A%84%E5%8C%BA%E5%88%AB">nn.modules和nn.children的区别</a></li>
@@ -110,6 +113,65 @@ torch.nn.module主要功能*（*（DSHFS...">
 </li>
 </ul>
 </p>
+<h3 id="高级函数">高级函数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">求对数(e为底)</td>
+<td style="text-align:center">torch.log(input, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">求对数(2为底)</td>
+<td style="text-align:center">torch.log2(input, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">求对数(10为底)</td>
+<td style="text-align:center">torch.log10(input, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">求指数(e为底)</td>
+<td style="text-align:center">torch.exp(tensor, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">求次幂</td>
+<td style="text-align:center">torch.pow(input, exponent, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">求绝对值</td>
+<td style="text-align:center">torch.abs(input, out=None)</td>
+</tr>
+<tr>
+<td style="text-align:center">三角函数</td>
+<td style="text-align:center">torch.cos() &amp; torch.sin() &amp; torch.tan()</td>
+</tr>
+<tr>
+<td style="text-align:center">反三角函数</td>
+<td style="text-align:center">torch.acos() &amp; torch.asin() &amp; torch.atan()</td>
+</tr>
+<tr>
+<td style="text-align:center">均值</td>
+<td style="text-align:center">torch.mean()</td>
+</tr>
+<tr>
+<td style="text-align:center">求和</td>
+<td style="text-align:center">torch.sum()</td>
+</tr>
+<tr>
+<td style="text-align:center">方差</td>
+<td style="text-align:center">torch.var()</td>
+</tr>
+<tr>
+<td style="text-align:center">标准差</td>
+<td style="text-align:center">torch.std()</td>
+</tr>
+</tbody>
+</table>
 <h3 id="modelstate_dict-modelparameters和modelnamed_parameters的区别">model.state_dict()、model.parameters()和model.named_parameters()的区别</h3>
 <p>parameters()只包含模块的参数，即weight和bias（包括BN的）。<br>
 named_parameters()返回包含模块名和模块的参数的列表，列表的每个元素均是包含layer name和layer param的元组。layer param就是parameters()的内容。<br>
@@ -155,21 +217,28 @@ for k, v in model.named_parameters():
         v.requires_grad=False
 </code></pre>
 <p>还有一种方法，就是在网络定义中的forward方法中，将需要冻结的层放在 torch.no_grad()下。</p>
-<h3 id="torchnnmodule主要功能dshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</h3>
-<p>nn.Module()是最常用的模块了，与nn.functional只做运算不同，它还会保存权重等信息。</p>
-<p>parameters(memo=None): 返回一个 包含模型所有参数 的迭代器。一般用作optimizer参数<br>
-children(): 返回当前模型 子模块的迭代器。<br>
-name_children(): 返回 包含 模型当前子模块 的迭代器，yield 模块名字和模块本身。<br>
-modules(): 返回一个包含 当前模型 所有模块的迭代器。<br>
-named_modules(): 返回包含网络中所有模块的迭代器, yielding 模块名和模块本身。</p>
-<p>注册功能：</p>
-<p>register_parameter(name, param):向module添加 parameter,可以通过name获取<br>
-register_forward_hook(hook)：在module上注册一个forward hook。 每次调用<br>
-forward()计算输出的时候，这个hook就会被调用。</p>
-<p>register_backward_hook(hook)：在module上注册一个bachward hook。每次计算<br>
-module的inputs的梯度的时候，这个hook会被调用</p>
-<p>register_buffer(name, tensor)：给module添加一个persistent buffer，通常用<br>
-来保存一个不需要看成模型参数的状态</p>
+<!--
+### torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS
+nn.Module()是最常用的模块了，与nn.functional只做运算不同，它还会保存权重等信息。
+
+parameters(memo=None): 返回一个 包含模型所有参数 的迭代器。一般用作optimizer参数
+children(): 返回当前模型 子模块的迭代器。
+name_children(): 返回 包含 模型当前子模块 的迭代器，yield 模块名字和模块本身。
+modules(): 返回一个包含 当前模型 所有模块的迭代器。
+named_modules(): 返回包含网络中所有模块的迭代器, yielding 模块名和模块本身。
+
+注册功能：
+
+register_parameter(name, param):向module添加 parameter,可以通过name获取
+register_forward_hook(hook)：在module上注册一个forward hook。 每次调用
+forward()计算输出的时候，这个hook就会被调用。　　　　
+
+register_backward_hook(hook)：在module上注册一个bachward hook。每次计算
+module的inputs的梯度的时候，这个hook会被调用
+
+register_buffer(name, tensor)：给module添加一个persistent buffer，通常用
+来保存一个不需要看成模型参数的状态　
+-->
 <h3 id="pytorch使用scatter_函数将label变成one-hot编码">Pytorch使用scatter_函数将label变成one hot编码</h3>
 <p>在制作数据集时，常需要将index标签转换为one hot编码形式，较好的实现方式是通过scatter_函数。<br>
 scatter_函数的核心思想是，用给定数据input，基于维度dim和索引index去填充目标矩阵(dim轴上的数值由index确定)：<br>
@@ -381,11 +450,11 @@ loss = loss_func(output * mask, gt_label * mask)
 <ul>
 <li>
 <ul>
+<li><a href="#%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0">高级函数</a></li>
 <li><a href="#modelstate_dict-modelparameters%E5%92%8Cmodelnamed_parameters%E7%9A%84%E5%8C%BA%E5%88%AB">model.state_dict()、model.parameters()和model.named_parameters()的区别</a></li>
 <li><a href="#%E4%B8%8D%E5%90%8C%E5%B1%82%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%AD%A6%E4%B9%A0%E7%8E%87">不同层设置不同学习率</a></li>
 <li><a href="#%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B">加载模型</a></li>
 <li><a href="#%E9%94%81%E5%AE%9A%E5%8F%82%E6%95%B0">锁定参数</a></li>
-<li><a href="#torchnnmodule%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BDdshfshfhslfhlkfhs">torch.nn.module主要功能*（*（DSHFSHFHSLFHLKFHS</a></li>
 <li><a href="#pytorch%E4%BD%BF%E7%94%A8scatter_%E5%87%BD%E6%95%B0%E5%B0%86label%E5%8F%98%E6%88%90one-hot%E7%BC%96%E7%A0%81">Pytorch使用scatter_函数将label变成one hot编码</a></li>
 <li><a href="#dataloader%E4%B8%ADcollate_fn%E7%9A%84%E4%BD%BF%E7%94%A8">DataLoader中collate_fn的使用</a></li>
 <li><a href="#nnmodules%E5%92%8Cnnchildren%E7%9A%84%E5%8C%BA%E5%88%AB">nn.modules和nn.children的区别</a></li>
